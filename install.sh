@@ -18,14 +18,14 @@ create_dotfiles() {
     done
 
     # check if the folder nvim exists and it exists in ~/.config/nvim also
-    if [ ! -d "nvim" && ! -d "~/.config/nvim" ]; then
+    if [ ! -d "nvim" ]  && [ ! -d "~/.config/nvim" ]; then
         echo "Creating .config/nvim folder"
         git clone https://github.com/ezechukwu69/micro-nvim.git nvim
         mkdir -p ~/.config
         ln -s $script_dir/nvim ~/.config
     fi
 
-    if [ -d "nvim" && ! -d "~/.config/nvim" ]; then
+    if [ -d "nvim" ] && [ ! -d "~/.config/nvim" ]; then
         echo "Creating .config/nvim folder"
         mkdir -p ~/.config
         ln -s $script_dir/nvim ~/.config
