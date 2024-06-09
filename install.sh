@@ -9,6 +9,9 @@ create_dotfiles() {
 
     for file in $files; do
         name=$(basename $file)
+        if [ $name = ".gitignore" ]; then
+            continue
+        fi
         echo "Creating symlink for $name in home directory"
         rm -rf ~/$name
         ln -s $script_dir/$name ~/$name
