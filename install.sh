@@ -38,7 +38,7 @@ create_dotfiles() {
     if [ -d "nvim" ] && [ ! -d "~/.config/nvim" ]; then
         echo "Creating .config/nvim folder"
         mkdir -p ~/.config
-        ln -s $script_dir/nvim ~/.config/tmux
+        ln -s $script_dir/nvim ~/.config
     fi
 
     configure_folder "$script_dir/tmux" ".config"
