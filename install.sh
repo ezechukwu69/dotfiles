@@ -6,7 +6,7 @@ configure_folder() {
     symlink_path=$2
     if [ ! -d $symlink_path ]; then
         echo "Creating symlink for $name -> $symlink_path"
-        ln -s $script_dir/$name ~/$symlink_path
+        ln -s $script_dir/$name $symlink_path
     fi
 }
 
@@ -41,7 +41,7 @@ create_dotfiles() {
         ln -s $script_dir/nvim ~/.config
     fi
 
-    configure_folder "$script_dir/tmux" ".config"
+    configure_folder "$script_dir/tmux" "~/.config"
 }
 
 create_dotfiles
