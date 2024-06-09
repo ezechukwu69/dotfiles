@@ -41,7 +41,7 @@ create_dotfiles() {
         ln -s $script_dir/nvim ~/.config
     fi
 
-    configure_folder "$script_dir/tmux" "~/.config"
+    configure_folder "$script_dir/tmux" "$(echo ~/.config)"
 }
 
 create_dotfiles
