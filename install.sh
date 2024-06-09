@@ -1,5 +1,15 @@
 #!/bin/bash
 
+configure_folder() {
+    script_dir=$(pwd)
+    name=$1
+    symlink_path=$2
+    if [ ! -d $symlink_path ]; then
+        echo "Creating symlink for $name -> $symlink_path"
+        ln -s $script_dir/$name ~/$symlink_path
+    fi
+}
+
 create_dotfiles() {
     # get current script directory
     script_dir=$(pwd)
@@ -28,8 +38,10 @@ create_dotfiles() {
     if [ -d "nvim" ] && [ ! -d "~/.config/nvim" ]; then
         echo "Creating .config/nvim folder"
         mkdir -p ~/.config
-        ln -s $script_dir/nvim ~/.config
+        ln -s $script_dir/nvim ~/.config/tmux
     fi
+
+    configure_folder "$script_dir/tmux" ".config"
 }
 
 create_dotfiles
