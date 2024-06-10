@@ -42,6 +42,7 @@ create_dotfiles() {
     fi
 
     configure_folder "$script_dir/tmux" "$(echo ~/.config)"
+    configure_folder "$script_dir/zellij" "$(echo ~/.config)"
 }
 
 create_dotfiles
