@@ -1,0 +1,13 @@
+#!/bin/bash
+
+install() {
+    echo "Install qtile"
+    sudo pacman -Sy \
+        qtile\
+        polybar\
+        nitrogen\
+        rofi\
+        kitty
+}
+
+install
