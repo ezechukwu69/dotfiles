@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ $(pgrep -x "waybar") = "waybar" ]]; then
+    killall waybar
+else
+    if [[ $(pgrep -x "waybar") = "" ]]; then
+        waybar > /dev/null 2>&1 &
+    fi
+fi
