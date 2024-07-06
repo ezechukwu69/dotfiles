@@ -1,7 +1,0 @@
-#!/bin/bash
-
-install() {
-    yay -S sway waybar wofi rofi alacritty kitty getnf
-}
-
-install

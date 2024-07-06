@@ -1,4 +1,0 @@
-#!/bin/bash
-
-echo "Linking hypr"
-ln -s $(pwd)/hypr ~/.config || true

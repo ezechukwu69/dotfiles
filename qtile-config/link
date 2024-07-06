@@ -1,5 +1,0 @@
-#!/bin/bash
-
-echo "Link config"
-ln -s $(pwd)/qtile ~/.config || true
-echo "Linked config"
