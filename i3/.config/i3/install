@@ -1,6 +1,0 @@
-
-install() {
-    yay -S i3 rofi polybar nitrogen picom alacritty kitty
-}
-
-install

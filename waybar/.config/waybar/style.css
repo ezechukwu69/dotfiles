@@ -1,0 +1,117 @@
+* {
+    border: none;
+    border-radius: 12px;
+    font-family: "JetBrainsMono Nerd Font", "Font Awesome 6 free", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background: rgba(43, 48, 59, 0);
+    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+    color: white;
+}
+
+tooltip {
+  background: rgba(43, 48, 59, 0.5);
+  border: 1px solid rgba(100, 114, 125, 0.5);
+}
+tooltip label {
+  color: white;
+}
+
+#window {
+    background: #2F4F4F;
+    border-radius: 12px;
+    padding-left: 5px;
+    padding-right: 3px;
+    font-weight: 800;
+}
+
+window#waybar.empty #window {
+    background: transparent;
+}
+
+#custom-power {
+    background: #C41E3A;
+    padding: 0 12px;
+    padding-left: 10px;
+    padding-right: 7.5px;
+    color: white;
+}
+
+#idle_inhibitor, #pulseaudio, #network, #cpu, #memory, #tray, #disk {
+    background: #2F4F4F;
+    padding: 0 12px;
+    transition: all 0.5s ease;
+}
+
+#idle_inhibitor:hover, #pulseaudio:hover, #network:hover, #cpu:hover, #memory:hover, #disk:hover {
+    background: #7383B3;
+}
+
+#disk:hover {
+    background: #FF0000;
+}
+
+#tray {
+    padding-left: 8px;
+}
+
+#workspaces {
+    background: #2F4F4F;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    background: transparent;
+    /* background: #CD853F; */
+    color: white;
+    /* border-bottom: 3px solid transparent; */
+}
+
+#workspaces button.active {
+    background: #7383B3;
+}
+
+#mode, #clock, #battery {
+    padding: 0 10px;
+}
+
+#mode {
+    background: #64727D;
+    border-bottom: 3px solid white;
+}
+
+#clock {
+    padding: 0 10px;
+    background: #2F4F4F;
+}
+
+.modules-left {
+    margin-left: 12px;
+}
+
+
+.modules-right {
+    margin-right: 12px;
+}
+
+.modules-right * {
+    margin-left: 2px;
+}
+
+.modules-left * {
+    margin-right: 2px;
+}
+
+#battery {
+    background-color: #ffffff;
+    color: black;
+}
+
+#battery.charging {
+    color: white;
+    background-color: #26A65B;
+}
