@@ -160,6 +160,7 @@
     },
     "memory": {
         "format": " {}%",
+        "interval": 2,
     },
     "disk": {
         "format": " {percentage_used}%",
@@ -195,15 +196,16 @@
     },
     "custom/power": {
         "format" : " ",
-		"tooltip": false,
-        "on-click": "wlogout --protocol layer-shell",
-		"menu": "on-click",
-		"menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
-		"menu-actions": {
-			"shutdown": "shutdown",
-			"reboot": "reboot",
-			"suspend": "systemctl suspend",
-			"hibernate": "systemctl hibernate"
-		}
+		"tooltip": true,
+        "on-click": "wleave --protocol layer-shell",
+        // "on-click": "wleave",
+		// "menu": "on-click",
+		// "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
+		// "menu-actions": {
+		// 	"shutdown": "shutdown",
+		// 	"reboot": "reboot",
+		// 	"suspend": "systemctl suspend",
+		// 	"hibernate": "systemctl hibernate"
+		// }
     }
 }
