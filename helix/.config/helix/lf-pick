@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+function lfp() {
+	local TEMP=$(mktemp)
+	# ranger --choosefiles=$TEMP"%"
+	lf -selection-path=$TEMP
+	cat $TEMP
+}
+
+lfp

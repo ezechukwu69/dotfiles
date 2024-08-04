@@ -197,7 +197,7 @@
     "custom/power": {
         "format" : " ",
 		"tooltip": true,
-        "on-click": "wleave --protocol layer-shell",
+        "on-click": "wlogout --protocol layer-shell",
         // "on-click": "wleave",
 		// "menu": "on-click",
 		// "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
