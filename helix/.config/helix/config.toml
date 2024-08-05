@@ -4,6 +4,26 @@ theme = "ayu_dark"
 line-number = "relative"
 bufferline = "always"
 
+[editor.indent-guides]
+render = true
+character = "┊" # Some characters that work well: "╎" "▏", "┆", "", "⸽"
+skip-levels = 1
+
+[editor.whitespace]
+#space = ""
+nbsp = "⍽"
+nnbsp = "␣"
+tab = "→"
+#newline = "⏎"
+tabpad = "·" # Tabs will look like "→···" (depending on tab width)
+
+[editor.whitespace.render]
+space = "all"
+tab = "all"
+nbsp = "all"
+nnbsp = "all"
+newline = "none"
+
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
@@ -15,7 +35,7 @@ hidden = false
 [keys.normal.space.o]
 e = [
   ":new",
-  ":insert-output ./lf-pick",
+  ":insert-output ~/.config/helix/lf-pick",
   ":theme default",
   "select_all",
   "split_selection_on_newline",
