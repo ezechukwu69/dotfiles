@@ -1,5 +1,5 @@
 // If you'd like to override the default keybindings completely, be sure to change "keybinds" to "keybinds clear-defaults=true"
-keybinds {
+keybinds clear-defaults=true {
     normal {
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
@@ -136,7 +136,7 @@ keybinds {
     }
     shared_except "locked" {
         bind "Ctrl g" { SwitchToMode "Locked"; }
-        bind "Ctrl q" { Quit; }
+        bind "Alt q" { Quit; }
         bind "Alt n" { NewPane; }
         bind "Alt h" { MoveFocusOrTab "Left"; }
         bind "Alt Left" { MoveFocusOrTab "Left"; }
@@ -177,13 +177,14 @@ keybinds {
     }
 
     unbind "Ctrl o"
+
     unbind "Ctrl q"
 }
 
 plugins {
-    tab-bar { path "tab-bar"; }
-    status-bar { path "status-bar"; }
-    strider { path "strider"; }
+//    tab-bar { path "tab-bar"; }
+//    status-bar { path "status-bar"; }
+//    strider { path "strider"; }
     compact-bar { path "compact-bar"; }
 }
 
@@ -257,7 +258,7 @@ theme "dracula"
 // The name of the default layout to load on startup
 // Default: "default"
 //
-// default_layout "compact"
+default_layout "custom"
 
 // Choose the mode that zellij uses when starting up.
 // Default: normal
@@ -319,8 +320,19 @@ copy_command "pbcopy"                     // osx
 
 // The folder in which Zellij will look for layouts
 //
-// layout_dir "/path/to/my/layout_dir"
+layout_dir "./layout"
 
 // The folder in which Zellij will look for themes
 //
 // theme_dir "/path/to/my/theme_dir"
+
+layout {
+    swap_tiled_layout name="Stacked" {
+        tab {
+           pane stacked=true {
+                pane
+                pane
+           } 
+        }
+    }
+}
