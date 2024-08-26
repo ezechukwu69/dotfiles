@@ -22,9 +22,11 @@
     # # "Hello, world!" when run.
     # pkgs.hello
     pkgs.fortune
+    pkgs.nest-cli
     pkgs.fastfetch
     pkgs.neovim
     pkgs.yazi
+    pkgs.atac
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -75,6 +77,10 @@
     EDITOR = "nvim";
   };
 
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  programs.yazi.enable = true;
+
 }
