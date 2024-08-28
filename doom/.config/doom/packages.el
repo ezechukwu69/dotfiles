@@ -57,3 +57,4 @@
 (package! kanagawa-theme)
 (package! abyss-theme)
 (package! lsp-volar :recipe (:host github :repo "jadestrong/lsp-volar"))
+(package! highlight-indent-guides)

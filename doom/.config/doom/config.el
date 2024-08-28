@@ -23,7 +23,7 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "Monaspace Neon" :size 14 :weight 'semibold)
-doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 14))
+      doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 14))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -81,8 +81,10 @@ doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 14))
 ;;    (add-hook 'after-save-hook 'flutter-run-or-hot-reload)))
 
 (setq treesit-language-source-alist
-'((bash "https://github.com/tree-sitter/tree-sitter-bash")
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
         (cmake "https://github.com/uyha/tree-sitter-cmake")
+        (c "https://github.com/tree-sitter/tree-sitter-c")
+        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
         (css "https://github.com/tree-sitter/tree-sitter-css")
         (elisp "https://github.com/Wilfred/tree-sitter-elisp")
         (go "https://github.com/tree-sitter/tree-sitter-go")
@@ -105,28 +107,28 @@ doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 14))
 
 (font-lock-add-keywords 'org-mode
                         '(("^ *\\([-]\\) "
-                        (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 (let* ((variable-tuple
         (cond ((x-list-fonts "JetBrainsMono Nerd Font")         '(:font "JetBrainsMono Nerd Font"))
-        ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-        ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-        ((x-list-fonts "Verdana")         '(:font "Verdana"))
-        ((x-family-fonts "FiraCode Nerd Font")    '(:family "FiraCode Nerd Font"))
-        (nil (warn "Cannot find a FiraCode Nerd Font.  Install FiraCode Nerd Font"))))
-(base-font-color     (face-foreground 'default nil 'default))
-(headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+              ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+              ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+              ((x-list-fonts "Verdana")         '(:font "Verdana"))
+              ((x-family-fonts "FiraCode Nerd Font")    '(:family "FiraCode Nerd Font"))
+              (nil (warn "Cannot find a FiraCode Nerd Font.  Install FiraCode Nerd Font"))))
+       (base-font-color     (face-foreground 'default nil 'default))
+       (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
 
-(custom-theme-set-faces
-'user
-`(org-level-8 ((t (,@headline ,@variable-tuple))))
-`(org-level-7 ((t (,@headline ,@variable-tuple))))
-`(org-level-6 ((t (,@headline ,@variable-tuple))))
-`(org-level-5 ((t (,@headline ,@variable-tuple))))
-`(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-`(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-`(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-`(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-`(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
+  (custom-theme-set-faces
+   'user
+   `(org-level-8 ((t (,@headline ,@variable-tuple))))
+   `(org-level-7 ((t (,@headline ,@variable-tuple))))
+   `(org-level-6 ((t (,@headline ,@variable-tuple))))
+   `(org-level-5 ((t (,@headline ,@variable-tuple))))
+   `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+   `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+   `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+   `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+   `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
 
 ;; (define-derived-mode vue-mode web-mode "Vue")
 ;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
@@ -156,3 +158,11 @@ doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 14))
 ;;                         `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
 
 (use-package! lsp-volar)
+
+(use-package! highlight-indent-guides
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+(setq highlight-indent-guides-method 'character) ;; Choose between 'character, 'column, or 'fill
+(setq highlight-indent-guides-character ?\|)      ;; Set the character to use for guides
+(setq highlight-indent-guides-auto-enabled t)
