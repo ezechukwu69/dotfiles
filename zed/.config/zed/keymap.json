@@ -21,7 +21,7 @@
     }
   },
   {
-    "context": "Editor && vim_mode == insert && !VimWaiting && !menu",
+    "context": "Editor && vim_mode == insert && !VimWaiting",
     "bindings": {
       "ctrl-space": "editor::ShowCompletions",
       "ctrl-j": "editor::ContextMenuNext",
@@ -63,10 +63,19 @@
     }
   },
   {
-    "context": "Menu || BufferSearch || Editor",
+    "context": "Menu || BufferSearch || Picker",
     "bindings": {
       "tab": "menu::SelectNext",
-      "shift-tab": "menu::SelectPrev"
+      "ctrl-j": "menu::SelectNext",
+      "shift-tab": "menu::SelectPrev",
+      "ctrl-k": "menu::SelectPrev"
+    }
+  },
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "tab": "editor::ContextMenuNext",
+      "shift-tab": "editor::ContextMenuPrev"
     }
   }
 ]
