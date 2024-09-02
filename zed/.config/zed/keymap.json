@@ -1,0 +1,72 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+      "ctrl-w l": "workspace::ActivateNextPane",
+      "ctrl-w h": "workspace::ActivatePreviousPane"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !VimWaiting && !menu",
+    "bindings": {
+      "ctrl-space": "editor::ShowCompletions",
+      "ctrl-j": "editor::ContextMenuNext",
+      "ctrl-k": "editor::ContextMenuPrev"
+    }
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "space c r": "editor::Rename",
+      "g r": "editor::FindAllReferences",
+      "g o": "editor::GoToTypeDefinition",
+      "space c S": "project_symbols::Toggle",
+      "space c s": "outline::Toggle",
+      "space c l": "project_symbols::Toggle",
+      "space c D": "diagnostics::Deploy",
+      "space e": "workspace::ToggleLeftDock",
+      "space f b": "tab_switcher::Toggle",
+      "space f t": "terminal_panel::ToggleFocus",
+      "space f f": "file_finder::Toggle",
+      "space b n": "pane::ActivateNextItem",
+      "space b p": "pane::ActivatePrevItem",
+      "space b d": "pane::CloseActiveItem",
+      "ctrl-,": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-,": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "Menu || BufferSearch || Editor",
+    "bindings": {
+      "tab": "menu::SelectNext",
+      "shift-tab": "menu::SelectPrev"
+    }
+  }
+]

@@ -48,7 +48,7 @@ exec_always --no-startup-id xrandr --output DP-1 --left-of HDMI-3
 exec --no-startup-id nm-applet
 exec --no-startup-id picom
 exec --no-startup-id blueman-applet
-exec --no-startup-id killall conky && conky > /dev/null
+exec_always --no-startup-id killall conky && conky > /dev/null
 exec_always --no-startup-id nitrogen --restore
 exec_always --no-startup-id ~/.config/i3/launch_polybar.sh
 
