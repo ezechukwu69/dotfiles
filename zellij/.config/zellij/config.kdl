@@ -236,7 +236,7 @@ default_shell "/bin/zsh"
 //   - true (default)
 //   - false
 //
-pane_frames false
+pane_frames true
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
 //   - true (default)
@@ -334,19 +334,19 @@ copy_command "xclip -selection clipboard" // x11
 
 // The folder in which Zellij will look for layouts
 //
-layout_dir "~/.config/zellij/layout"
+//layout_dir "~/.config/zellij/layout"
 
 // The folder in which Zellij will look for themes
 //
 // theme_dir "/path/to/my/theme_dir"
 
-layout {
-    swap_tiled_layout name="Stacked" {
-        tab {
-           pane stacked=true {
-                pane
-                pane
-           } 
-        }
-    }
-}
+//layout {
+//    swap_tiled_layout name="Stacked" {
+//        tab {
+//           pane stacked=true {
+//                pane
+//                pane
+//           } 
+//        }
+//    }
+// }

@@ -11,7 +11,8 @@
     "bindings": {
       // "shift shift": "file_finder::Toggle"
       "ctrl-w l": "workspace::ActivateNextPane",
-      "ctrl-w h": "workspace::ActivatePreviousPane"
+      "ctrl-w h": "workspace::ActivatePreviousPane",
+      "alt-d": "pane::CloseActiveItem"
     }
   },
   {

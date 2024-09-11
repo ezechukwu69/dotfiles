@@ -40,7 +40,7 @@
   },
   "theme": {
     "mode": "system",
-    "light": "Catppuccin Mocha - No Italics",
+    "light": "Gruvbox Dark Hard",
     "dark": "One Dark"
   }
 }
