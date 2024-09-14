@@ -35,7 +35,7 @@ from libqtile import hook
 
 mod = "mod4"
 # terminal = guess_terminal()
-terminal = "kitty"
+terminal = "wezterm"
 browser = "google-chrome-stable"
 launcher = "rofi -show drun"
 dmenu = "dmenu_run"
@@ -50,15 +50,15 @@ keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
-    # Key([], "XF86AudioRaiseVolume", lazy.spawm("pactl set-sink-volume @DEFAULT_SINK@ +10%"), desc="Increase Volume"),
-    # Key([], "XF86AudioLowerVolume", lazy.spawm("pactl set-sink-volume @DEFAULT_SINK@ -10%"), desc="Lower Volume"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawm("pactl set-sink-volume @DEFAULT_SINK@ +10%"), desc="Increase Volume"),
+    Key([], "XF86AudioLowerVolume", lazy.spawm("pactl set-sink-volume @DEFAULT_SINK@ -10%"), desc="Lower Volume"),
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
     Key([mod], "b", lazy.spawn(browser), desc="Move focus up"),
-    Key([mod], "d", lazy.spawn(dmenu), desc="DMenu"),
-    Key([mod], "p", lazy.spawn(launcher), desc="Move focus up"),
+    Key([mod], "d", lazy.spawn(launcher), desc="DMenu"),
+    Key([mod], "p", lazy.spawn(dmenu), desc="Move focus up"),
     Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
     Key([mod], "period", lazy.next_screen(), desc="Next Screen"),
     Key([mod], "comma", lazy.prev_screen(), desc="Previous Screen"),
@@ -88,7 +88,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
         "f",
@@ -115,7 +115,7 @@ for vt in range(1, 8):
     )
 
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group(i) for i in "12345"]
 
 for i in groups:
     keys.extend(
@@ -124,6 +124,7 @@ for i in groups:
             Key(
                 [mod],
                 i.name,
+                lazy.next_screen(),
                 lazy.group[i.name].toscreen(),
                 desc="Switch to group {}".format(i.name),
             ),
