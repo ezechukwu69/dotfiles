@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Monaspace Neon" :size 12 :weight 'semi-light)
-     doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 13))
+(setq doom-font (font-spec :family "Monaspace Argon" :size 14 :weight 'semi-bold)
+     doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-dracula)
 
 (setq treesit-font-lock-level 4)
 
@@ -76,3 +76,13 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+(use-package! tree-sitter
+  :config
+  (global-tree-sitter-mode))
+
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(add-hook 'tree-sitter-after-on-hook #'rainbow-delimiters-mode)
+(add-hook 'tree-sitter-after-on-hook #'highlight-numbers-mode)
+(add-hook 'prog-mode-hook #'highlight-numbers-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
