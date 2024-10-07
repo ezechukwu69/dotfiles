@@ -48,13 +48,3 @@
 ;; (unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
-(package! tree-sitter-langs)
-(package! catppuccin-theme)
-(package! dart-ts-mode
-  :recipe (:host github :repo "50ways2sayhard/dart-ts-mode"))
-(package! treesit-auto)
-(package! autothemer)
-(package! kanagawa-theme)
-(package! abyss-theme)
-(package! lsp-volar :recipe (:host github :repo "jadestrong/lsp-volar"))
-(package! highlight-indent-guides)

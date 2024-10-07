@@ -2,7 +2,6 @@
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
-;; Sync
 
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -22,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Monaspace Neon" :size 14 :weight 'semibold)
-      doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 14))
+(setq doom-font (font-spec :family "Monaspace Neon" :size 12 :weight 'semi-light)
+     doom-variable-pitch-font (font-spec :family "Monaspace Neon" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -33,7 +32,9 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'kanagawa)
+(setq doom-theme 'doom-one)
+
+(setq treesit-font-lock-level 4)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -75,94 +76,3 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-
-;; (add-hook 'dart-mode-hook
-;;  (lambda ()
-;;    (add-hook 'after-save-hook 'flutter-run-or-hot-reload)))
-
-(setq treesit-language-source-alist
-      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-        (cmake "https://github.com/uyha/tree-sitter-cmake")
-        (c "https://github.com/tree-sitter/tree-sitter-c")
-        (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-        (go "https://github.com/tree-sitter/tree-sitter-go")
-        (dart "https://github.com/UserNobody14/tree-sitter-dart.git")
-        (html "https://github.com/tree-sitter/tree-sitter-html")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-        (json "https://github.com/tree-sitter/tree-sitter-json")
-        (make "https://github.com/alemuller/tree-sitter-make")
-        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-        (python "https://github.com/tree-sitter/tree-sitter-python")
-        (toml "https://github.com/tree-sitter/tree-sitter-toml")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-        (rust "https://github.com/tree-sitter/tree-sitter-rust.git")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-
-(add-hook 'dart-ts-mode-local-vars-hook #'lsp! 'append)
-(setq lsp-dart-dap-flutter-hot-reload-on-save t)
-(lsp-semantic-tokens--enable)
-
-(font-lock-add-keywords 'org-mode
-                        '(("^ *\\([-]\\) "
-                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-(let* ((variable-tuple
-        (cond ((x-list-fonts "JetBrainsMono Nerd Font")         '(:font "JetBrainsMono Nerd Font"))
-              ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-              ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-              ((x-list-fonts "Verdana")         '(:font "Verdana"))
-              ((x-family-fonts "FiraCode Nerd Font")    '(:family "FiraCode Nerd Font"))
-              (nil (warn "Cannot find a FiraCode Nerd Font.  Install FiraCode Nerd Font"))))
-       (base-font-color     (face-foreground 'default nil 'default))
-       (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
-
-  (custom-theme-set-faces
-   'user
-   `(org-level-8 ((t (,@headline ,@variable-tuple))))
-   `(org-level-7 ((t (,@headline ,@variable-tuple))))
-   `(org-level-6 ((t (,@headline ,@variable-tuple))))
-   `(org-level-5 ((t (,@headline ,@variable-tuple))))
-   `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-   `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-   `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-   `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-   `(org-document-title ((t (,@headline ,@variable-tuple :height 2.0 :underline nil))))))
-
-;; (define-derived-mode vue-mode web-mode "Vue")
-;; (add-to-list 'auto-mode-alist '("\\.vue\\'" . vue-mode))
-;; (add-hook 'vue-mode-hook 'eglot-ensure)
-
-;; (defun vue-eglot-init-options ()
-;;              (let ((tsdk-path (expand-file-name
-;;                                "lib"
-;;                                (string-trim-right (shell-command-to-string "npm list --global --parseable typescript | head -n1")))))
-;;                `(:typescript (:tsdk ,tsdk-path
-;;                               :languageFeatures (:completion
-;;                                                  (:defaultTagNameCase "both"
-;;                                                   :defaultAttrNameCase "kebabCase"
-;;                                                   :getDocumentNameCasesRequest nil
-;;                                                   :getDocumentSelectionRequest nil)
-;;                                                  :diagnostics
-;;                                                  (:getDocumentVersionRequest nil))
-;;                               :documentFeatures (:documentFormatting
-;;                                                  (:defaultPrintWidth 100
-;;                                                   :getDocumentPrintWidthRequest nil)
-;;                                                  :documentSymbol t
-;;                                                  :documentColor t)))))
-
-;; ;; Volar
-;; (with-eval-after-load 'eglot
-;;         (add-to-list 'eglot-server-programs
-;;                         `(vue-mode . ("vue-language-server" "--stdio" :initializationOptions ,(vue-eglot-init-options)))))
-
-(use-package! lsp-volar)
-
-(use-package! highlight-indent-guides
-  :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
-(setq highlight-indent-guides-method 'character) ;; Choose between 'character, 'column, or 'fill
-(setq highlight-indent-guides-character ?\|)      ;; Set the character to use for guides
-(setq highlight-indent-guides-auto-enabled t)
