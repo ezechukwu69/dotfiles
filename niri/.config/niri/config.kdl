@@ -45,7 +45,7 @@ input {
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    focus-follows-mouse 
+    focus-follows-mouse
     //max-scroll-amount="0%"
 }
 
@@ -114,7 +114,7 @@ output "DP-1" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=0 y=1080
+    // position x=1960 y=0
 }
 
 // Settings that influence how windows are positioned and sized.

@@ -18,7 +18,7 @@
   {
     "context": "ProjectPanel",
     "bindings": {
-      "space e": "workspace::ToggleLeftDock"
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"]
     }
   },
   {
@@ -41,26 +41,31 @@
       "space c s": "outline::Toggle",
       "space c l": "project_symbols::Toggle",
       "space c D": "diagnostics::Deploy",
-      "space e": "workspace::ToggleLeftDock",
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
       "space f b": "tab_switcher::Toggle",
       "space f t": "terminal_panel::ToggleFocus",
       "space f f": "file_finder::Toggle",
+      "space g b": "editor::ToggleGitBlame",
       "space b n": "pane::ActivateNextItem",
+      "] b": "pane::ActivateNextItem",
       "space b p": "pane::ActivatePrevItem",
+      "[ b": "pane::ActivatePrevItem",
       "space b d": "pane::CloseActiveItem",
-      "ctrl-,": "terminal_panel::ToggleFocus"
+      "ctrl-,": "workspace::ToggleBottomDock",
+      "ctrl-/": "terminal_panel::ToggleFocus"
     }
   },
   {
     "context": "Terminal",
     "bindings": {
-      "ctrl-,": "terminal_panel::ToggleFocus"
+      "ctrl-,": "workspace::ToggleBottomDock",
+      "ctrl-/": "terminal_panel::ToggleFocus"
     }
   },
   {
     "context": "EmptyPane || SharedScreen",
     "bindings": {
-      "space e": "workspace::ToggleLeftDock"
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"]
     }
   },
   {

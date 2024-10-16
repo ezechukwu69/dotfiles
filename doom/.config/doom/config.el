@@ -22,7 +22,11 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "Monaspace Argon" :size 14 :weight 'semi-bold)
-     doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
+      doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 13))
+
+(setq-default line-spacing 6)
+
+(setq org-agenda-files (directory-files-recursively "~/org/agenda" "\\.org$"))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -32,7 +36,34 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+
+(defun set-vivendi-override()
+  (setq modus-themes-vivendi-color-overrides
+        '((bg-header . "#2F3541")   ; Darker header background
+          (bg-hl-line . "#2B303B")  ; Darker highlight line background
+          (bg-inactive . "#1F242D") ; Darker inactive background
+          (bg-main . "#0F1215")))
+
+  (custom-set-faces
+   '(line-number ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(tab-bar ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(tab-line ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(centaur-tabs-selected ((t (:box nil :foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(centaur-tabs-default ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(tab-bar-tab-group-current ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(tab-bar-tab ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(doom-modeline-buffer-file ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(doom-modeline-buffer-path ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(doom-modeline ((t (:foreground "#4C566A" :background "#0F1215"))))  ; Darker non-current line number
+   '(mode-line ((t (:box nil height 2 :line-height 1))))     ; Remove border for the active modeline
+   '(hl-line ((t (:background "#1C1F24")))) ; Very dark background for hl-line
+   '(mode-line-inactive ((t (:box nil height 2 :line-height 1)))) ; Remove border for the inactive modeline
+   '(line-number-current-line ((t (:foreground "#D08770" :background nil))))) ; Darker current line number
+  )
+
+;; (set-vivendi-override)
+
+(setq doom-theme 'doom-material-dark)
 
 (setq treesit-font-lock-level 4)
 
@@ -84,5 +115,24 @@
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 (add-hook 'tree-sitter-after-on-hook #'rainbow-delimiters-mode)
 (add-hook 'tree-sitter-after-on-hook #'highlight-numbers-mode)
+(add-hook 'prog-mode-hook #'font-lock-mode)
 (add-hook 'prog-mode-hook #'highlight-numbers-mode)
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(set-email-account!
+ "gmail"
+ '((mu4e-sent-folder       . "/[Gmail]/Sent Mail")
+   (mu4e-trash-folder      . "/[Gmail]/Bin")
+   (smtpmail-smtp-user     . "ezechukwu69@gmail.com"))
+ t)
+
+(setq mu4e-get-mail-command "mbsync gmail"
+      ;; get emails and index every 5 minutes
+      mu4e-update-interval 300
+      ;; send emails with format=flowed
+      mu4e-compose-format-flowed t
+      ;; no need to run cleanup after indexing for gmail
+      mu4e-index-cleanup nil
+      mu4e-index-lazy-check t
+      ;; more sensible date format
+      mu4e-headers-date-format "%d.%m.%y")
