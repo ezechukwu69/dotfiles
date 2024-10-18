@@ -1,7 +1,9 @@
 return {
   -- "olimorris/codecompanion.nvim",
+  --
   dir = "/home/ezechukwu69/development/lua/codecompanion.nvim",
   dev = true,
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
@@ -24,13 +26,13 @@ return {
     require("codecompanion").setup({
       strategies = {
         chat = {
-          adapter = "llama3",
+          adapter = "gemini",
         },
         inline = {
-          adapter = "llama3",
+          adapter = "gemini",
         },
         agent = {
-          adapter = "llama3",
+          adapter = "gemini",
         },
       },
       adapters = {

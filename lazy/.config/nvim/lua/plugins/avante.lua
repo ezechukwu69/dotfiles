@@ -2,12 +2,12 @@ return {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
-    enabled = false,
+    enabled = true,
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
       -- add any opts here
-      provider = "ollama",
+      provider = "gemini",
       vendors = {
         ---@type AvanteProvider
         ollama = {
