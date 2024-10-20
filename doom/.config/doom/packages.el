@@ -51,3 +51,4 @@
 (package! tree-sitter)
 (package! tree-sitter-langs)
 (package! highlight-numbers)
+(package! codeium :recipe (:host github :repo "Exafunction/codeium.el"))
