@@ -41,34 +41,54 @@ return {
       }
 
       -- Thot Health Check
-      vim.api.nvim_set_keymap("n", "ho", '<Cmd>lua require("hot").check()<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>ho",
+        '<Cmd>lua require("hot").check()<CR>',
+        { noremap = true, silent = true }
+      )
 
       -- Keybinds
 
       -- Start
-      vim.api.nvim_set_keymap("n", "<F3>", '<Cmd>lua require("hot").restart()<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>hr",
+        '<Cmd>lua require("hot").restart()<CR>',
+        { noremap = true, silent = true }
+      )
       -- Silent
-      vim.api.nvim_set_keymap("n", "<F4>", '<Cmd>lua require("hot").silent()<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>hs",
+        '<Cmd>lua require("hot").silent()<CR>',
+        { noremap = true, silent = true }
+      )
       -- Stop
-      vim.api.nvim_set_keymap("n", "<F5>", '<Cmd>lua require("hot").stop()<CR>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap(
+        "n",
+        "<leader>hx",
+        '<Cmd>lua require("hot").stop()<CR>',
+        { noremap = true, silent = true }
+      )
       -- Test
       vim.api.nvim_set_keymap(
         "n",
-        "<F6>",
+        "<leader>ht",
         '<Cmd>lua require("hot").test_restart()<CR>',
         { noremap = true, silent = true }
       )
       -- Close Buffer
       vim.api.nvim_set_keymap(
         "n",
-        "<F8>",
+        "<leader>hz",
         '<Cmd>lua require("hot").close_output_buffer()<CR>',
         { noremap = true, silent = true }
       )
       -- Open Buffer
       vim.api.nvim_set_keymap(
         "n",
-        "<F7>",
+        "<leader>ha",
         '<Cmd>lua require("hot").open_output_buffer()<CR>',
         { noremap = true, silent = true }
       )
