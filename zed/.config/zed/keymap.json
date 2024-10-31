@@ -1,0 +1,87 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+      "ctrl-w l": "workspace::ActivateNextPane",
+      "ctrl-w h": "workspace::ActivatePreviousPane",
+      "alt-d": "pane::CloseActiveItem"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !VimWaiting",
+    "bindings": {
+      "ctrl-space": "editor::ShowCompletions",
+      "ctrl-j": "editor::ContextMenuNext",
+      "ctrl-k": "editor::ContextMenuPrev"
+    }
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "space c r": "editor::Rename",
+      "g r": "editor::FindAllReferences",
+      "g o": "editor::GoToTypeDefinition",
+      "space c S": "project_symbols::Toggle",
+      "space c s": "outline::Toggle",
+      "space c l": "project_symbols::Toggle",
+      "space c D": "diagnostics::Deploy",
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
+      "space f b": "tab_switcher::Toggle",
+      "space f t": "terminal_panel::ToggleFocus",
+      "space f f": "file_finder::Toggle",
+      "space g b": "editor::ToggleGitBlame",
+      "space b n": "pane::ActivateNextItem",
+      "] b": "pane::ActivateNextItem",
+      "space b p": "pane::ActivatePrevItem",
+      "[ b": "pane::ActivatePrevItem",
+      "space b d": "pane::CloseActiveItem",
+      "ctrl-,": "workspace::ToggleBottomDock",
+      "ctrl-/": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-,": "workspace::ToggleBottomDock",
+      "ctrl-/": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"]
+    }
+  },
+  {
+    "context": "Menu || BufferSearch || Picker",
+    "bindings": {
+      "tab": "menu::SelectNext",
+      "ctrl-j": "menu::SelectNext",
+      "shift-tab": "menu::SelectPrev",
+      "ctrl-k": "menu::SelectPrev"
+    }
+  },
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "tab": "editor::ContextMenuNext",
+      "shift-tab": "editor::ContextMenuPrev"
+    }
+  }
+]
