@@ -1,35 +1,37 @@
 (defcfg
-  process-unmapped-keys yes
+      process-unmapped-keys yes
+      log-layer-changes yes
 )
 
 (defsrc
-  a s d f
-  j k l ;
+      ;;esc
+      ;;grv
+      a s d f g h j k l scln
+      lalt spc ralt
+)
+
+;; default/base layer modifications always active
+(deflayer default
+      ;;@esc
+   ;;   @grv
+      @a @s @d @f _ _ @j @k @l @scln
+      esc _ bspc
 )
 
 (defvar
-  tap-time 200
-  hold-time 200
+      tap-time 200
+      hold-time 250
 )
 
 (defalias
-  a-mod (tap-hold $tap-time $hold-time a lmet)
-  s-mod (tap-hold $tap-time $hold-time s lalt)
-  d-mod (tap-hold $tap-time $hold-time d lsft)
-  f-mod (tap-hold $tap-time $hold-time f lctl)
-  j-mod (tap-hold $tap-time $hold-time j rctl)
-  k-mod (tap-hold $tap-time $hold-time k rsft)
-  l-mod (tap-hold $tap-time $hold-time l ralt)
-  ;-mod (tap-hold $tap-time $hold-time ; rmet)
-)
-
-(deflayer base
-    @a-mod
-    @s-mod
-    @d-mod
-    @f-mod
-    @j-mod
-    @k-mod
-    @l-mod
-    @;-mod
+      ;;esc (tap-hold-press $tap-time $hold-time esc caps)
+ ;;     grv (tap-hold-press $tap-time $hold-time S-grv grv)
+      a (tap-hold $tap-time $hold-time a lmet)
+      s (tap-hold $tap-time $hold-time s lalt)
+      d (tap-hold $tap-time $hold-time d lsft)
+      f (tap-hold $tap-time $hold-time f lctl)
+      j (tap-hold $tap-time $hold-time j rctl)
+      k (tap-hold $tap-time $hold-time k rsft)
+      l (tap-hold $tap-time $hold-time l lalt)
+      scln (tap-hold $tap-time $hold-time scln lmet)
 )

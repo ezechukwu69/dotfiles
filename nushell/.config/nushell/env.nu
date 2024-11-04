@@ -90,12 +90,32 @@ $env.NU_PLUGIN_DIRS = [
 # $env.PATH = ($env.PATH | split row (char esep) | prepend '/some/path')
 # An alternate way to add entries to $env.PATH is to use the custom command `path add`
 # which is built into the nushell stdlib:
-# use std "path add"
+use std "path add"
 # $env.PATH = ($env.PATH | split row (char esep))
 # path add /some/path
+path add /home/ezechukwu69/.local/share/JetBrains/Toolbox/scripts
+path add /home/ezechukwu69/.dotnet/tools
+path add /home/ezechukwu69/installations/flutter/bin
+path add /home/ezechukwu69/.config/emacs/bin
+path add /home/ezechukwu69/.pub-cache/bin
+path add /home/ezechukwu69/.local/bin
+path add /home/ezechukwu69/.cargo/bin
+path add /home/ezechukwu69/.config/herd-lite/bin
+
+$env.PKG_CONFIG_PATH = ""
+$env.PKG_CONFIG_PATH += ":/usr/lib/wlroots0.17/pkgconfig"
+$env.PKG_CONFIG_PATH += ":/usr/lib64/pkgconfig"
 # path add ($env.CARGO_HOME | path join "bin")
 # path add ($env.HOME | path join ".local" "bin")
 # $env.PATH = ($env.PATH | uniq)
 
+
+$env.EDITOR = "nvim"
+
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
+zoxide init nushell | save -f ~/.zoxide.nu
+
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
+mkdir ~/.cache/carapace
+carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
