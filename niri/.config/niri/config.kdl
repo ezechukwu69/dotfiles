@@ -244,7 +244,9 @@ environment {
 //
 spawn-at-startup "waybar"
 spawn-at-startup "dunst"
-spawn-at-startup "swaybg" "-i" "/home/ezechukwu69/wallpapers/robot-home.png"
+//spawn-at-startup "swaybg" "-i" "/home/ezechukwu69/wallpapers/robot-home.png"
+spawn-at-startup "waypaper" "--restore"
+spawn-at-startup "emacs" "--daemon"
 spawn-at-startup "~/.config/niri/kanata.sh"
 spawn-at-startup "hypridle"
 spawn-at-startup "xwayland-satellite"

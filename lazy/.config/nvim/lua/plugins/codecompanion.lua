@@ -2,7 +2,7 @@ return {
   "olimorris/codecompanion.nvim",
   -- dir = "/home/ezechukwu69/development/lua/codecompanion.nvim",
   -- dev = true,
-  -- enabled = false,
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",

@@ -101,6 +101,7 @@ path add /home/ezechukwu69/.pub-cache/bin
 path add /home/ezechukwu69/.local/bin
 path add /home/ezechukwu69/.cargo/bin
 path add /home/ezechukwu69/.config/herd-lite/bin
+path add /home/ezechukwu69/.local/share/bob/nvim-bin
 
 $env.PKG_CONFIG_PATH = ""
 $env.PKG_CONFIG_PATH += ":/usr/lib/wlroots0.17/pkgconfig"

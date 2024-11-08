@@ -1,9 +1,0 @@
-i3
-ulauncher
-i3-gaps
-picom
-nitrogen
-rofi
-polybar
-i3lock
-xss-lock

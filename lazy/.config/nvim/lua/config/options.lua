@@ -6,3 +6,5 @@
 vim.opt.autochdir = true
 vim.g.netrw_banner = 0 -- Disable the banner (help menu)
 vim.g.netrw_liststyle = 0 -- Use a tree-style listing without headings
+vim.g.lazyvim_picker = "fzf"
+-- vim.g.lazyvim_picker = "telescope"
