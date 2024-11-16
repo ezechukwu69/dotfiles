@@ -12,13 +12,58 @@
       // "shift shift": "file_finder::Toggle"
       "ctrl-w l": "workspace::ActivateNextPane",
       "ctrl-w h": "workspace::ActivatePreviousPane",
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
       "alt-d": "pane::CloseActiveItem"
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-s": [
+        "vim::PushOperator",
+        {
+          "AddSurrounds": {}
+        }
+      ]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !showing_completion",
+    "bindings": {
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"]
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-w h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-w l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-w k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-w j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
     }
   },
   {
     "context": "ProjectPanel",
     "bindings": {
-      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"]
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
+      "space r": ["workspace::ToggleRightDock", "workspace::ActivateNextPane"]
+    }
+  },
+  {
+    "context": "ProjectPanel && showing_project_symbols",
+    "bindings": {
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
+      "space r": ["workspace::ToggleRightDock", "workspace::ActivateNextPane"]
     }
   },
   {
@@ -42,6 +87,7 @@
       "space c l": "project_symbols::Toggle",
       "space c D": "diagnostics::Deploy",
       "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
+      "space r": ["workspace::ToggleRightDock", "workspace::ActivateNextPane"],
       "space f b": "tab_switcher::Toggle",
       "space f t": "terminal_panel::ToggleFocus",
       "space f f": "file_finder::Toggle",
@@ -51,21 +97,20 @@
       "space b p": "pane::ActivatePrevItem",
       "[ b": "pane::ActivatePrevItem",
       "space b d": "pane::CloseActiveItem",
-      "ctrl-,": "workspace::ToggleBottomDock",
-      "ctrl-/": "terminal_panel::ToggleFocus"
+      "ctrl-/": "workspace::ToggleBottomDock"
     }
   },
   {
     "context": "Terminal",
     "bindings": {
-      "ctrl-,": "workspace::ToggleBottomDock",
-      "ctrl-/": "terminal_panel::ToggleFocus"
+      "ctrl-/": "workspace::ToggleBottomDock"
     }
   },
   {
     "context": "EmptyPane || SharedScreen",
     "bindings": {
-      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"]
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
+      "space r": ["workspace::ToggleRightDock", "workspace::ActivateNextPane"]
     }
   },
   {
@@ -82,6 +127,17 @@
     "bindings": {
       "tab": "editor::ContextMenuNext",
       "shift-tab": "editor::ContextMenuPrev"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting",
+    "bindings": {
+      "space g g": [
+        "task::Spawn",
+        {
+          "task_name": "Lazygit"
+        }
+      ]
     }
   }
 ]

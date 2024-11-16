@@ -1,6 +1,6 @@
 local M = {}
 M.base46 = {
-  theme = "dark_horizon",
+  theme = "rosepine",
   transparency = false,
 }
 M.ui = {

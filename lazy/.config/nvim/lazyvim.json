@@ -13,7 +13,9 @@
     "lazyvim.plugins.extras.editor.overseer",
     "lazyvim.plugins.extras.editor.refactoring",
     "lazyvim.plugins.extras.formatting.black",
+    "lazyvim.plugins.extras.lang.nushell",
     "lazyvim.plugins.extras.lang.prisma",
+    "lazyvim.plugins.extras.lang.typescript",
     "lazyvim.plugins.extras.test.core",
     "lazyvim.plugins.extras.util.dot",
     "lazyvim.plugins.extras.util.gitui",
@@ -22,7 +24,7 @@
     "lazyvim.plugins.extras.vscode"
   ],
   "news": {
-    "NEWS.md": "6520"
+    "NEWS.md": "7107"
   },
-  "version": 6
+  "version": 7
 }
