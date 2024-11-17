@@ -42,7 +42,7 @@
   // },
   {
     "label": "Lazygit",
-    "command": "kitty -e 'lazygit'",
+    "command": "alacritty -e 'lazygit'",
     "args": [],
     "env": {},
     "reveal": "never",
