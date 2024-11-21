@@ -70,6 +70,10 @@
   "scrollbar": {
     "show": "never"
   },
+  "project_panel": {
+    "folder_icons": true,
+    "show_diagnostics": "all"
+  },
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
