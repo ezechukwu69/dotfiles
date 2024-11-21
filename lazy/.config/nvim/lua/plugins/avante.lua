@@ -8,6 +8,7 @@ return {
     opts = {
       -- add any opts here
       provider = "gemini",
+      auto_suggestions_provider = "gemini",
       -- provider = "claude",
       claude = {
         endpoint = "https://api.anthropic.com",
@@ -39,6 +40,12 @@ return {
           parse_response_data = function(data_stream, event_state, opts)
             require("avante.providers").openai.parse_response(data_stream, event_state, opts)
           end,
+        },
+      },
+      windows = {
+        ask = {
+          floating = true,
+          focus_on_apply = "theirs",
         },
       },
     },

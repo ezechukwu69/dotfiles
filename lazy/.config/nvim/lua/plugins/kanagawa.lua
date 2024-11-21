@@ -80,7 +80,7 @@ return {
   },
   {
     "vague2k/vague.nvim",
-    enabled = false,
+    enabled = true,
     config = function()
       require("vague").setup({
         transparent = false, -- don't set background
@@ -137,8 +137,6 @@ return {
           delta = "#e6be8c",
         },
       })
-
-      vim.cmd("colorscheme vague")
     end,
   },
 }
