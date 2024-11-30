@@ -20,32 +20,14 @@
     }
   },
   {
-    "context": "vim_mode == visual",
+    "context": "Editor && vim_mode == normal && !VimWaiting",
     "bindings": {
-      "shift-s": [
-        "vim::PushOperator",
+      "space g g": [
+        "task::Spawn",
         {
-          "AddSurrounds": {}
+          "task_name": "Lazygit"
         }
-      ]
-    }
-  },
-  {
-    "context": "Editor && vim_mode == normal && !showing_completion",
-    "bindings": {
-      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
-      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"]
-    }
-  },
-  {
-    "context": "Dock",
-    "bindings": {
-      "ctrl-w h": ["workspace::ActivatePaneInDirection", "Left"],
-      "ctrl-w l": ["workspace::ActivatePaneInDirection", "Right"],
-      "ctrl-w k": ["workspace::ActivatePaneInDirection", "Up"],
-      "ctrl-w j": ["workspace::ActivatePaneInDirection", "Down"],
+      ],
       "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
       "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
       "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
@@ -53,25 +35,12 @@
     }
   },
   {
-    "context": "ProjectPanel",
+    "context": "Picker || menu",
     "bindings": {
-      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
-      "space r": ["workspace::ToggleRightDock", "workspace::ActivateNextPane"]
-    }
-  },
-  {
-    "context": "ProjectPanel && showing_project_symbols",
-    "bindings": {
-      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
-      "space r": ["workspace::ToggleRightDock", "workspace::ActivateNextPane"]
-    }
-  },
-  {
-    "context": "Editor && vim_mode == insert && !VimWaiting",
-    "bindings": {
-      "ctrl-space": "editor::ShowCompletions",
-      "ctrl-j": "editor::ContextMenuNext",
-      "ctrl-k": "editor::ContextMenuPrev"
+      "up": "menu::SelectPrev",
+      "shift-tab": "menu::SelectPrev",
+      "down": "menu::SelectNext",
+      "tab": "menu::SelectNext"
     }
   },
   {
@@ -91,13 +60,55 @@
       "space f b": "tab_switcher::Toggle",
       "space f t": "terminal_panel::ToggleFocus",
       "space f f": "file_finder::Toggle",
+      "*": "pane::DeploySearch",
       "space g b": "editor::ToggleGitBlame",
       "space b n": "pane::ActivateNextItem",
       "] b": "pane::ActivateNextItem",
       "space b p": "pane::ActivatePrevItem",
       "[ b": "pane::ActivatePrevItem",
+      "space x D": "editor::GoToPrevDiagnostic",
+      "space x d": "editor::GoToDiagnostic",
       "space b d": "pane::CloseActiveItem",
       "ctrl-/": "workspace::ToggleBottomDock"
+    }
+  },
+  {
+    "context": "Workspace && vim_mode = normal",
+    "bindings": {
+      "space e": ["workspace::ToggleLeftDock", "workspace::ActivateNextPane"],
+      "space r": ["workspace::ToggleRightDock", "workspace::ActivateNextPane"]
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-s": [
+        "vim::PushOperator",
+        {
+          "AddSurrounds": {}
+        }
+      ]
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-w h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-w l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-w k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-w j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !VimWaiting",
+    "bindings": {
+      "ctrl-space": "editor::ShowCompletions",
+      "ctrl-j": "editor::ContextMenuNext",
+      "ctrl-k": "editor::ContextMenuPrev"
     }
   },
   {
@@ -127,17 +138,6 @@
     "bindings": {
       "tab": "editor::ContextMenuNext",
       "shift-tab": "editor::ContextMenuPrev"
-    }
-  },
-  {
-    "context": "Editor && vim_mode == normal && !VimWaiting",
-    "bindings": {
-      "space g g": [
-        "task::Spawn",
-        {
-          "task_name": "Lazygit"
-        }
-      ]
     }
   }
 ]

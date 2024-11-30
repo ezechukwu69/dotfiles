@@ -1,0 +1,79 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+  border: none;
+  font-family: "SpaceMono Nerd Font", "Iosevka Nerd Font", 'Fira Code', 'Symbols Nerd Font Mono';
+  font-weight: 700;
+  font-size: 13px;
+  font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
+  min-height: 20px;
+}
+
+window#waybar {
+  background: transparent;
+}
+
+#custom-arch, #workspaces {
+  border-radius: 10px;
+  background-color: @color0;
+  color: @color3;
+  margin: 7px 0;
+  margin-right: 15px;
+  padding: 7px 0;
+  padding-left: 15px;
+  padding-right: 12px;
+}
+
+#tray {
+  border-radius: 10px;
+  /*background-color: @color0; */
+  color: @color3;
+  margin: 7px 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 15px;
+}
+
+#custom-arch {
+  font-size: 20px;
+  margin-left: 15px;
+  color: @color3;
+}
+
+#workspaces button {
+  background: @color0;
+  color: @color3;
+}
+
+#clock, #backlight, #pulseaudio, #bluetooth, #network, #battery{
+  border-radius: 10px;
+  background-color: @color0;
+  color: @color3;
+  margin: 7px 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 15px;
+}
+
+#backlight, #bluetooth {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 5px;
+  margin-right: 0
+}
+
+
+#pulseaudio, #network {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding-left: 10px;
+}
+
+
+#pulseaudio {
+  border-radius: 10px;
+}
+
+#clock {
+  margin-right: 0;
+}

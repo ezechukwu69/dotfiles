@@ -54,18 +54,20 @@
     "use_smartcase_find": true,
     "toggle_relative_line_numbers": true
   },
-  "ui_font_size": 16,
-  "buffer_font_size": 16,
+  "ui_font_size": 14,
+  "buffer_font_size": 14,
   "relative_line_numbers": true,
   "base_keymap": "VSCode",
-  "ui_font_family": "Iosevka Nerd Font",
-  "buffer_font_family": "Iosevka Nerd Font",
+  "ui_font_family": "SpaceMono Nerd Font",
+  "buffer_font_family": "SpaceMono Nerd Font",
+  "ui_font_weight": 500,
+  "buffer_font_weight": 500,
   "buffer_line_height": {
-    "custom": 1.5
+    "custom": 1.7
   },
-  "terminal": {
-    "font_family": "Iosevka Nerd Font"
-  },
+  // "terminal": {
+  //   "font_family": "Iosevka Nerd Font"
+  // },
   "cursor_blink": false,
   "scrollbar": {
     "show": "never"
@@ -77,6 +79,6 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
-    "dark": "XY-Zed"
+    "dark": "Ayu Dark"
   }
 }

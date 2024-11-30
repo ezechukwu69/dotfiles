@@ -11,13 +11,12 @@ return {
       "stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
       opts = {},
     },
-    "nvim-telescope/telescope.nvim", -- Optional: For using slash commands
   },
   keys = {
-    { "<leader>aa", "<cmd>CodeCompanionChat<CR>", desc = "Code companion chat" },
+    { "<leader>aa", "<cmd>CodeCompanionActions<CR>", mode = { "n", "v" }, desc = "Code companion actions" },
     { "<leader>at", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Code companion toggle" },
-    { "ga", "<cmd>CodeCompanionChat Add<CR>", desc = "Code companion toggle" },
-    { "<leader>ac", "<cmd>CodeCompanionActions<CR>", mode = { "n", "v" }, desc = "Code companion actions" },
+    { "<leader>an", "<cmd>CodeCompanionChat Add<CR>", desc = "Code companion add chat" },
+    -- { "<leader>ac", "<cmd>CodeCompanionActions<CR>", mode = { "n", "v" }, desc = "Code companion actions" },
   },
   config = function()
     local adapters = require("codecompanion.adapters")
