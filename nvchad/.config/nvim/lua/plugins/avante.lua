@@ -57,7 +57,7 @@ return {
         },
       },
       behaviour = {
-        auto_suggestions = true,
+        auto_suggestions = false,
         auto_apply_diff_after_generation = true,
         support_paste_from_clipboard = true,
       },
