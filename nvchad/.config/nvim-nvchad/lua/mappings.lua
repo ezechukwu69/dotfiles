@@ -8,3 +8,6 @@ local map = vim.keymap.set
 map("i", "jk", "<ESC>")
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+
+map("n", "<space>cd", function() vim.diagnostic.open_float(nil, { border = "rounded" }) end,
+  { desc = "Diagnostic float", remap = false })

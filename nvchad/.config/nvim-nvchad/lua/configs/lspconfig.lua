@@ -8,6 +8,9 @@ require("mason-nvim-dap").setup {
     end,
   },
 }
+
+local nvlsp = require "nvchad.configs.lspconfig"
+
 require("mason-lspconfig").setup {}
 require("nvchad.configs.lspconfig").defaults()
 -- After setting up mason-lspconfig you may set up servers via lspconfig
@@ -17,13 +20,14 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 
 -- EXAMPLE
-local servers = { "html", "cssls" }
-local nvlsp = require "nvchad.configs.lspconfig"
+local servers = { "html", "cssls", "vtsls" }
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
-    on_attach = nvlsp.on_attach,
+    on_attach = function(client, bufnr)
+      nvlsp.on_attach(client, bufnr)
+    end,
     on_init = nvlsp.on_init,
     capabilities = nvlsp.capabilities,
   }
