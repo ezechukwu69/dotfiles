@@ -5,6 +5,7 @@ return {
       preset = "helix",
     })
   end,
+  lazy = false,
   init = function()
     local whickKey = require "which-key"
     whickKey.add {

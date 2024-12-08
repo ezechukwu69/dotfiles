@@ -6,16 +6,16 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
+    "hrsh7th/nvim-cmp",         -- Optional: For using slash commands and variables in the chat buffer
     {
       "stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
       opts = {},
     },
   },
   keys = {
-    { "<leader>aa", "<cmd>CodeCompanionActions<CR>", mode = { "n", "v" }, desc = "Code companion actions" },
+    { "<leader>aa", "<cmd>CodeCompanionActions<CR>",     mode = { "n", "v" },             desc = "Code companion actions" },
     { "<leader>at", "<cmd>CodeCompanionChat Toggle<CR>", desc = "Code companion toggle" },
-    { "<leader>an", "<cmd>CodeCompanionChat Add<CR>", desc = "Code companion add chat" },
+    { "<leader>an", "<cmd>CodeCompanionChat Add<CR>",    desc = "Code companion add chat" },
     -- { "<leader>ac", "<cmd>CodeCompanionActions<CR>", mode = { "n", "v" }, desc = "Code companion actions" },
   },
   config = function()

@@ -51,13 +51,13 @@ return {
     require("mini.move").setup()
     require("mini.surround").setup({
       mappings = {
-        add = "ysa",
-        delete = "ds",     -- Delete surrounding
-        find = "gsf",      -- Find surrounding (to the right)
-        find_left = "gsF", -- Find surrounding (to the left)
-        highlight = "gsh", -- Highlight surrounding
-        replace = "ysr",   -- Replace surrounding
-        update_n_lines = "gsn",
+        add = "ms",
+        delete = "md",    -- Delete surrounding
+        find = "mf",      -- Find surrounding (to the right)
+        find_left = "mF", -- Find surrounding (to the left)
+        highlight = nil,  -- Highlight surrounding
+        replace = "mr",   -- Replace surrounding
+        update_n_lines = "mu",
       }
     })
   end,
