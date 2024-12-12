@@ -88,7 +88,7 @@
       "space c f": "editor::Format",
       "space c r": "editor::Rename",
       "g r": "editor::FindAllReferences",
-      "g d": "editor::GoToDefinitionSplit",
+      // "g d": "editor::GoToDefinitionSplit",
       "alt-k": "editor::MoveLineUp",
       "alt-j": "editor::MoveLineDown",
       "g o": "editor::GoToTypeDefinition",

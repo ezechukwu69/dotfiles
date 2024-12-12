@@ -1,5 +1,6 @@
 {
-  "layer": "top",
+    "layer": "top",
+    "position": "bottom",
     "modules-left": ["custom/arch", "niri/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["backlight", "pulseaudio", "bluetooth", "network", "battery", "tray"],
