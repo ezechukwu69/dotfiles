@@ -259,13 +259,13 @@
         (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
-(use-package! supermaven
-  :hook '(prog-mode . supermaven-mode))
+;; (use-package! supermaven
+;;   :hook '(prog-mode . supermaven-mode))
 
-(setq supermaven-ignore-filetypes '("org" "txt"))
-(setq supermaven-disable-inline-completion nil)
-(setq supermaven-keymaps
-      '((accept-suggestion . "C-]")
-        (clear-suggestion . "C-[")
-        (accept-word . "C-j")))
-(setq supermaven-log-level 'debug)
+;; (setq supermaven-ignore-filetypes '("org" "txt"))
+;; (setq supermaven-disable-inline-completion nil)
+;; (setq supermaven-keymaps
+;;       '((accept-suggestion . "C-]")
+;;         (clear-suggestion . "C-[")
+;;         (accept-word . "C-j")))
+;; (setq supermaven-log-level 'debug)

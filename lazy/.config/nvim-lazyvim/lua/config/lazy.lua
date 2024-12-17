@@ -1,5 +1,3 @@
-vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -32,9 +30,7 @@ require("lazy").setup({
     version = false, -- always use the latest git commit
     -- version = "*", -- try installing the latest stable version for plugins that support semver
   },
-  install = {
-    -- colorscheme = { "tokyonight", "habamax" }
-  },
+  install = { colorscheme = { "ayu-dark", "tokyonight", "habamax" } },
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update
@@ -55,11 +51,3 @@ require("lazy").setup({
     },
   },
 })
-
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
-
--- (method 2, for non lazyloaders) to load all highlights at once
-for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
-  dofile(vim.g.base46_cache .. v)
-end

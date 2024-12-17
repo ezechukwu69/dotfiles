@@ -113,7 +113,7 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
-    "dark": "Catppuccin Espresso (Blur)"
+    "dark": "Gruvbox Dark Hard"
   },
   "show_background": true
 }

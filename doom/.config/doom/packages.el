@@ -52,5 +52,5 @@
 (package! tree-sitter-langs)
 (package! highlight-numbers)
 ;; (package! codeium :recipe (:host github :repo "Exafunction/codeium.el"))
-(package! supermaven
-  :recipe (:host github :repo "crazywolf132/supermaven.el"))
+;; (package! supermaven
+;;   :recipe (:host github :repo "crazywolf132/supermaven.el"))

@@ -139,4 +139,11 @@ return {
       })
     end,
   },
+
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "ayu-dark",
+    },
+  },
 }
