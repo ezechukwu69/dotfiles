@@ -38,3 +38,35 @@ end, { desc = "Toggle exception breakpoint" })
 
 vim.keymap.set("n", "gS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Dynamic workspace symbols" })
 vim.keymap.set("n", "gs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "LSP document symbols" })
+
+vim.api.nvim_create_autocmd("LSPAttach", {
+  callback = function()
+    vim.api.nvim_set_keymap(
+      "n",
+      "<leader>tn",
+      "<cmd>lua require('snacks').terminal.open()<cr>",
+      { desc = "New terminal" }
+    )
+
+    vim.api.nvim_set_keymap(
+      "n",
+      "<leader>tf",
+      "<cmd>lua require('snacks').terminal.open(nil, {win = {style = 'float'}})<cr>",
+      { desc = "Toggle float terminal" }
+    )
+
+    vim.api.nvim_set_keymap(
+      "x",
+      "<esc><esc>",
+      "<cmd>lua require('snacks').terminal.close()<cr>",
+      { desc = "Escape terminal mode", nowait = true }
+    )
+
+    vim.api.nvim_set_keymap(
+      "n",
+      "<leader>tt",
+      "<cmd>lua require('snacks').terminal.toggle()<cr>",
+      { desc = "Toggle terminal" }
+    )
+  end,
+})

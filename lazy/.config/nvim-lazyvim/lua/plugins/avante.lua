@@ -2,6 +2,7 @@ return {
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
+    -- branch = "cmp_blink_compat",
     build = "make",
     enabled = true,
     dependencies = {
@@ -29,7 +30,7 @@ return {
       },
     },
     opts = {
-      provider = "gemini",
+      provider = "genimi2-experimental",
       auto_suggestions_provider = "gemini",
       vendors = {
         xAI = {
@@ -37,7 +38,19 @@ return {
           endpoint = "https://api.x.ai/v1",
           model = "grok-beta",
           api_key_name = "XAI_API_KEY",
-        }
+        },
+        groq = {
+          __inherited_from = "openai",
+          endpoint = "https://api.groq.com/openai/v1",
+          model = "gemma2-9b-it",
+          api_key_name = "GROQ_API_KEY",
+        },
+        ["genimi2-experimental"] = {
+          __inherited_from = "openai",
+          endpoint = "https://openrouter.ai/api/v1",
+          model = "google/gemini-2.0-flash-exp:free",
+          api_key_name = "OPENROUTER_API_KEY",
+        },
       },
       behaviour = {
         auto_suggestions = true,
@@ -53,6 +66,12 @@ return {
         ask = {
           focus_on_apply = "theirs",
         },
+      },
+      file_selector = {
+        --- @alias FileSelectorProvider "native" | "fzf" | "telescope" | string
+        provider = "fzf",
+        -- Options override for custom providers
+        provider_opts = {},
       },
     },
   },

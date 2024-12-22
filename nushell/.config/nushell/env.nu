@@ -113,6 +113,7 @@ $env.PKG_CONFIG_PATH += ":/usr/lib64/pkgconfig"
 
 
 $env.EDITOR = "nvim"
+$env.NVIM_APPNAME = "nvim-lazyvim"
 
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
