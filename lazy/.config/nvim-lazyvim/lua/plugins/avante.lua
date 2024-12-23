@@ -4,7 +4,7 @@ return {
     event = "VeryLazy",
     -- branch = "cmp_blink_compat",
     build = "make",
-    enabled = true,
+    enabled = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
@@ -53,7 +53,7 @@ return {
         },
       },
       behaviour = {
-        auto_suggestions = true,
+        auto_suggestions = false,
         auto_apply_diff_after_generation = true,
         support_paste_from_clipboard = true,
       },

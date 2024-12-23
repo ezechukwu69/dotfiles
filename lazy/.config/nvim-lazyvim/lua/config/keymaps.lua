@@ -4,69 +4,70 @@
 --
 local dap = require("dap")
 
+local map = vim.keymap.set
+
+map("n", "gS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Dynamic workspace symbols" })
+map("n", "gs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "LSP document symbols" })
+map("n", "cd", function()
+  require("nvchad.lsp.renamer")()
+end, { desc = "LSP document symbols" })
+map("n", "<space>cr", function()
+  require("nvchad.lsp.renamer")()
+end, { desc = "LSP document symbols" })
+
+map("n", "<leader>h", function()
+  require("nvchad.term").new({ pos = "sp" })
+end, { desc = "terminal new horizontal term" })
+
+map("n", "<leader>v", function()
+  require("nvchad.term").new({ pos = "vsp" })
+end, { desc = "terminal new vertical term" })
+
+-- toggleable
+map({ "n", "t" }, "<A-v>", function()
+  require("nvchad.term").toggle({ pos = "vsp", id = "vtoggleTerm" })
+end, { desc = "terminal toggleable vertical term" })
+
+map({ "n", "t" }, "<A-h>", function()
+  require("nvchad.term").toggle({ pos = "sp", id = "htoggleTerm" })
+end, { desc = "terminal toggleable horizontal term" })
+
+map({ "n", "t" }, "<A-i>", function()
+  require("nvchad.term").toggle({ pos = "float", id = "floatTerm" })
+end, { desc = "terminal toggle floating term" })
+
+map("n", "<leader>pt", function()
+  require("nvchad.themes").open()
+end, { desc = "Pick theme" })
+
 -- Toggle exception breakpoint
-local function toggle_exception_breakpoint()
-  local breakpoints = dap.list_breakpoints()
-  local has_exception_breakpoint = false
+-- local function toggle_exception_breakpoint()
+--   local breakpoints = dap.list_breakpoints()
+--   local has_exception_breakpoint = false
+--
+--   -- Check if any exception breakpoints exist
+--   for _, bp in ipairs(breakpoints) do
+--     if bp.condition and bp.condition:match("exception") then
+--       has_exception_breakpoint = true
+--       break
+--     end
+--   end
+--
+--   if has_exception_breakpoint then
+--     -- Remove exception breakpoint
+--     print("Removing exception breakpoints")
+--     for _, bp in ipairs(breakpoints) do
+--       if bp.condition and bp.condition:match("exception") then
+--         dap.remove_breakpoint(bp.file, bp.line)
+--       end
+--     end
+--   else
+--     -- Add an exception breakpoint
+--     print("Adding exception breakpoint")
+--     dap.set_exception_breakpoints({ "raised", "uncaught" }) -- 'all' can be replaced with specific exception types.
+--   end
+-- end
 
-  -- Check if any exception breakpoints exist
-  for _, bp in ipairs(breakpoints) do
-    if bp.condition and bp.condition:match("exception") then
-      has_exception_breakpoint = true
-      break
-    end
-  end
-
-  if has_exception_breakpoint then
-    -- Remove exception breakpoint
-    print("Removing exception breakpoints")
-    for _, bp in ipairs(breakpoints) do
-      if bp.condition and bp.condition:match("exception") then
-        dap.remove_breakpoint(bp.file, bp.line)
-      end
-    end
-  else
-    -- Add an exception breakpoint
-    print("Adding exception breakpoint")
-    dap.set_exception_breakpoints({ "raised", "uncaught" }) -- 'all' can be replaced with specific exception types.
-  end
-end
-
-vim.keymap.set("n", "<leader>dE", function()
-  toggle_exception_breakpoint()
-end, { desc = "Toggle exception breakpoint" })
-
-vim.keymap.set("n", "gS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Dynamic workspace symbols" })
-vim.keymap.set("n", "gs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "LSP document symbols" })
-
-vim.api.nvim_create_autocmd("LSPAttach", {
-  callback = function()
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>tn",
-      "<cmd>lua require('snacks').terminal.open()<cr>",
-      { desc = "New terminal" }
-    )
-
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>tf",
-      "<cmd>lua require('snacks').terminal.open(nil, {win = {style = 'float'}})<cr>",
-      { desc = "Toggle float terminal" }
-    )
-
-    vim.api.nvim_set_keymap(
-      "x",
-      "<esc><esc>",
-      "<cmd>lua require('snacks').terminal.close()<cr>",
-      { desc = "Escape terminal mode", nowait = true }
-    )
-
-    vim.api.nvim_set_keymap(
-      "n",
-      "<leader>tt",
-      "<cmd>lua require('snacks').terminal.toggle()<cr>",
-      { desc = "Toggle terminal" }
-    )
-  end,
-})
+-- vim.keymap.set("n", "<leader>dE", function()
+--   toggle_exception_breakpoint()
+-- end, { desc = "Toggle exception breakpoint" })

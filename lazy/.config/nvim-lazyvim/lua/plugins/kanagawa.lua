@@ -140,10 +140,10 @@ return {
     end,
   },
 
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "ayu-dark",
-    },
-  },
+  -- {
+  --   "LazyVim/LazyVim",
+  --   opts = {
+  --     colorscheme = "ayu-dark",
+  --   },
+  -- },
 }

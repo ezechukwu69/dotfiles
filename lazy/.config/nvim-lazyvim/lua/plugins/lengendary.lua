@@ -23,6 +23,7 @@ return {
       require("legendary").setup({
         extensions = {
           lazy_nvim = true,
+          codecompanion = true,
           -- which_key = true,
         },
       })
