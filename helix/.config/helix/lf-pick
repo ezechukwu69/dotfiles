@@ -1,0 +1,28 @@
+#!/bin/zsh
+
+# function ranger() {
+# 	local TEMP=$(mktemp)
+
+# 	ranger --choosefiles=$TEMP
+
+# 	cat $TEMP
+# }
+
+# ranger
+
+
+# lf() {
+#     local TEMP=$(mktemp)
+#     command lf -selection-path=$TEMP
+#     cat $TEMP
+# }
+
+# lf
+
+yazi() {
+    local TEMP=$(mktemp)
+    command yazi --chooser-file $TEMP
+    cat $TEMP
+}
+
+yazi

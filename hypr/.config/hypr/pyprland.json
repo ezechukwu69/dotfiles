@@ -1,0 +1,28 @@
+{
+    "pyprland": {
+        "plugins": ["scratchpads"]
+    },
+    "scratchpads": {
+        "term": {
+            "command": "kitty --class scratchpad",
+            "lazy": true,
+            "margin": 50,
+            "unfocus": "hide",
+            "animation": "fromTop"
+        },
+        "browser": {
+            "command": "google-chrome-stable --class scratchpad",
+            "lazy": true,
+            "margin": 50,
+            "unfocus": "hide",
+            "animation": "fromTop"
+        },
+        "filemanager": {
+            "command": "thunar --class scratchpad",
+            "lazy": true,
+            "margin": 50,
+            "unfocus": "hide",
+            "animation": "fromTop"
+        }
+    }
+}

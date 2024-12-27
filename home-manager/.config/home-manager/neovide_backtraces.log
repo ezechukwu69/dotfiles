@@ -1,0 +1,18 @@
+2024-08-08 21:26:08 - Neovide panicked with the message 'Failed to create Window: Error { raw_code: None, raw_os_message: None, kind: NotSupported("provided display handle is not supported") }'. (File: src/renderer/opengl.rs; Line: 254, Column: 10)
+   0: neovide::main::{{closure}}
+   1: std::panicking::rust_panic_with_hook
+   2: std::panicking::begin_panic_handler::{{closure}}
+   3: std::sys_common::backtrace::__rust_end_short_backtrace
+   4: rust_begin_unwind
+   5: core::panicking::panic_fmt
+   6: core::result::unwrap_failed
+   7: neovide::renderer::opengl::build_window
+   8: neovide::window::window_wrapper::WinitWindowWrapper::try_create_window
+   9: winit::platform_impl::platform::wayland::event_loop::EventLoop<T>::pump_events
+  10: neovide::main
+  11: std::sys_common::backtrace::__rust_begin_short_backtrace
+  12: main
+  13: __libc_start_call_main
+  14: __libc_start_main@@GLIBC_2.34
+  15: _start
+

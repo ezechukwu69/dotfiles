@@ -1,0 +1,176 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-w l": "workspace::ActivateNextPane",
+      "ctrl-w h": "workspace::ActivatePreviousPane",
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "alt-d": "pane::CloseActiveItem"
+    }
+  },
+  {
+    "context": "ProposedChangesEditor",
+    "bindings": {
+      "alt-y": "editor::ApplyDiffHunk",
+      "alt-a": "editor::ApplyAllDiffHunks"
+    }
+  },
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "up": "editor::ContextMenuPrev",
+      "shift-tab": "editor::ContextMenuPrev",
+      "down": "editor::ContextMenuNext",
+      "tab": "editor::ContextMenuNext",
+      "pageup": "editor::ContextMenuFirst",
+      "pagedown": "editor::ContextMenuLast"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting",
+    "bindings": {
+      "space g g": [
+        "task::Spawn",
+        {
+          "task_name": "Lazygit"
+        }
+      ],
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-c": "editor::Copy"
+    }
+  },
+  {
+    "context": "Picker || menu",
+    "bindings": {
+      "up": "menu::SelectPrev",
+      "shift-tab": "menu::SelectPrev",
+      "down": "menu::SelectNext",
+      "tab": "menu::SelectNext"
+    }
+  },
+  {
+    "context": "Editor && !menu && vim_mode == insert",
+    "bindings": {
+      "j j": ["vim::SwitchMode", "Normal"]
+    }
+  },
+  {
+    "context": "Editor && !menu && vim_mode == visual",
+    "bindings": {
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format"
+    }
+  },
+  {
+    "context": "Editor && !menu && vim_mode == normal",
+    "bindings": {
+      "space c a": "editor::ToggleCodeActions",
+      "space c f": "editor::Format",
+      "space c r": "editor::Rename",
+      "g r": "editor::FindAllReferences",
+      // "g d": "editor::GoToDefinitionSplit",
+      "alt-k": "editor::MoveLineUp",
+      "alt-j": "editor::MoveLineDown",
+      "g o": "editor::GoToTypeDefinition",
+      "space c S": "project_symbols::Toggle",
+      "space c s": "outline::Toggle",
+      "space c l": "project_symbols::Toggle",
+      "space c d": "diagnostics::Deploy",
+      "space e": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock",
+      "space f b": "tab_switcher::Toggle",
+      "space f t": "terminal_panel::ToggleFocus",
+      "space f f": "file_finder::Toggle",
+      "*": "pane::DeploySearch",
+      "space g b": "editor::ToggleGitBlame",
+      "space b n": "pane::ActivateNextItem",
+      "] b": "pane::ActivateNextItem",
+      "space b p": "pane::ActivatePrevItem",
+      "[ b": "pane::ActivatePrevItem",
+      "space x D": "editor::GoToPrevDiagnostic",
+      "space x d": "editor::GoToDiagnostic",
+      "space b d": "pane::CloseActiveItem",
+      "ctrl-/": "workspace::ToggleBottomDock"
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-s": [
+        "vim::PushOperator",
+        {
+          "AddSurrounds": {}
+        }
+      ]
+    }
+  },
+  {
+    "context": "Dock",
+    "bindings": {
+      "ctrl-w h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-w l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-w k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-w j": ["workspace::ActivatePaneInDirection", "Down"],
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"]
+    }
+  },
+  {
+    "context": "Editor && (vim_mode == visual || vim_mode == visual_line || vim_mode == visual_block)",
+    "bindings": {
+      "ctrl-space": "editor::ShowCompletions"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-/": "workspace::ToggleBottomDock"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      "space e": ["workspace::ToggleLeftDock"],
+      "space r": ["workspace::ToggleRightDock"],
+      "space f r": "projects::OpenRecent"
+    }
+  },
+  {
+    "context": "Menu || BufferSearch || Picker",
+    "bindings": {
+      "tab": "menu::SelectNext",
+      "ctrl-j": "menu::SelectNext",
+      "shift-tab": "menu::SelectPrev",
+      "ctrl-k": "menu::SelectPrev"
+    }
+  },
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "tab": "editor::ContextMenuNext",
+      "shift-tab": "editor::ContextMenuPrev"
+    }
+  }
+]

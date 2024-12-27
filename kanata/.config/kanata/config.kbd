@@ -1,0 +1,37 @@
+(defcfg
+      process-unmapped-keys yes
+      log-layer-changes yes
+)
+
+(defsrc
+      ;;esc
+      ;;grv
+      a s d f g h j k l scln
+      ;;lalt spc ralt
+)
+
+;; default/base layer modifications always active
+(deflayer default
+      ;;@esc
+      ;; @grv
+      @a @s @d @f _ _ @j @k @l @scln
+      ;;esc _ bspc
+)
+
+(defvar
+      tap-time 200
+      hold-time 250
+)
+
+(defalias
+      ;;esc (tap-hold-press $tap-time $hold-time esc caps)
+      ;;grv (tap-hold-press $tap-time $hold-time S-grv grv)
+      a (tap-hold $tap-time $hold-time a lmet)
+      s (tap-hold $tap-time $hold-time s lalt)
+      d (tap-hold $tap-time $hold-time d lsft)
+      f (tap-hold $tap-time $hold-time f lctl)
+      j (tap-hold $tap-time $hold-time j rctl)
+      k (tap-hold $tap-time $hold-time k rsft)
+      l (tap-hold $tap-time $hold-time l lalt)
+      scln (tap-hold $tap-time $hold-time scln lmet)
+)
