@@ -1,5 +1,6 @@
 return {
-  dir = "~/development/lua/aidrun.nvim",
+  "ezechukwu69/aidrun.nvim",
+  -- dir = "~/development/lua/aidrun.nvim",
   config = function()
     local keymap = vim.keymap.set
     keymap("n", "<space>uas", ":Aidrun send<CR>", { desc = "Aidrun send" })

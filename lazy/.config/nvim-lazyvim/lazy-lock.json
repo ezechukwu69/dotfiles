@@ -1,7 +1,7 @@
 {
   "LazyVim": { "branch": "main", "commit": "d0c366e4d861b848bdc710696d5311dca2c6d540" },
   "NvChad": { "branch": "v2.5", "commit": "bbc3d43db088c141b142a40cd5f717635833a54e" },
-  "aider.nvim": { "branch": "main", "commit": "74a01227271d0ea211f2edafa82028b22d4c2022" },
+  "aidrun.nvim": { "branch": "main", "commit": "4c5726112ed1ec669e5bd67ea76e13117789b52d" },
   "avante.nvim": { "branch": "main", "commit": "be92be6124f743c30ba4b52ded908d02cfb80a1b" },
   "base46": { "branch": "v2.5", "commit": "40943fc668bf8f1caa4cc45f71c784cf0d3cc34f" },
   "blink.cmp": { "branch": "main", "commit": "5f442681df24fe705d1ee7ce5b4d435aa4b4dee4" },
