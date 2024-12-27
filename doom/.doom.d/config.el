@@ -99,3 +99,30 @@
                     google/palm-1-codechat-bison-32k
                     google/gemini-pro)))
   )
+
+(use-package! aider
+  :config
+  (setq aider-args '("--model" "gemini/gemini-2.0-flash-exp"
+                     "--editor-model" "gemini/gemini-2.0-flash-exp"
+                     "--architect"
+                     "--watch-files"
+                     "--edit-format" "diff-fenced"
+                     "--editor-edit-format" "diff-fenced"
+                     "--show-diffs"
+                     "--no-auto-commits"
+                     "--no-attribute-author"
+                     "--no-attribute-committer"
+                     "--no-attribute-commit-message-author"
+                     ))
+
+  (global-set-key (kbd "C-c a") 'aider-transient-menu)
+  (evil-define-key '(normal visual) 'global (kbd "<leader>z") 'aider-transient-menu)
+  )
+
+(use-package! supermaven
+  :config
+  (setq supermaven-keymaps
+        '((accept-suggestion . "TAB")
+          (clear-suggestion . "C-]")
+          (accept-word . "C-j")))
+  :hook (prog-mode . supermaven-mode))
