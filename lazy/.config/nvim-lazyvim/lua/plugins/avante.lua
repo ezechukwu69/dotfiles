@@ -4,7 +4,7 @@ return {
     event = "VeryLazy",
     -- branch = "cmp_blink_compat",
     build = "make",
-    -- enabled = false,
+    enabled = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",

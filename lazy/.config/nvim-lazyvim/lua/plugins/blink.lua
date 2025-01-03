@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 local is_enabled = true
 if not is_enabled then
   return {}
@@ -80,7 +81,7 @@ return {
         "snippets",
         "buffer",
         "lazydev",
-        -- "codecompanion",
+        "codecompanion",
       },
       cmdline = {},
       providers = {
@@ -89,17 +90,16 @@ return {
           module = "lazydev.integrations.blink",
           score_offset = 100, -- show at a higher priority than lsp
         },
-        -- codecompanion = {
-        --   name = "CodeCompanion",
-        --   module = "codecompanion.providers.completion.blink",
-        --   enabled = true,
-        -- },
+        codecompanion = {
+          name = "CodeCompanion",
+          module = "codecompanion.providers.completion.blink",
+          enabled = true,
+        },
       },
     },
-
     keymap = {
       preset = "default",
-      ["<C-y>"] = { "select_and_accept" },
+      ["<enter>"] = { "select_and_accept" },
     },
   },
   config = function(_, opts)
