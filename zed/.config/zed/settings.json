@@ -108,12 +108,13 @@
   },
   "project_panel": {
     "folder_icons": true,
+    "show": "always",
     "show_diagnostics": "all"
   },
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
-    "dark": "Gruvbox Dark Hard"
+    "dark": "Catppuccin Espresso (Blur)"
   },
   "show_background": true
 }

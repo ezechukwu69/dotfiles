@@ -12,7 +12,6 @@
     "lazyvim.plugins.extras.lang.zig",
     "lazyvim.plugins.extras.ui.edgy",
     "lazyvim.plugins.extras.ui.smear-cursor",
-    "lazyvim.plugins.extras.util.gitui",
     "lazyvim.plugins.extras.util.octo",
     "lazyvim.plugins.extras.util.project"
   ],

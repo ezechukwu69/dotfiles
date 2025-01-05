@@ -99,7 +99,7 @@ return {
     },
     keymap = {
       preset = "default",
-      ["<enter>"] = { "select_and_accept" },
+      ["<C-y>"] = { "select_and_accept" },
     },
   },
   config = function(_, opts)

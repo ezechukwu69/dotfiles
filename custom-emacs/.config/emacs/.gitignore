@@ -1,0 +1,14 @@
+tree-sitter/
+url/
+elpaca/
+eln-cache/
+codeium/
+auto-save-list/
+elpa/
+'#config.el#'
+config.org~
+config.el~
+snippets/
+.cache/
+init.el~
+tramp
