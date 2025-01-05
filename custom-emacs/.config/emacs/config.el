@@ -80,7 +80,7 @@
   :ensure t
   :after evil
   :config
-  (setq evil-collection-mode-list '(dashboard dired ibuffer))
+  (setq evil-collection-mode-list '(dashboard magit dired ibuffer))
   (evil-collection-init))
 (use-package evil-tutor :ensure t)
 
@@ -114,6 +114,11 @@
        "b n" '(next-buffer :wk "Next buffer")
        "b p" '(previous-buffer :wk "Previous buffer")
        "b r" '(revert-buffer :wk "Reload buffer"))
+
+      
+      (eze/leader-keys
+       "g" '(:ignore t :wk "GIT")
+       "g g" '(magit :wk "Open magit"))
 
       (eze/leader-keys
        "e" '(:ignore t :wk "Evaluate")
@@ -413,3 +418,6 @@
     (make-directory temporary-file-directory t))
 
   (setq treesit-work-dir "~/tmp/treesit/")
+
+(use-package magit
+  :ensure t)

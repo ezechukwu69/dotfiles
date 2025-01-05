@@ -26,6 +26,7 @@ Add this header to open all folds
 - [[#completions][Completions]]
 - [[#lsp][LSP]]
 - [[#treesitter][Treesitter]]
+- [[#magit][Magit]]
 
 * INIT PROGRAMS
 ** Package manager (ELPACA)
@@ -122,7 +123,7 @@ Add this header to open all folds
     :ensure t
     :after evil
     :config
-    (setq evil-collection-mode-list '(dashboard dired ibuffer))
+    (setq evil-collection-mode-list '(dashboard magit dired ibuffer))
     (evil-collection-init))
   (use-package evil-tutor :ensure t)
 
@@ -161,6 +162,11 @@ Add this header to open all folds
          "b n" '(next-buffer :wk "Next buffer")
          "b p" '(previous-buffer :wk "Previous buffer")
          "b r" '(revert-buffer :wk "Reload buffer"))
+
+        
+        (eze/leader-keys
+         "g" '(:ignore t :wk "GIT")
+         "g g" '(magit :wk "Open magit"))
 
         (eze/leader-keys
          "e" '(:ignore t :wk "Evaluate")
@@ -501,4 +507,10 @@ Use supermaven for auto completion
   (setq treesit-work-dir "~/tmp/treesit/")
 
 
+#+end_src
+
+* Magit
+#+begin_src emacs-lisp
+(use-package magit
+  :ensure t)
 #+end_src
