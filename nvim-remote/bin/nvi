@@ -1,0 +1,133 @@
+#!/bin/bash
+
+connect() {
+  socket_dir="/tmp"
+  nvim_pids=$(pgrep -x nvim)
+
+  # Collect all socket paths
+  socket_paths=()
+  for pid in $nvim_pids; do
+    # Find socket paths starting with $socket_dir/remote-
+    socket_path=$(lsof -p "$pid" | awk -v dir="$socket_dir" '$9 ~ dir {print $9}' | grep "^$socket_dir/remote-")
+
+    # If a socket path is found, add it to the list
+    if [ -n "$socket_path" ]; then
+      socket_paths+=("$socket_path")
+    fi
+  done
+
+  # If no sockets are found, exit
+  if [ ${#socket_paths[@]} -eq 0 ]; then
+    echo "No valid sockets found."
+    return 1
+  fi
+
+  # Use fzf to allow the user to select a socket
+  selected_socket=$(printf "%s\n" "${socket_paths[@]}" | fzf --prompt="Select a Neovim socket: ")
+
+  # If the user selected a socket, display it and connect
+  if [ -n "$selected_socket" ]; then
+    echo "You selected: $selected_socket"
+    nvim --server "$selected_socket" --remote-ui
+    # Your connect logic here (e.g., connecting to the selected socket)
+    # For example, using `nc` or any other tool to connect:
+    # nc -U "$selected_socket"  # Uncomment this and modify if needed
+  else
+    echo "No socket selected."
+  fi
+}
+
+kill() {
+  socket_dir="/tmp"
+  nvim_pids=$(pgrep -x nvim)
+
+  # Collect all socket paths
+  socket_paths=()
+  for pid in $nvim_pids; do
+    # Find socket paths starting with $socket_dir/remote-
+    socket_path=$(lsof -p "$pid" | awk -v dir="$socket_dir" '$9 ~ dir {print $9}' | grep "^$socket_dir/remote-")
+
+    # If a socket path is found, add it to the list
+    if [ -n "$socket_path" ]; then
+      socket_paths+=("$socket_path")
+    fi
+  done
+
+  # If no sockets are found, exit
+  if [ ${#socket_paths[@]} -eq 0 ]; then
+    echo "No valid sockets found."
+    return 1
+  fi
+
+  # Use fzf to allow the user to select a socket
+  selected_socket=$(printf "%s\n" "${socket_paths[@]}" | fzf --prompt="Select a Neovim socket: ")
+
+  # If the user selected a socket, display it and connect
+  if [ -n "$selected_socket" ]; then
+    echo "You selected: $selected_socket"
+    nvim --server "$selected_socket" --remote-send '<C-\><C-N>:qa<CR>'
+    # Your connect logic here (e.g., connecting to the selected socket)
+    # For example, using `nc` or any other tool to connect:
+    # nc -U "$selected_socket"  # Uncomment this and modify if needed
+  else
+    echo "No socket selected."
+  fi
+}
+
+start() {
+  # Get the current directory name
+  if [ -n "$1" ]; then
+    cd $1
+    current_dir_name=$(basename "$1")
+  elif [ -n "$2" ]; then
+    cd $2
+    current_dir_name=$(basename "$2")
+  else
+    current_dir_name=$(basename "$PWD")
+  fi
+
+  # Define the socket path based on the directory name
+  socket_path="/tmp/remote-${current_dir_name}"
+
+  # Check if Neovim is already running with the given socket path
+  if lsof | grep -q "$socket_path"; then
+    echo "Neovim is already running with socket: $socket_path"
+  else
+    # Start a new Neovim instance in headless mode with the specified socket path
+    echo "Starting Neovim headless instance with socket: $socket_path"
+    nvim --headless --listen "$socket_path" &
+    echo "Neovim headless instance started with socket: $socket_path"
+  fi
+
+  if [ -n "$1" ] || [ -n "$2" ]; then
+    cd -
+  fi
+
+}
+
+# Check if the first argument is provided
+if [[ $1 == "connect" ]]; then
+  connect $2 # Replace this with your actual connect command
+elif [[ $1 == "start" ]]; then
+  start $2
+elif [[ $1 == "kill" ]]; then
+  kill $2
+else
+  # If no argument or an unrecognized argument is provided, show the fzf menu
+  choice=$(echo -e "start\nconnect\nkill" | fzf --prompt="Select an option: ")
+
+  case $choice in
+  "start")
+    start $1
+    ;;
+  "connect")
+    connect $1 # Replace this with your actual connect command
+    ;;
+  "kill")
+    kill $1
+    ;;
+  *)
+    echo "Invalid option. Please try again."
+    ;;
+  esac
+fi

@@ -1,3 +1,7 @@
+(electric-pair-mode 1)
+(setq eldoc-echo-area-use-multiline-p t)
+(global-eldoc-mode 1)
+(setq max-mini-window-height 3)
 (defvar elpaca-installer-version 0.8)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -80,67 +84,92 @@
   :ensure t
   :after evil
   :config
-  (setq evil-collection-mode-list '(dashboard magit dired ibuffer))
+  (setq evil-collection-mode-list '(dashboard magit dired ibuffer Occur))
   (evil-collection-init))
 (use-package evil-tutor :ensure t)
 
 (use-package general
-      :ensure t
-      :config
-      (general-evil-setup)
-      (general-create-definer eze/leader-keys
-                              :states '(normal insert visual emacs)
-                              :keymaps 'override
-                              :prefix "SPC"
-                              :global-prefix "M-SPC")
+  :ensure t
+  :config
+  (general-evil-setup)
+  (general-create-definer eze/leader-keys
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "M-SPC")
 
-      (general-create-definer eze/non-leader-keys
-                              :states '(normal)
-                              :keymaps 'override)
+  (general-create-definer eze/non-leader-keys
+    :states '(normal)
+    :keymaps 'override)
 
-      (eze/non-leader-keys
-           "g c c" '(comment-line :wk "Comment line"))
+  (eze/non-leader-keys
+    "g c c" '(comment-line :wk "Comment line"))
 
-      (eze/leader-keys
-       "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Open private config")
-       "l c" '((lambda () (interactive) (load-file "~/.config/emacs/init.el")) :wk "Reload config"))
+  
+  (eze/non-leader-keys
+    "g S"  '(consult-ripgrep :wk "Find workspace symbols")
+    "g s"  '(consult-imenu :wk "")
+    "g y" '(eglot-find-typeDefinition :which-key "go to type definition")
+    "g D" '(eglot-find-declaration :which-key "go to declaration")
+    "g I" '(eglot-find-implementation :which-key "go to implementation")
+    "g r"  '(xref-find-references :which-key "find references")
+    "g ."  '(eglot-code-actions :which-key "code actions")
+    "K"  '(eglot-hover :which-key "show hover info")
+    )
+
+  (eze/leader-keys
+    "c a" '(eglot-code-actions :wk "Code action")
+    "c S" '(consult-eglot-symbols :wk "Code action")
+    "c s" '(consult-imenu :wk "Code action")
+    "c f"  '(eglot-format-buffer :which-key "format document")
+    "c r"  '(eglot-rename :which-key "rename symbol")
+  )
+
+(eze/leader-keys
+  "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Open private config")
+  "l c" '((lambda () (interactive) (load-file "~/.config/emacs/init.el")) :wk "Reload config"))
+
+(eze/leader-keys
+  "b" '(:ignore t :wk "buffer")
+  "b b" '(switch-to-buffer :wk "Switch buffer")
+  "b i" '(ibuffer :wk "IBuffer")
+  "b n" '(next-buffer :wk "Next buffer")
+  "b p" '(previous-buffer :wk "Previous buffer")
+  "b r" '(revert-buffer :wk "Reload buffer"))
 
 
+(eze/leader-keys
+  "g" '(:ignore t :wk "GIT")
+  "g g" '(magit :wk "Open magit"))
 
-      (eze/leader-keys
-       "b" '(:ignore t :wk "buffer")
-       "b b" '(switch-to-buffer :wk "Switch buffer")
-       "b i" '(ibuffer :wk "IBuffer")
-       "b n" '(next-buffer :wk "Next buffer")
-       "b p" '(previous-buffer :wk "Previous buffer")
-       "b r" '(revert-buffer :wk "Reload buffer"))
+(eze/leader-keys
+  "e" '(:ignore t :wk "Evaluate")
+  "e b" '(eval-buffer :wk "Eval buffer")
+  "e d" '(next-defun :wk "Evaluate defun at point")
+  "e e" '(evaluate-expression :wk "Eval Expression")
+  "e r" '(eval-region :wk "Eval region")
+  "e l" '(eval-last-sexp :wk "Eval Elisp expression before point"))
 
-      
-      (eze/leader-keys
-       "g" '(:ignore t :wk "GIT")
-       "g g" '(magit :wk "Open magit"))
+(eze/leader-keys
+  "f" '(:ignore t :wk "File/Find")
+  "f f"  '(find-file :wk "Find File")
+  "SPC"  '(projectile-find-file :wk "Project Find File"))
 
-      (eze/leader-keys
-       "e" '(:ignore t :wk "Evaluate")
-       "e b" '(eval-buffer :wk "Eval buffer")
-       "e d" '(next-defun :wk "Evaluate defun at point")
-       "e e" '(evaluate-expression :wk "Eval Expression")
-       "e r" '(eval-region :wk "Eval region")
-       "e l" '(eval-last-sexp :wk "Eval Elisp expression before point"))
+(eze/leader-keys
+  "t" '(:ignore t :wk "Toggle")
+  "t l"  '(display-line-numbers-mode :wk "Describe function")
+  "t t"  '(visual-line-mode :wk "Toggle truncated line"))
 
-      (eze/leader-keys
-       "f" '(:ignore t :wk "File/Find")
-       "f f"  '(find-file :wk "Find File"))
 
-      (eze/leader-keys
-       "t" '(:ignore t :wk "Toggle")
-       "t l"  '(display-line-numbers-mode :wk "Describe function")
-       "t t"  '(visual-line-mode :wk "Toggle truncated line"))
+(eze/leader-keys
+  "p" '(:ignore t :wk "Project")
+  "p A"  '(projectile-add-known-project :wk "Projectile Add projectile")
+  "p s"  '(projectile-switch-project :wk "Projectile switch"))
 
-      (eze/leader-keys
-       "h" '(:ignore t :wk "Help")
-       "h v"  '(describe-variable :wk "Describe function")
-       "h f"  '(describe-function :wk "Describe variable"))
+(eze/leader-keys
+  "h" '(:ignore t :wk "Help")
+  "h v"  '(describe-variable :wk "Describe function")
+  "h f"  '(describe-function :wk "Describe variable"))
 )
 
 (set-face-attribute 'default nil
@@ -167,6 +196,7 @@
 (scroll-bar-mode -1)
 
 (global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
 (global-visual-line-mode t)
 
 (use-package nerd-icons
@@ -186,14 +216,14 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
 	  doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-one t)
+  (load-theme 'doom-dracula t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
   ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-ayu-dark") ; use "doom-colors" for less minimal icon theme
+  (setq doom-themes-treemacs-theme "doom-dracula") ; use "doom-colors" for less minimal icon theme
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
@@ -201,20 +231,34 @@
 (use-package which-key
   :ensure t
   :init
-   (which-key-mode 1)
+  (which-key-mode 1)
   :config
-   (setq which-key-window-location 'bottom
-	   which-key-sort-order #'which-key-key-order-alpha
-	   which-key-sort-uppercase-first nil
-	   which-key-add-column-padding 1
-	   which-key-max-display-columns 2
-	   which-key-min-display-lines 10
-	   which-key-side-window-slot -10
-	   which-key-side-window-max-height 0.45
-	   which-key-idle-delay 0.8
-	   which-key-max-description-length 25
-	   which-key-allow-imprecise-window-fit t
-	   which-key-separator  " ➛ "))
+  (setq which-key-window-location 'bottom)
+  (setq which-key-max-description-length 50) ;; Increase the max description length if needed
+  (setq which-key-allow-imprecise-window-fit t) ;; Allow imprecise fits
+  (setq which-key-side-window-max-height 0.4) ;; Max height of the Which Key window
+  (setq which-key-side-window-min-height 0.3) ;; Max height of the Which Key window
+  (setq which-key-side-window-max-width 0.5) ;; Max width of the Which Key window
+  (setq which-key-popup-type 'side-window) ;; Use a side-window popup
+  (setq which-key-sort-order 'which-key-key-order-alpha) ;; Optional: Alphabetical sorting
+  ;; Wrap text
+  ;; (setq which-key-show-prefix 'top) ;; Show the prefix at the top
+  )
+
+(defun my/which-key-disable-line-numbers ()
+  "Disable line numbers in the Which Key buffer."
+  (when (derived-mode-p 'special-mode)
+    (display-line-numbers-mode -1)))
+
+(add-hook 'which-key-show-popup-hook #'my/which-key-disable-line-numbers)
+
+(defun my/which-key-enable-wrap ()
+  "Enable line wrapping for the Which Key buffer."
+  (with-current-buffer (get-buffer which-key--buffer)
+    (setq-local truncate-lines nil) ;; Disable line truncation
+    (visual-line-mode 1))) ;; Enable visual line wrapping
+
+(add-hook 'which-key-show-popup-hook #'my/which-key-enable-wrap)
 
 ;; (use-package supermaven
 ;;   :ensure t
@@ -320,6 +364,24 @@
   :init
   (marginalia-mode))
 
+(use-package helm
+  :ensure t
+  :config)
+
+(use-package eglot
+  :ensure t)
+
+(use-package consult
+  :after vertico
+  :ensure t)
+
+(setq xref-show-definitions-function #'consult-xref
+      xref-show-xrefs-function #'consult-xref)
+
+(use-package consult-eglot
+  :ensure t
+  :after (consult eglot))
+
 (use-package corfu
   :ensure t
   :init
@@ -354,12 +416,14 @@
   (add-to-list 'completion-at-point-functions #'cape-dabbrev))
 
 (use-package eglot
-    :ensure t
-    :hook ((prog-mode . eglot-ensure))    ;; Example for another language (Go)
-    :config
-;; (add-to-list 'eglot-server-programs '((javascript-mode typescript-mode) . ("typescript-language-server" "--stdio")))
-;;   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
-     )  ;; Optional: Customize server capabilities
+  :ensure t
+  :hook ((prog-mode . eglot-ensure))    ;; Example for another language (Go)
+  :config
+  ;; (add-to-list 'eglot-server-programs '((javascript-mode typescript-mode) . ("typescript-language-server" "--stdio")))
+  ;;   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
+  )  ;; Optional: Customize server capabilities
+(add-hook 'prog-mode-hook 'imenu-add-menubar-index)
+(setq eglot-hover-eldoc-function #'eldoc-hover)
 
 (setq treesit-language-source-alist
       '((c . ("https://github.com/tree-sitter/tree-sitter-c"))
@@ -367,6 +431,7 @@
         (rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
         (go . ("https://github.com/tree-sitter/tree-sitter-go"))
         (python . ("https://github.com/tree-sitter/tree-sitter-python"))
+  	(jsdoc . ("https://github.com/tree-sitter/tree-sitter-jsdoc"))
         (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
         (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
         (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
@@ -411,13 +476,169 @@
         (vala . ("https://github.com/tree-sitter/tree-sitter-vala"))
         (sed . ("https://github.com/tree-sitter/tree-sitter-sed"))
         (rts . ("https://github.com/tree-sitter/tree-sitter-rts"))))
-  (setq temporary-file-directory "~/tmp/")
+(setq temporary-file-directory "~/tmp/")
 
-  ;; Check if the directory exists, and create it if it doesn't
-  (unless (file-exists-p temporary-file-directory)
-    (make-directory temporary-file-directory t))
+;; TypeScript
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-ts-mode))
 
-  (setq treesit-work-dir "~/tmp/treesit/")
+;; JavaScript
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.mjs\\'" . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.cjs\\'" . js-ts-mode))
+
+;; JSON
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.json5\\'" . json-ts-mode))
+
+;; Python
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+
+;; Ruby
+(add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-ts-mode))
+(add-to-list 'auto-mode-alist '("Rakefile\\'" . ruby-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec\\'" . ruby-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ru\\'" . ruby-ts-mode))
+
+;; Java
+(add-to-list 'auto-mode-alist '("\\.java\\'" . java-ts-mode))
+
+;; C, C++, Objective-C
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.hpp\\'" . c++-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.m\\'" . objc-ts-mode))
+
+;; C#
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
+
+;; Go
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+
+;; Rust
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+
+;; HTML
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-ts-mode))
+
+;; CSS
+(add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . css-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.sass\\'" . css-ts-mode))
+
+;; Markdown
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-ts-mode))
+
+;; Shell Scripts
+(add-to-list 'auto-mode-alist '("\\.sh\\'" . sh-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.bash\\'" . sh-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-ts-mode))
+
+;; YAML
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+
+;; Perl
+(add-to-list 'auto-mode-alist '("\\.pl\\'" . cperl-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.pm\\'" . cperl-ts-mode))
+
+;; PHP
+(add-to-list 'auto-mode-alist '("\\.php\\'" . php-ts-mode))
+
+;; Swift
+(add-to-list 'auto-mode-alist '("\\.swift\\'" . swift-ts-mode))
+
+;; Kotlin
+(add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.kts\\'" . kotlin-ts-mode))
+
+;; Haskell
+(add-to-list 'auto-mode-alist '("\\.hs\\'" . haskell-ts-mode))
+
+;; Lua
+(add-to-list 'auto-mode-alist '("\\.lua\\'" . lua-ts-mode))
+
+;; Dockerfile
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.dockerfile\\'" . dockerfile-ts-mode))
+
+;; Makefiles
+(add-to-list 'auto-mode-alist '("Makefile\\'" . makefile-ts-mode))
+(add-to-list 'auto-mode-alist '("makefile\\'" . makefile-ts-mode))
+
+;; Vim Scripts
+(add-to-list 'auto-mode-alist '("\\.vim\\'" . vimrc-ts-mode))
+
+;; Lisp
+(add-to-list 'auto-mode-alist '("\\.el\\'" . emacs-lisp-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.lisp\\'" . lisp-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.scm\\'" . scheme-ts-mode))
+
+;; JSON-LD
+(add-to-list 'auto-mode-alist '("\\.jsonld\\'" . json-ts-mode))
+
+;; SQL
+(add-to-list 'auto-mode-alist '("\\.sql\\'" . sql-ts-mode))
+
+;; Text Files
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . text-ts-mode))
+
+
+;; Check if the directory exists, and create it if it doesn't
+(unless (file-exists-p temporary-file-directory)
+  (make-directory temporary-file-directory t))
+
+(setq treesit-work-dir "~/tmp/treesit/")
+
+(setq tree-sitter-font-lock-level 3)  ;; Use high-level font-locking
+(setq treesit-font-lock-level 4)  ;; Use high-level font-locking
+(add-hook 'tree-sitter-after-on-hook #'font-lock-mode)
+(add-hook 'js-mode-hook (lambda () (font-lock-mode -1)))
+(add-hook 'typescript-mode-hook (lambda () (font-lock-mode -1)))
 
 (use-package magit
   :ensure t)
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode)
+  ;; (setq ibuffer-use-other-window t) ;; Open ibuffer in another window
+  (setq ibuffer-auto-mode t)       ;; Automatically update ibuffer
+  (add-to-list 'ibuffer-filter-groups
+               '("Other" (predicate . (lambda (buf)
+                                        (with-current-buffer buf
+                                          (not (projectile-project-p)))))))
+  (setq ibuffer-default-sorting-mode 'alphabetic)
+
+  (defun my/projectile-add-current-project-on-file-open ()
+    "Automatically add the current file's project to Projectile when opening a file."
+    (when (and (projectile-project-p) ;; Check if the file belongs to a project
+               (not (projectile-project-p (projectile-project-root)))) ;; Check if it's already a known project
+      (projectile-add-known-project (projectile-project-root)))) ;; Add it to the known projects
+
+  (add-hook 'find-file-hook #'my/projectile-add-current-project-on-file-open)
+
+  )
+
+(use-package ibuffer-projectile
+  :ensure t
+  :config
+  (add-hook 'ibuffer-hook
+          (lambda ()
+              (ibuffer-projectile-set-filter-groups)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+              (ibuffer-do-sort-by-alphabetic))))
+  (setq ibuffer-formats
+      '((mark modified read-only " "
+              (name 18 18 :left :elide)
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " "
+              project-relative-file)))
+  )
