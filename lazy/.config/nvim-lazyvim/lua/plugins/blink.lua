@@ -81,7 +81,7 @@ return {
         "snippets",
         "buffer",
         "lazydev",
-        -- "codecompanion",
+        "codecompanion",
       },
       cmdline = {},
       providers = {
@@ -90,11 +90,11 @@ return {
           module = "lazydev.integrations.blink",
           score_offset = 100, -- show at a higher priority than lsp
         },
-        -- codecompanion = {
-        --   name = "CodeCompanion",
-        --   module = "codecompanion.providers.completion.blink",
-        --   enabled = true,
-        -- },
+        codecompanion = {
+          name = "CodeCompanion",
+          module = "codecompanion.providers.completion.blink",
+          enabled = true,
+        },
       },
     },
     keymap = {
@@ -104,6 +104,10 @@ return {
   },
   config = function(_, opts)
     -- setup compat sources
+    require("cmp").ConfirmBehaviour = {
+      Insert = "insert",
+      Replace = "replace",
+    }
     local enabled = opts.sources.default
     for _, source in ipairs(opts.sources.compat or {}) do
       opts.sources.providers[source] = vim.tbl_deep_extend(

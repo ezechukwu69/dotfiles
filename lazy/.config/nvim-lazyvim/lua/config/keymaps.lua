@@ -40,6 +40,14 @@ map("n", "<leader>pt", function()
   require("nvchad.themes").open()
 end, { desc = "Pick theme" })
 
+map({ "i" }, "jk", function()
+  vim.cmd.stopinsert()
+end, { desc = "Escape from insert", nowait = true })
+
+map({ "i" }, "jj", function()
+  vim.cmd.stopinsert()
+end, { desc = "Escape from insert", nowait = true })
+
 -- Toggle exception breakpoint
 -- local function toggle_exception_breakpoint()
 --   local breakpoints = dap.list_breakpoints()
