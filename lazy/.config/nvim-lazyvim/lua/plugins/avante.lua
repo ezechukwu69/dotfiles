@@ -4,7 +4,7 @@ return {
     event = "VeryLazy",
     -- branch = "cmp_blink_compat",
     build = "make",
-    enabled = false,
+    -- enabled = false,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
@@ -30,8 +30,8 @@ return {
       },
     },
     opts = {
-      provider = "qwen_local",
-      auto_suggestions_provider = "gemini",
+      provider = "gemini2",
+      auto_suggestions_provider = "gemini2",
       vendors = {
         xAI = {
           __inherited_from = "openai",
@@ -39,7 +39,14 @@ return {
           model = "grok-beta",
           api_key_name = "XAI_API_KEY",
         },
-
+        gemini2 = {
+          __inherited_from = "gemini",
+          model = "gemini-2.0-flash-exp",
+        },
+        ["gemini1-5"] = {
+          __inherited_from = "gemini",
+          model = "gemini-1.5-flash",
+        },
         qwen_local = {
           __inherited_from = "openai",
           endpoint = "http://localhost:1234/v1",
@@ -60,9 +67,12 @@ return {
         },
       },
       behaviour = {
-        auto_suggestions = false,
-        auto_apply_diff_after_generation = true,
-        support_paste_from_clipboard = true,
+        auto_suggestions = true, -- Experimental stage
+        auto_set_highlight_group = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
+        minimize_diff = true, -- Whether to remove unchanged lines when applying a code block,
       },
       mappings = {
         --- @class AvanteConflictMappings
@@ -113,5 +123,13 @@ return {
         provider_opts = {},
       },
     },
+    config = function(_, opts)
+      vim.keymap.set("i", "<M-y>", function()
+        require("avante").get_suggestion():suggest()
+      end, {
+        desc = "Request suggestion",
+      })
+      require("avante").setup(opts)
+    end,
   },
 }

@@ -81,7 +81,7 @@ return {
         "snippets",
         "buffer",
         "lazydev",
-        "codecompanion",
+        -- "codecompanion",
       },
       cmdline = {},
       providers = {
@@ -90,16 +90,19 @@ return {
           module = "lazydev.integrations.blink",
           score_offset = 100, -- show at a higher priority than lsp
         },
-        codecompanion = {
-          name = "CodeCompanion",
-          module = "codecompanion.providers.completion.blink",
-          enabled = true,
-        },
+        -- codecompanion = {
+        --   name = "CodeCompanion",
+        --   module = "codecompanion.providers.completion.blink",
+        --   enabled = true,
+        -- },
       },
     },
     keymap = {
       preset = "default",
       ["<C-y>"] = { "select_and_accept" },
+      ["<cr>"] = { "select_and_accept", "fallback" },
+      ["<Tab>"] = { "select_next", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "fallback" },
     },
   },
   config = function(_, opts)

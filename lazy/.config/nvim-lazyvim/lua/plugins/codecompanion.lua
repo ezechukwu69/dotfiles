@@ -73,7 +73,7 @@ local function configure_opts()
             description = "Insert content from help tags",
             opts = {
               contains_code = false,
-              max_lines = 128,      -- Maximum amount of lines to of the help file to send (NOTE: each vimdoc line is typically 10 tokens)
+              max_lines = 128, -- Maximum amount of lines to of the help file to send (NOTE: each vimdoc line is typically 10 tokens)
               provider = "fzf_lua", -- telescope|mini_pick|fzf_lua
             },
           },
@@ -120,7 +120,7 @@ end
 return {
   "olimorris/codecompanion.nvim",
   event = "VeryLazy",
-  -- enabled = false,
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
