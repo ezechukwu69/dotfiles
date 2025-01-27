@@ -4,7 +4,7 @@ return {
     -- opts = {
     --   windows = { ghost_text = { enabled = true } },
     -- },
-    enabled = false,
+    -- enabled = false,
     opts = {
       windows = { ghost_text = { enabled = true } },
       disable_inline_completion = not vim.g.ai_cmp,

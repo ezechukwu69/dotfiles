@@ -242,11 +242,12 @@ environment {
 // See the binds section below for more spawn examples.
 // spawn-at-startup "alacritty" "-e" "fish"
 //
-spawn-at-startup "waybar"
 spawn-at-startup "dunst"
 //spawn-at-startup "swaybg" "-i" "/home/ezechukwu69/wallpapers/robot-home.png"
 spawn-at-startup "waypaper" "--restore"
 spawn-at-startup "emacs" "--daemon"
+spawn-at-startup "gBar bar 0"
+spawn-at-startup "gBar bar 1"
 spawn-at-startup "~/.config/niri/kanata.sh"
 spawn-at-startup "hypridle"
 spawn-at-startup "xwayland-satellite"
@@ -321,7 +322,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T { spawn "kitty"; }
+    Mod+T { spawn "ghostty"; }
     //Mod+D { spawn "fuzzel"; }
     Mod+D { spawn "~/.config/niri/drun.sh"; }
     Mod+X { spawn "xwayland-satellite"; }
@@ -330,6 +331,7 @@ binds {
     Mod+Shift+P { spawn "~/.config/niri/power.sh"; }
     //Super+Alt+L { spawn "swaylock"; }
     Super+Alt+L { spawn "hyprlock"; }
+    Super+Alt+W { spawn "waypaper" "--restore"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
