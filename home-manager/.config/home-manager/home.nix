@@ -13,26 +13,22 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "24.11"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    # pkgs.hello
-    pkgs.fortune
-    pkgs.nest-cli
-    pkgs.fastfetch
-    pkgs.neovim
-    pkgs.yazi
-    pkgs.atac
-
+    # pkgs.neovide
+    pkgs.nettools
+    pkgs.devbox
+    pkgs.asdf
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    #(pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
@@ -77,10 +73,83 @@
     EDITOR = "nvim";
   };
 
+  programs.fastfetch = {
+    enable = true;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    dotDir = ".config/zsh";
+    # enableBashCompletion = true;
+    syntaxHighlighting.enable = true;
+    autocd = true;
+
+    # Define custom aliases
+    shellAliases = {
+      dba = "devbox add";
+      db = "devbox";
+      dbi = "devbox init";
+      dbr = "devbox rm";
+      dbs = "devbox services";
+      dbS = "devbox shell";
+      v="nvim";
+      et="emacs -nw";
+      e="emacs";
+      zed="zeditor";
+      hx="helix";
+    };
+
+    initExtra = ''
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/installations/flutter/bin:$PATH"
+export PATH="$HOME/.config/emacs/bin:$PATH"
+export PATH="$HOME/.config/nvim/bin:$PATH"
+export PATH="$HOME/.cache/lm-studio/bin:$PATH"
+export PATH="$HOME/.local/share/gem/ruby/3.3.0/bin:$PATH"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+eval $(ssh-agent) > /dev/null
+ssh-add ~/.ssh/id_ed25519 &> /dev/null
+alias v="lvim"
+alias et="emacs -nw"
+alias e="emacs"
+alias zed="zeditor"
+alias hx="helix"
+export BUNDLE_PATH=~/.gems
+. /opt/asdf-vm/asdf.sh &> /dev/null
+source ~/.zshrc_local &> /dev/null
+if [ -f ~/.zshrc_local ]; then
+  source ~/.zshrc_local
+else
+  touch ~/.zshrc_local
+  source ~/.zshrc_local
+fi
+bindkey -o
+fastfetch
+    '';
+  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
-  programs.yazi.enable = true;
-
 }
