@@ -6,8 +6,8 @@ local dap = require("dap")
 
 local map = vim.keymap.set
 
-map("n", "gS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Dynamic workspace symbols" })
-map("n", "gs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "LSP document symbols" })
+-- map("n", "gS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Dynamic workspace symbols" })
+-- map("n", "gs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "LSP document symbols" })
 map("n", "cd", function()
   require("nvchad.lsp.renamer")()
 end, { desc = "LSP document symbols" })
