@@ -1,6 +1,13 @@
 return {
   "ezechukwu69/aidrun.nvim",
   -- dir = "~/development/lua/aidrun.nvim",
+  dependencies = {
+    {
+      "ibhagwan/fzf-lua",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      opts = {},
+    },
+  },
   config = function()
     local keymap = vim.keymap.set
     keymap("n", "<space>zs", ":Aidrun send<CR>", { desc = "Aidrun send" })
