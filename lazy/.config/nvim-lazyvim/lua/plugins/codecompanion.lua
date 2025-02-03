@@ -40,7 +40,8 @@ local function configure_opts()
         show_settings = true, -- Show the settings button in the chat buffer?
       },
       diff = {
-        provider = "mini_diff",
+        enabled = true,
+        provider = "default",
       },
     },
     opts = {
@@ -49,14 +50,15 @@ local function configure_opts()
 
     strategies = {
       chat = {
-        adapter = "gemini2",
+        adapter = "gemini",
         slash_commands = {
           ["buffer"] = {
             callback = "strategies.chat.slash_commands.buffer",
             description = "Insert open buffers",
             opts = {
               contains_code = true,
-              provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
+              -- provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
+              provider = "snacks", -- default|telescope|mini_pick|fzf_lua
             },
           },
           ["file"] = {
@@ -65,7 +67,8 @@ local function configure_opts()
             opts = {
               contains_code = true,
               max_lines = 1000,
-              provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
+              -- provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
+              provider = "snacks", -- default|telescope|mini_pick|fzf_lua
             },
           },
           ["help"] = {
@@ -74,7 +77,8 @@ local function configure_opts()
             opts = {
               contains_code = false,
               max_lines = 128, -- Maximum amount of lines to of the help file to send (NOTE: each vimdoc line is typically 10 tokens)
-              provider = "fzf_lua", -- telescope|mini_pick|fzf_lua
+              -- provider = "fzf_lua", -- telescope|mini_pick|fzf_lua
+              provider = "snacks", -- default|telescope|mini_pick|fzf_lua
             },
           },
           ["symbols"] = {
@@ -82,13 +86,14 @@ local function configure_opts()
             description = "Insert symbols for a selected file",
             opts = {
               contains_code = true,
-              provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
+              -- provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
+              provider = "snacks", -- default|telescope|mini_pick|fzf_lua
             },
           },
         },
       },
       inline = {
-        adapter = "gemini2",
+        adapter = "gemini",
       },
     },
     adapters = {
@@ -107,7 +112,7 @@ local function configure_opts()
           },
           schema = {
             model = {
-              default = "gemini-1.5-flash-exp",
+              default = "gemini-1.5-flash",
             },
           },
         })
@@ -139,7 +144,7 @@ end
 return {
   "olimorris/codecompanion.nvim",
   event = "VeryLazy",
-  -- enabled = false,
+  enabled = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",

@@ -41,6 +41,13 @@ return {
       layout = {
         preset = "ivy",
       },
+      matcher = {
+        fuzzy = true,
+        frecency = true, -- frecency bonus
+      },
+      debug = {
+        scores = true,
+      },
       layouts = {
         ivy = {
           layout = {
