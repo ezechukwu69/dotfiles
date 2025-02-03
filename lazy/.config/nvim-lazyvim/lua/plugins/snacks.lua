@@ -38,6 +38,44 @@ return {
     dim = {},
     scope = {},
     picker = {
+      layout = {
+        preset = "ivy",
+      },
+      layouts = {
+        ivy = {
+          layout = {
+            box = "vertical",
+            backdrop = false,
+            row = -1,
+            width = 0,
+            height = 0.7,
+            border = "top",
+            title = " {title} {live} {flags}",
+            title_pos = "left",
+            { win = "input", height = 1, border = "bottom" },
+            {
+              box = "horizontal",
+              { win = "list", border = "none" },
+              { win = "preview", title = "{preview}", width = 0.5, border = "left" },
+            },
+          },
+        },
+        vscode = {
+          preview = true,
+          layout = {
+            backdrop = false,
+            row = 1,
+            width = 0.4,
+            min_width = 80,
+            height = 0.4,
+            border = "none",
+            box = "vertical",
+            { win = "input", height = 1, border = "rounded", title = "{title} {live} {flags}", title_pos = "center" },
+            { win = "list", border = "hpad" },
+            { win = "preview", title = "{preview}", height = 0.9, border = "rounded" },
+          },
+        },
+      },
       sources = {
         explorer = {
           finder = "explorer",
@@ -47,7 +85,7 @@ return {
           follow_file = true,
           auto_close = true,
           jump = { close = false },
-          layout = { preset = "sidebar", preview = false },
+          layout = { preset = "ivy", preview = false },
         },
       },
     },
