@@ -152,8 +152,8 @@
   {
     "context": "EmptyPane || SharedScreen",
     "bindings": {
-      "space e": ["workspace::ToggleLeftDock"],
-      "space r": ["workspace::ToggleRightDock"],
+      "space e": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock",
       "space f r": "projects::OpenRecent"
     }
   },
