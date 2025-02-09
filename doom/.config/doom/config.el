@@ -21,10 +21,9 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "SpaceMono Nerd Font" :size 13 :weight 'bold)
-      doom-variable-pitch-font (font-spec :family "SpaceMono Nerd Font" :size 13))
-
-
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -33,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-gruvbox-light)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -75,54 +74,19 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-;; OpenRouter offers an OpenAI compatible API
-
-(use-package! gptel
+(use-package aider
   :config
-  ;; (setq! gptel-api-key "your key")
-  ;; add a keymap mapping C-q to C-c Ret
-  (define-key ctl-x-map "\C-q" "\C-c\C-m")
-  (setq gptel-debug t) ;; Enable debug mode
-  (setq gptel-model 'google/gemini-2.0-flash-thinking-exp:free
-        gptel-backend
-        (gptel-make-openai "OpenRouter"               ;;Any name you want
-          :host "openrouter.ai"
-          :endpoint "/api/v1/chat/completions"
-          :stream t
-          :key (lambda () (getenv "OPENROUTER_API_KEY"))  ;;can be a function that returns the key
-          :models '(
-                    google/gemini-2.0-flash-thinking-exp:free
-                    openai/gpt-3.5-turbo
-                    mistralai/mixtral-8x7b-instruct
-                    meta-llama/codellama-34b-instruct
-                    codellama/codellama-69b-instruct
-                    google/palm-1-codechat-bison-32k
-                    google/gemini-pro)))
-  )
-
-(use-package! aider
-  :config
-  (setq aider-args '("--model" "gemini/gemini-2.0-flash-exp"
-                     "--editor-model" "gemini/gemini-2.0-flash-exp"
-                     "--architect"
-                     "--watch-files"
-                     "--edit-format" "diff-fenced"
-                     "--editor-edit-format" "diff-fenced"
-                     "--show-diffs"
-                     "--no-auto-commits"
-                     "--no-attribute-author"
-                     "--no-attribute-committer"
-                     "--no-attribute-commit-message-author"
-                     ))
-
-  (global-set-key (kbd "C-c a") 'aider-transient-menu)
-  (evil-define-key '(normal visual) 'global (kbd "<leader>z") 'aider-transient-menu)
-  )
-
-(use-package! supermaven
-  :config
-  (setq supermaven-keymaps
-        '((accept-suggestion . "TAB")
-          (clear-suggestion . "C-]")
-          (accept-word . "C-j")))
-  :hook (prog-mode . supermaven-mode))
+  (setq aider-args
+        '("--model" "gemini-2.0-flash-exp"
+          "--vim",
+          "--no-attribute-author"
+          "--no-attribute-committer"
+          "--no-attribute-commit-message-author"
+          "--no-attribute-commit-message-committer"
+          "--watch-files"
+          "--no-auto-commits"
+          "--no-dirty-commits"
+          "--edit-format" "diff-fenced"
+          "--no-auto-lint"
+          "--architect"
+          )))
