@@ -1,5 +1,4 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
@@ -21,8 +20,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 15 :weight 'semi-bold)
+      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -32,7 +31,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox-light)
+(setq doom-theme 'doom-tokyo-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -66,6 +65,10 @@
 ;;   `require' or `use-package'.
 ;; - `map!' for binding new keys
 ;;
+(map! :leader :desc "Navigate to right window" :n "C-l" #'evil-window-right)
+(map! :leader :desc "Navigate to left window" :n "C-h" #'evil-window-left)
+(map! :leader :desc "Navigate to down window" :n "C-j" #'evil-window-down)
+(map! :leader :desc "Navigate to up window" :n "C-k" #'evil-window-up)
 ;; To get information about any of these functions/macros, move the cursor over
 ;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
@@ -74,11 +77,47 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+;;
+
+(setq treesit-language-source-alist
+      '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+        (cmake "https://github.com/uyha/tree-sitter-cmake")
+        (dart "https://github.com/UserNobody14/tree-sitter-dart")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+        (go "https://github.com/tree-sitter/tree-sitter-go")
+        (html "https://github.com/tree-sitter/tree-sitter-html")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (json "https://github.com/tree-sitter/tree-sitter-json")
+        (make "https://github.com/alemuller/tree-sitter-make")
+        (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+        (python "https://github.com/tree-sitter/tree-sitter-python")
+        (toml "https://github.com/tree-sitter/tree-sitter-toml")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+
+(setq treesit-font-lock-level 4)
+(add-hook 'dart-mode-hook #'tree-sitter-hl-mode)
+(global-tree-sitter-mode)
+
+;; (add-hook 'dart-mode-hook
+;;           (lambda ()
+;;             (when (treesit-ready-p 'dart)
+;;               (treesit-hl-mode))))
+
+;; (setq major-mode-remap-alist
+;;       '(
+;;         (yaml-mode . yaml-ts-mode)
+;;         (typescript-mode . typescript-ts-mode)
+;;         ))
+
 (use-package aider
   :config
   (setq aider-args
-        '("--model" "gemini-2.0-flash-exp"
-          "--vim",
+        '("--model" "gemini/gemini-2.0-flash"
+          "--vim"
           "--no-attribute-author"
           "--no-attribute-committer"
           "--no-attribute-commit-message-author"
@@ -90,3 +129,18 @@
           "--no-auto-lint"
           "--architect"
           )))
+
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode  2))
+  (add-to-list 'copilot-indentation-alist '(org-mode  2))
+  (add-to-list 'copilot-indentation-alist '(text-mode  2))
+  (add-to-list 'copilot-indentation-alist '(closure-mode  2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode  2)))
