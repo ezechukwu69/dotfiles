@@ -116,7 +116,6 @@
       et="emacs -nw";
       e="emacs";
       zed="zeditor";
-      hx="helix";
     };
 
     initExtra = ''
@@ -135,7 +134,6 @@ alias v="lvim"
 alias et="emacs -nw"
 alias e="emacs"
 alias zed="zeditor"
-alias hx="helix"
 export BUNDLE_PATH=~/.gems
 . /opt/asdf-vm/asdf.sh &> /dev/null
 source ~/.zshrc_local &> /dev/null

@@ -89,7 +89,7 @@
     "calt": true
   },
   "features": {
-    "inline_completion_provider": "supermaven"
+    "edit_prediction_provider": "zed"
   },
   "vim_mode": true,
   "vim": {

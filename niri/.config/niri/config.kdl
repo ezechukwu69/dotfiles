@@ -55,7 +55,7 @@ input {
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
-output "HDMI-A-3" {
+output "HDMI-A-2" {
     // Uncomment this line to disable this output.
     // off
 
@@ -114,7 +114,7 @@ output "DP-1" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    // position x=1960 y=0
+    position x=1920 y=0
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -233,7 +233,7 @@ layout {
 }
 
 environment {
-    DISPLAY ":0"
+    DISPLAY ":1"
 }
 
 // Add lines like this to spawn processes at startup.
@@ -246,8 +246,7 @@ spawn-at-startup "dunst"
 //spawn-at-startup "swaybg" "-i" "/home/ezechukwu69/wallpapers/robot-home.png"
 spawn-at-startup "waypaper" "--restore"
 spawn-at-startup "emacs" "--daemon"
-spawn-at-startup "gBar bar 0"
-spawn-at-startup "gBar bar 1"
+spawn-at-startup "waybar" "-c" "~/.config/waybar-niri/config" "-s" "~/.config/waybar-niri/style.css"
 spawn-at-startup "~/.config/niri/kanata.sh"
 spawn-at-startup "hypridle"
 spawn-at-startup "xwayland-satellite"
@@ -296,11 +295,14 @@ window-rule {
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
-    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
-    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+window-rule {
+    match app-id=r#"^kunkun$"#
 
-    block-out-from "screen-capture"
+    //block-out-from "screen-capture"
+    open-floating true
+    open-focused true
+    max-height 500
+    max-width 700
 
     // Use this instead if you want them visible on third-party screenshot tools.
     // block-out-from "screencast"

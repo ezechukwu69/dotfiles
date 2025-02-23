@@ -83,7 +83,7 @@ return {
         "lazydev",
         "codecompanion",
       },
-      cmdline = {},
+      -- cmdline = {},
       providers = {
         lazydev = {
           name = "LazyDev",

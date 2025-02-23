@@ -52,10 +52,10 @@
           "task_name": "Lazygit"
         }
       ],
-      "ctrl-h": "workspace::ActivatePaneLeft",
-      "ctrl-l": "workspace::ActivatePaneRight",
-      "ctrl-k": "workspace::ActivatePaneUp",
-      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-h": ["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
       "ctrl-c": "editor::Copy"
     }
   },
@@ -71,7 +71,7 @@
   {
     "context": "Editor && !menu && vim_mode == insert",
     "bindings": {
-      "j j": "vim::SwitchToNormalMode"
+      "j j": ["vim::SwitchMode", "Normal"]
     }
   },
   {
@@ -113,12 +113,17 @@
       "ctrl-/": "workspace::ToggleBottomDock"
     }
   },
-  // {
-  //   "context": "vim_mode == visual",
-  //   "bindings": {
-  //     "shift-s": ["vim::PushAddSurrounds", {}]
-  //   }
-  // },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-s": [
+        "vim::PushOperator",
+        {
+          "AddSurrounds": {}
+        }
+      ]
+    }
+  },
   {
     "context": "Dock",
     "bindings": {

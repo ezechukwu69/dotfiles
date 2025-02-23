@@ -1,0 +1,135 @@
+{
+  // BAR SETTINGS
+    "layer": "top",
+    "position": "bottom",
+
+    // MODULES
+    "modules-left": ["custom/logo", "niri/workspaces", "custom/music"],
+    "modules-center": ["clock", "custom/weather", "niri/window"],
+    "modules-right": ["tray", "niri/language", "pulseaudio", "custom/powermenu"],
+
+
+    // LOGO
+    "custom/logo": {
+      "format": "󰈸",
+      "on-click": "sleep 0.1 && rofi -show drun",
+      "tooltip": false
+    },
+
+
+    "custom/micro": {
+      "exec": "sleep 0.1 && ~/.config/waybar-niri/micro.sh",
+      "restart-interval": 1,
+      "on-click": "~/.config/waybar-niri/micro1.sh",
+      "tooltip": false
+    },
+
+
+
+    "custom/powermenu": {
+      "format": "",
+      "on-click": "sleep 0.1 && ~/.config/niri/power.sh",
+      "tooltip": false
+    },
+
+
+    "custom/swaync": {
+      "format": "󰂚",
+      "on-click": "swaync-client -t",
+      "tooltip": false
+    },
+
+
+
+
+    "custom/weather": {
+      "format": "{}",
+      "interval": 10,
+      "exec": "~/.config/waybar-niri/weather.sh",
+      "tooltip": false
+    },
+
+
+    "custom/music": {
+      "format": "{}",
+      "interval": 1,
+      "exec": "~/.config/waybar-niri/music.sh",
+      "tooltip": false,
+      "hide-empty-text": true,
+      "max-length": 60,
+      "on-click-middle": "playerctl play-pause",
+      "on-click": "playerctl previous",
+      "on-click-right": "playerctl next"
+
+    },
+
+    // TRAY
+    "tray": {
+      "icon-size": 21,
+      "spacing": 10
+    },
+
+    // CLOCK
+    "clock": {
+      "format": "{:%b %d %H:%M}",
+      "format-alt": "{:%A, %d %B, %Y (%R)}"
+    },
+
+    // SOUND
+    "pulseaudio": {
+      "format": "{icon} {volume}%",
+      "format-bluetooth": "{icon} {volume}%",
+      "format-bluetooth-muted": " {icon}",
+      "format-muted": "󰸈",
+      "format-icons": {
+        "headphone": "",
+        "hands-free": "",
+        "headset": "",
+        "phone": "",
+        "portable": "",
+        "car": "",
+        "default": ["", "", ""]
+      },
+      "on-click": "pamixer --toggle-mute",
+      "on-click-right": "pavucontrol",
+      "tooltip": false
+    },
+
+    // niri WINDOW TITLE
+    "niri/window": {
+      "format": "{}",
+      "icon": true,
+      "seperate-outputs": true,
+      "max-length": 60
+    },
+
+    // niri KEYBOARD LAYOUT
+    "niri/language": {
+      "format": "{}",
+      "format-en": "EN",
+      "format-ru": "RU",
+      "on-click": "hyprctl switchxkblayout company--usb-device- next"
+    },
+
+    // WORKSPACES
+    "niri/workspaces": {
+      "format": "{name}",
+      "on-click": "activate",
+      "sort-by-number": true
+    },
+
+    // CAVA
+    "custom/cava": {
+      "exec": "cava -p ~/.config/cava/config1 | sed -u 's/;//g;s/0/ /g;s/1/▂/g;s/2/▃/g;s/3/▄/g;s/4/▅/g;s/5/▆/g;s/6/▇/g;s/7/█/g;'",
+      "tooltip": false
+    },
+
+    // MAKO
+    "custom/mako": {
+      "exec": "~/.config/hypr/scripts/check_mako_mode.sh",
+      "on-click": "~/.config/hypr/scripts/do-not-disturb.sh",
+      "restart-interval": 1,
+      "tooltip": false
+    }
+}
+
