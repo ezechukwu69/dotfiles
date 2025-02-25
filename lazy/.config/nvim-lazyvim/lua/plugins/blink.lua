@@ -14,6 +14,7 @@ return {
     "sources.default",
   },
   dependencies = {
+    "Kaiser-Yang/blink-cmp-avante",
     "rafamadriz/friendly-snippets",
     -- add blink.compat to dependencies
     {
@@ -71,11 +72,12 @@ return {
       -- adding any nvim-cmp sources here will enable them
       -- with blink.compat
       compat = {
-        "avante_commands",
-        "avante_mentions",
-        "avante_files",
+        -- "avante_commands",
+        -- "avante_mentions",
+        -- "avante_files",
       },
       default = {
+        "avante",
         "lsp",
         "path",
         "snippets",
@@ -89,6 +91,13 @@ return {
           name = "LazyDev",
           module = "lazydev.integrations.blink",
           score_offset = 100, -- show at a higher priority than lsp
+        },
+        avante = {
+          module = "blink-cmp-avante",
+          name = "Avante",
+          opts = {
+            -- options for blink-cmp-avante
+          },
         },
         -- codecompanion = {
         --   name = "CodeCompanion",

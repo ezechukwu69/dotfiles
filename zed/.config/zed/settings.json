@@ -16,7 +16,7 @@
     "enable_experimental_live_diffs": true
   },
   "file_finder": {
-    "modal_max_width": "medium"
+    "modal_max_width": "xlarge"
   },
   "restore_on_startup": "none",
   "auto_signature_help": true,
@@ -24,13 +24,24 @@
   "toolbar": {
     "breadcrumbs": true,
     "quick_actions": false,
-    "selections_menu": true
+    "selections_menu": false
+  },
+  "search": {
+    "whole_word": false,
+    "case_sensitive": false,
+    "include_ignored": false,
+    "regex": true
   },
   "slash_commands": {
     "docs": {
       "enabled": true
     },
     "project": {
+      "enabled": true
+    }
+  },
+  "git": {
+    "inline_blame": {
       "enabled": true
     }
   },
@@ -50,11 +61,11 @@
     "activate_on_close": "history"
   },
   "inlay_hints": {
-    "enabled": false,
+    "enabled": true,
     "show_type_hints": true,
     "show_parameter_hints": true,
     "show_other_hints": true,
-    "show_background": false,
+    "show_background": true,
     "edit_debounce_ms": 400,
     "scroll_debounce_ms": 50
   },
@@ -83,7 +94,8 @@
   },
   "tab_bar": {
     "show_nav_history_buttons": false,
-    "show": true
+    "show": false,
+    "show_tab_bar_buttons": false
   },
   "buffer_font_features": {
     "calt": true

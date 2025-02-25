@@ -31,6 +31,7 @@ return {
     },
     opts = {
       provider = "gemini2",
+      enable_cursor_planning_mode = "gemini2",
       auto_suggestions_provider = "gemini2",
       vendors = {
         xAI = {
@@ -41,7 +42,7 @@ return {
         },
         gemini2 = {
           __inherited_from = "gemini",
-          model = "gemini-2.0-flash-exp",
+          model = "gemini-2.0-flash",
         },
         ["gemini1-5"] = {
           __inherited_from = "gemini",
@@ -73,6 +74,7 @@ return {
         auto_apply_diff_after_generation = false,
         support_paste_from_clipboard = true,
         minimize_diff = true, -- Whether to remove unchanged lines when applying a code block,
+        enable_cursor_planning_mode = true, -- Whether to enable Cursor Planning Mode. Default to false.
       },
       mappings = {
         --- @class AvanteConflictMappings
@@ -115,6 +117,9 @@ return {
         ask = {
           focus_on_apply = "theirs",
         },
+      },
+      web_search_engine = {
+        provider = "google",
       },
       file_selector = {
         --- @alias FileSelectorProvider "native" | "fzf" | "telescope" | string

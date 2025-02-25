@@ -4,3 +4,5 @@
 vim.g.maplocalleader = " "
 -- vim.g.snacks_dim = true
 vim.g.lazyvim_picker = "snacks"
+
+-- set colorscheme

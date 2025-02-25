@@ -1,4 +1,4 @@
-vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
+-- vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -7,7 +7,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   if vim.v.shell_error ~= 0 then
     vim.api.nvim_echo({
       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
+      { out, "WarningMsg" },
       { "\nPress any key to exit..." },
     }, true, {})
     vim.fn.getchar()
@@ -20,12 +20,12 @@ require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    {
-      "NvChad/NvChad",
-      lazy = false,
-      branch = "v2.5",
-      import = "plugins.nvui",
-    },
+    -- {
+    --   "NvChad/NvChad",
+    --   lazy = false,
+    --   branch = "v2.5",
+    --   import = "plugins.nvui",
+    -- },
     -- import/override with your plugins
     { import = "plugins" },
   },
@@ -42,7 +42,7 @@ require("lazy").setup({
   checker = {
     enabled = true, -- check for plugin updates periodically
     notify = false, -- notify on update
-  },                -- automatically check for plugin updates
+  }, -- automatically check for plugin updates
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -60,8 +60,9 @@ require("lazy").setup({
   },
 })
 
-for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
-  dofile(vim.g.base46_cache .. v)
-end
+-- for _, v in ipairs(vim.fn.readdir(vim.g.base46_cache)) do
+--   dofile(vim.g.base46_cache .. v)
+-- end
 -- dofile(vim.g.base46_cache .. "defaults")
 -- dofile(vim.g.base46_cache .. "statusline")
+--
