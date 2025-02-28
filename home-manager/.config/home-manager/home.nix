@@ -116,7 +116,7 @@
       v="nvim";
       et="emacs -nw";
       e="emacs";
-      zed="zeditor";
+      # zed="zeditor";
     };
 
     initExtra = ''
@@ -134,7 +134,7 @@ ssh-add ~/.ssh/id_ed25519 2> /dev/null
 alias v="lvim"
 alias et="emacs -nw"
 alias e="emacs"
-alias zed="zeditor"
+# alias zed="zeditor"
 export BUNDLE_PATH=~/.gems
 . /opt/asdf-vm/asdf.sh &> /dev/null
 source ~/.zshrc_local &> /dev/null

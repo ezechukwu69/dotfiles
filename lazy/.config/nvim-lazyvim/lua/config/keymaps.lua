@@ -8,32 +8,26 @@ local map = vim.keymap.set
 
 -- map("n", "gS", "<cmd>FzfLua lsp_live_workspace_symbols<cr>", { desc = "Dynamic workspace symbols" })
 -- map("n", "gs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "LSP document symbols" })
-map("n", "cd", function()
-  require("nvchad.lsp.renamer")()
-end, { desc = "LSP document symbols" })
-map("n", "<space>cr", function()
-  require("nvchad.lsp.renamer")()
-end, { desc = "LSP document symbols" })
+-- map("n", "cd", function()
+--   require("snacks.rename").rename()
+-- end, { desc = "LSP document symbols" })
+-- map("n", "<space>cr", function()
+--   require("nvchad.lsp.renamer")()
+-- end, { desc = "LSP document symbols" })
 
-map("n", "<leader>h", function()
-  require("nvchad.term").new({ pos = "sp" })
-end, { desc = "terminal new horizontal term" })
+map("n", "<leader>h", function() end, { desc = "terminal new horizontal term" })
 
 map("n", "<leader>v", function()
   require("nvchad.term").new({ pos = "vsp" })
 end, { desc = "terminal new vertical term" })
 
 -- toggleable
-map({ "n", "t" }, "<A-v>", function()
-  require("nvchad.term").toggle({ pos = "vsp", id = "vtoggleTerm" })
-end, { desc = "terminal toggleable vertical term" })
-
 map({ "n", "t" }, "<A-h>", function()
-  require("nvchad.term").toggle({ pos = "sp", id = "htoggleTerm" })
+  Snacks.terminal()
 end, { desc = "terminal toggleable horizontal term" })
 
-map({ "n", "t" }, "<A-i>", function()
-  require("nvchad.term").toggle({ pos = "float", id = "floatTerm" })
+map({ "n", "t" }, "<A-n>", function()
+  Snacks.terminal.open()
 end, { desc = "terminal toggle floating term" })
 
 map("n", "<leader>pt", function()
