@@ -41,7 +41,7 @@ local function configure_opts()
       },
       diff = {
         enabled = true,
-        provider = "default",
+        provider = "mini_diff",
       },
     },
     opts = {
@@ -50,7 +50,7 @@ local function configure_opts()
 
     strategies = {
       chat = {
-        adapter = "gemini",
+        adapter = "gemini2",
         slash_commands = {
           ["buffer"] = {
             callback = "strategies.chat.slash_commands.buffer",
@@ -93,7 +93,7 @@ local function configure_opts()
         },
       },
       inline = {
-        adapter = "gemini",
+        adapter = "gemini2",
       },
     },
     adapters = {
@@ -119,14 +119,13 @@ local function configure_opts()
       end,
       gemini2 = function()
         return require("codecompanion.adapters").extend("gemini", {
-          url = "https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${api_key}",
           env = {
             api_key = "GEMINI_API_KEY",
             model = "schema.model.default",
           },
           schema = {
             model = {
-              default = "gemini-2.0-flash-exp",
+              default = "gemini-2.0-flash",
             },
           },
         })

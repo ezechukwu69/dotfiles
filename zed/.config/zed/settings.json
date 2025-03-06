@@ -10,7 +10,7 @@
   "assistant": {
     "default_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
+      "model": "claude-3-7-sonnet-latest"
     },
     "version": "2",
     "enable_experimental_live_diffs": true
@@ -61,14 +61,28 @@
     "activate_on_close": "history"
   },
   "inlay_hints": {
-    "enabled": true,
+    "enabled": false,
     "show_type_hints": true,
     "show_parameter_hints": true,
     "show_other_hints": true,
     "show_background": true,
     "edit_debounce_ms": 400,
-    "scroll_debounce_ms": 50
+    "scroll_debounce_ms": 50,
+    "toggle_on_modifiers_press": {
+      "control": true,
+      "shift": false,
+      "alt": false,
+      "platform": false,
+      "function": false
+    }
   },
+  "languages": {
+    "TypeScript": {
+      "prettier": { "allowed": true },
+      "language_servers": ["!eslint", "vtsls"]
+    }
+  },
+  "lsp": {},
   "language_models": {
     "openai": {
       "api_url": "http://192.168.100.4:11434/v1",

@@ -4,7 +4,7 @@ return {
     event = "VeryLazy",
     -- branch = "cmp_blink_compat",
     build = "make",
-    -- enabled = false,
+    enabled = true,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
@@ -129,7 +129,7 @@ return {
       },
     },
     config = function(_, opts)
-      vim.keymap.set("i", "<M-y>", function()
+      vim.keymap.set("i", "<M-z>", function()
         require("avante").get_suggestion():suggest()
       end, {
         desc = "Request suggestion",

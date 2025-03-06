@@ -42,7 +42,20 @@
   // },
   {
     "label": "Lazygit",
-    "command": "alacritty -e 'lazygit'",
+    "command": "ghostty -e 'lazygit'",
+    "args": [],
+    "env": {},
+    "reveal": "never",
+    "hide": "always",
+    "shell": {
+      "program": "zsh"
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "Flutter BuildRunner Watch",
+    "command": "flutter pub run build_runner watch --delete-conflicting-outputs",
     "args": [],
     "env": {},
     "reveal": "never",

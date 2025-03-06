@@ -3,7 +3,7 @@ return {
   --enabled = false,
   keys = {
     {
-      "-",
+      "+",
       function()
         Snacks.picker.explorer()
       end,
@@ -60,6 +60,7 @@ return {
         fuzzy = true,
         frecency = true, -- frecency bonus
       },
+      -- ui_select = true,
       debug = {
         scores = true,
       },
