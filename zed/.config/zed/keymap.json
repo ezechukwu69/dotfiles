@@ -36,8 +36,8 @@
   {
     "context": "Editor && (showing_code_actions || showing_completions)",
     "bindings": {
-      "up": "editor::ContextMenuPrev",
-      "shift-tab": "editor::ContextMenuPrev",
+      "up": "editor::ContextMenuLast",
+      "shift-tab": "editor::ContextMenuLast",
       "down": "editor::ContextMenuNext",
       "tab": "editor::ContextMenuNext",
       "pageup": "editor::ContextMenuFirst",
@@ -63,8 +63,8 @@
   {
     "context": "Picker || menu",
     "bindings": {
-      "up": "menu::SelectPrev",
-      "shift-tab": "menu::SelectPrev",
+      "up": "menu::SelectLast",
+      "shift-tab": "menu::SelectLast",
       "down": "menu::SelectNext",
       "tab": "menu::SelectNext"
     }
@@ -104,9 +104,9 @@
       "space g b": "editor::ToggleGitBlame",
       "space b n": "pane::ActivateNextItem",
       "] b": "pane::ActivateNextItem",
-      "space b p": "pane::ActivatePrevItem",
-      "[ b": "pane::ActivatePrevItem",
-      "space x D": "editor::GoToPrevDiagnostic",
+      "space b p": "pane::ActivateLastItem",
+      "[ b": "pane::ActivateLastItem",
+      "space x D": "editor::GoToPreviousDiagnostic",
       "space x d": "editor::GoToDiagnostic",
       "space b d": "pane::CloseActiveItem"
       // "space e": "workspace::ToggleLeftDock",
@@ -138,6 +138,13 @@
     "bindings": {
       "tab": "editor::AcceptEditPrediction",
       "alt-l": null
+    }
+  },
+  {
+    "context": "vim_mode == normal || vim_mode == visual",
+    "bindings": {
+      "s": "vim::PushSneak",
+      "shift-s": "vim::PushSneakBackward"
     }
   }
 ]
