@@ -10,24 +10,6 @@ local function configure_keymaps()
   vim.cmd([[cab cc CodeCompanion]])
 end
 
----@alias ConfigureOpenaiAdapter fun(url: string, api_key: string, model: string, chat_url: string?)
-local configure_openai_compatible_adapter = function(url, api_key, model, chat_url)
-  local env = {
-    url = url,
-    api_key = api_key,
-    chat_url = chat_url or "/v1/chat/completions",
-  }
-
-  return require("codecompanion.adapters").extend("openai_compatible", {
-    env = env,
-    schema = {
-      model = {
-        default = model,
-      },
-    },
-  })
-end
-
 local function configure_opts()
   local opts = {
     display = {
@@ -41,7 +23,7 @@ local function configure_opts()
       },
       diff = {
         enabled = true,
-        provider = "mini_diff",
+        provider = "default",
       },
     },
     opts = {

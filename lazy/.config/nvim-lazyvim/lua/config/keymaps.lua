@@ -42,6 +42,10 @@ map({ "i" }, "jj", function()
   vim.cmd.stopinsert()
 end, { desc = "Escape from insert", nowait = true })
 
+-- Diff Keymaps
+vim.keymap.set("n", "]c", "<cmd>diffget!<CR>", { desc = "Diff Get" })
+vim.keymap.set("n", "[c", "<cmd>diffput!<CR>", { desc = "Diff Put" })
+
 -- Toggle exception breakpoint
 -- local function toggle_exception_breakpoint()
 --   local breakpoints = dap.list_breakpoints()
