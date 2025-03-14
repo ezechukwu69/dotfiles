@@ -14,3 +14,15 @@
 --     Snacks.dim()
 --   end,
 -- })
+--
+
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+  group = vim.api.nvim_create_augroup("lsp_attach", {
+    clear = true,
+  }),
+  callback = function(event)
+    if vim.lsp.get_clients({ bufnr = event.buf }) ~= nil then
+      vim.lsp.codelens.refresh()
+    end
+  end,
+})
