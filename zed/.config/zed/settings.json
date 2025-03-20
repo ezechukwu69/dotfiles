@@ -15,6 +15,7 @@
     "version": "2",
     "enable_experimental_live_diffs": true
   },
+  "load_direnv": "shell_hook",
   "file_finder": {
     "modal_max_width": "xlarge"
   },
@@ -117,6 +118,9 @@
   "features": {
     "edit_prediction_provider": "zed"
   },
+  "edit_predictions": {
+    "mode": "subtle"
+  },
   "vim_mode": true,
   "vim": {
     "use_multiline_find": true,
@@ -149,7 +153,7 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
-    "dark": "Ayu Dark"
+    "dark": "Catppuccin Mocha (Blue Blur+)"
   },
   "show_background": true
 }

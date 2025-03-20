@@ -1,10 +1,18 @@
 { config, pkgs, ... }:
-
+let 
+  unstable = import <nixpkgs> {};
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "ezechukwu69";
   home.homeDirectory = "/home/ezechukwu69";
+  nix = {
+      package = pkgs.nix; # Or nixUnstable if needed
+      settings = {
+        experimental-features = [ "nix-command" "flakes" ];
+      };
+    };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -17,14 +25,14 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with unstable; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.neovide
-    pkgs.nettools
-    pkgs.devbox
-    pkgs.asdf
-    pkgs.gthumb
+    nettools
+    devbox
+    asdf
+    gthumb
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -135,6 +143,7 @@ ssh-add ~/.ssh/id_ed25519 2> /dev/null
 alias v="lvim"
 alias et="emacs -nw"
 alias e="emacs"
+eval "$(devbox global shellenv --init-hook)"
 # alias zed="zeditor"
 export BUNDLE_PATH=~/.gems
 . /opt/asdf-vm/asdf.sh &> /dev/null

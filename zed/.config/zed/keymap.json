@@ -20,6 +20,10 @@
     }
   },
   {
+    "context": "multi",
+    "bindings": {}
+  },
+  {
     "context": "Dock || !Terminal",
     "bindings": {
       "alt-f": "workspace::ToggleLeftDock",
@@ -57,6 +61,18 @@
           "task_name": "Lazygit"
         }
       ],
+      "space G S": "git::StageAll",
+      "space G U": "git::UnstageAll",
+      "space G m": "git::GenerateCommitMessage",
+      "space G u": "git::UnstageFile",
+      "space G s": "git::StageFile",
+      "space G P": "git::Push",
+      "space G p": "git::Pull",
+      "space G c": "git::Commit",
+      "space G d": "git::Diff",
+      "space G b": "git::Branch",
+      "space G R": "git::Restore",
+      "space G r": "git::RestoreFile",
       "ctrl-c": "editor::Copy"
     }
   },
