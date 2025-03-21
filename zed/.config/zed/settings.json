@@ -43,7 +43,8 @@
   },
   "git": {
     "inline_blame": {
-      "enabled": true
+      "enabled": true,
+      "show_commit_summary": true
     }
   },
   "tabs": {
@@ -109,7 +110,7 @@
   },
   "tab_bar": {
     "show_nav_history_buttons": false,
-    "show": false,
+    "show": true,
     "show_tab_bar_buttons": false
   },
   "buffer_font_features": {

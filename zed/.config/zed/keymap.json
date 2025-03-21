@@ -40,8 +40,8 @@
   {
     "context": "Editor && (showing_code_actions || showing_completions)",
     "bindings": {
-      "up": "editor::ContextMenuLast",
-      "shift-tab": "editor::ContextMenuLast",
+      "up": "editor::ContextMenuPrevious",
+      "shift-tab": "editor::ContextMenuPrevious",
       "down": "editor::ContextMenuNext",
       "tab": "editor::ContextMenuNext",
       "pageup": "editor::ContextMenuFirst",
@@ -117,7 +117,8 @@
       "space f t": "terminal_panel::ToggleFocus",
       "space f f": "file_finder::Toggle",
       "*": "pane::DeploySearch",
-      "space g b": "editor::ToggleGitBlame",
+      "-": "project_panel::ToggleFocus",
+      "space g b": "git::Blame",
       "space b n": "pane::ActivateNextItem",
       "] b": "pane::ActivateNextItem",
       "space b p": "pane::ActivateLastItem",
