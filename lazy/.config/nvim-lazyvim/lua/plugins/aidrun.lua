@@ -28,15 +28,18 @@ return {
 
     require("aidrun").setup({
       options = {
-        model = "gemini/gemini-2.0-flash-exp",
+        model = "gemini/gemini-2.0-flash",
         vim = true,
         auto_lint = false,
         browser = false,
-        editor_model = "gemini/gemini-2.0-flash-exp",
+        editor_model = "gemini/gemini-2.0-flash",
         show_model_warnings = false,
         dark_mode = true,
         watch = true,
         edit_format = "diff-fenced",
+        additional_args = {
+          "--auto-accept-architect false",
+        },
       },
     })
   end,
