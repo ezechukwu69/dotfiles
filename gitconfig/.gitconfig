@@ -1,0 +1,34 @@
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential]
+	helper = store
+
+[user]
+  name = Ezechukwu Ojukwu
+  email = ezechukwu69@gmail.com
+
+[alias]
+    br = branch
+    co = commit -am
+    lol = log --graph --decorate --pretty=oneline
+    rel = reflog --date=iso
+    rep = reflog --date=iso --pretty
+    aa = add .
+
+[merge]
+    tool = nvimdiff
+    conflictstyle = diff3
+
+[mergetool]
+    keepBackup = false
+    prompt = false
+
+[mergetool "nvimdiff"]
+    layout = "LOCAL,BASE,REMOTE / MERGED"
+
+[rerere]
+    enabled = true
