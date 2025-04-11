@@ -155,7 +155,7 @@ else
   source ~/.zshrc_local
 fi
 bindkey -v
-fastfetch
+# fastfetch
     '';
   };
 

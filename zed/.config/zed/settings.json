@@ -8,9 +8,14 @@
 // command palette
 {
   "assistant": {
-    "default_model": {
+    "inline_assistant_model": {
       "provider": "zed.dev",
-      "model": "claude-3-7-sonnet-latest"
+      "model": "claude-3-5-sonnet-latest"
+    },
+    "default_profile": "write",
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "claude-3-5-sonnet"
     },
     "version": "2",
     "enable_experimental_live_diffs": true
@@ -20,8 +25,8 @@
     "modal_max_width": "xlarge"
   },
   "restore_on_startup": "none",
-  "auto_signature_help": true,
-  "show_signature_help_after_edits": true,
+  "auto_signature_help": false,
+  "show_signature_help_after_edits": false,
   "toolbar": {
     "breadcrumbs": true,
     "quick_actions": false,
@@ -110,7 +115,7 @@
   },
   "tab_bar": {
     "show_nav_history_buttons": false,
-    "show": true,
+    "show": false,
     "show_tab_bar_buttons": false
   },
   "buffer_font_features": {
@@ -120,7 +125,7 @@
     "edit_prediction_provider": "zed"
   },
   "edit_predictions": {
-    "mode": "subtle"
+    "mode": "eager"
   },
   "vim_mode": true,
   "vim": {
@@ -139,9 +144,10 @@
   "buffer_line_height": {
     "custom": 1.7
   },
-  // "terminal": {
-  //   "font_family": "Iosevka Nerd Font"
-  // },
+  "terminal": {
+    "font_family": "Iosevka Nerd Font",
+    "dock": "right"
+  },
   "cursor_blink": false,
   "scrollbar": {
     "show": "never"
@@ -149,12 +155,13 @@
   "project_panel": {
     "folder_icons": true,
     "show": "always",
-    "show_diagnostics": "all"
+    "show_diagnostics": "all",
+    "dock": "right"
   },
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
-    "dark": "Catppuccin Mocha (Blue Blur+)"
+    "dark": "Gruvbox Dark"
   },
   "show_background": true
 }

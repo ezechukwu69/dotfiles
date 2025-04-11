@@ -26,8 +26,8 @@
   {
     "context": "Dock || !Terminal",
     "bindings": {
-      "alt-f": "workspace::ToggleLeftDock",
-      "alt-r": "workspace::ToggleRightDock"
+      "alt-l": "workspace::ToggleRightDock",
+      "alt-h": "workspace::ToggleLeftDock"
     }
   },
   {
@@ -45,7 +45,8 @@
       "down": "editor::ContextMenuNext",
       "tab": "editor::ContextMenuNext",
       "pageup": "editor::ContextMenuFirst",
-      "pagedown": "editor::ContextMenuLast"
+      "pagedown": "editor::ContextMenuLast",
+      "ctrl-s": "editor::ShowSignatureHelp"
     }
   },
   {
@@ -61,6 +62,10 @@
           "task_name": "Lazygit"
         }
       ],
+      "space g a": "agent::Keep",
+      "space g A": "agent::KeepAll",
+      "space g R": "agent::RejectAll",
+      "space g r": "agent::Reject",
       "space G S": "git::StageAll",
       "space G U": "git::UnstageAll",
       "space G m": "git::GenerateCommitMessage",
@@ -111,11 +116,12 @@
       "g o": "editor::GoToTypeDefinition",
       "space c S": "project_symbols::Toggle",
       "space c s": "outline::Toggle",
-      "space c l": "project_symbols::Toggle",
+      "alt-l": "workspace::ToggleRightDock",
+      "alt-h": "workspace::ToggleLeftDock",
       "space c d": "diagnostics::Deploy",
       "space f b": "tab_switcher::Toggle",
-      "space f t": "terminal_panel::ToggleFocus",
       "space f f": "file_finder::Toggle",
+      "space f m": "vim::ToggleMarksView",
       "*": "pane::DeploySearch",
       "-": "project_panel::ToggleFocus",
       "space g b": "git::Blame",
@@ -125,7 +131,13 @@
       "[ b": "pane::ActivateLastItem",
       "space x D": "editor::GoToPreviousDiagnostic",
       "space x d": "editor::GoToDiagnostic",
-      "space b d": "pane::CloseActiveItem"
+      "space b d": "pane::CloseActiveItem",
+      "space r t": "terminal_panel::ToggleFocus",
+      "space r f": "project_panel::ToggleFocus",
+      "space r o": "outline_panel::ToggleFocus",
+      "space r c": "collab_panel::ToggleFocus",
+      "space r g": "git_panel::ToggleFocus",
+      "space r a": "assistant::ToggleFocus"
       // "space e": "workspace::ToggleLeftDock",
       // "space r": "workspace::ToggleRightDock"
     }
