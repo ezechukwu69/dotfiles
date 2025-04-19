@@ -1,3 +1,8 @@
 #!/bin/bash
 
+# User watcher command "https://github.com/samuelcolvin/watchfiles"
+# install with pip or uv
+# for uv use
+# uv tool install watchfiles
+
 watchfiles "kill -USR1 $(cat /tmp/flutter.pid)" ./lib/*
