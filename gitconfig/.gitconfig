@@ -32,3 +32,5 @@
 
 [rerere]
     enabled = true
+[core]
+	longpaths = true

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Extract emulator lines, skipping headers and footers
+emulators=$(flutter emulators | awk '/^Id\s+•/{p=1; next} /^To run an emulator/{p=0} p' | grep -v '^\s*$')
+
+# Check if any emulators are found
+if [ -z "$emulators" ]; then
+  echo "No emulators found."
+  exit 1
+fi
+
+# Use fzf to select an emulator
+selected=$(echo "$emulators" | fzf --ansi --prompt="Select an emulator: ")
+
+# Check if a selection was made
+if [ -z "$selected" ]; then
+  echo "No emulator selected."
+  exit 1
+fi
+
+# Extract the emulator ID (assumed to be the first word)
+emulator_id=$(echo "$selected" | awk '{print $1}')
+
+# Launch the selected emulator
+flutter emulators --launch "$emulator_id"

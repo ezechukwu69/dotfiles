@@ -65,5 +65,41 @@
     },
     "use_new_terminal": false,
     "allow_concurrent_runs": false
+  },
+  {
+    "label": "flutter watcher",
+    "command": "fwatcher",
+    "tags": ["flutter-watch"],
+    "reveal": "never",
+    "hide": "always",
+    "shell": {
+      "program": "zsh"
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "flutter runner",
+    "command": "frunner",
+    "tags": ["flutter-run-watch"],
+    "reveal": "never",
+    "hide": "always",
+    "shell": {
+      "program": "zsh"
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
+  },
+  {
+    "label": "flutter emulators",
+    "command": "femulators",
+    "tags": ["flutter-emulators"],
+    "reveal": "always",
+    "hide": "always",
+    "shell": {
+      "program": "zsh"
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false
   }
 ]

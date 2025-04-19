@@ -109,16 +109,17 @@
       "space c a": "editor::ToggleCodeActions",
       "space c f": "editor::Format",
       "space c r": "editor::Rename",
-      "g r": "editor::FindAllReferences",
+      // "g r": "editor::FindAllReferences",
       // "g d": "editor::GoToDefinitionSplit",
       "alt-k": "editor::MoveLineUp",
       "alt-j": "editor::MoveLineDown",
-      "g o": "editor::GoToTypeDefinition",
+      // "g o": "editor::GoToTypeDefinition",
       "space c S": "project_symbols::Toggle",
       "space c s": "outline::Toggle",
       "alt-l": "workspace::ToggleRightDock",
       "alt-h": "workspace::ToggleLeftDock",
-      "space c d": "diagnostics::Deploy",
+      "space c d": "editor::GoToDiagnostic",
+      "space s d": "diagnostics::Deploy",
       "space f b": "tab_switcher::Toggle",
       "space f f": "file_finder::Toggle",
       "space f m": "vim::ToggleMarksView",
@@ -158,14 +159,14 @@
   {
     "context": "Editor && edit_prediction",
     "bindings": {
-      "tab": "editor::AcceptEditPrediction",
+      "alt-y": "editor::AcceptEditPrediction",
       "alt-l": null
     }
   },
   {
     "context": "Editor && edit_prediction_conflict",
     "bindings": {
-      "tab": "editor::AcceptEditPrediction",
+      "alt-y": "editor::AcceptEditPrediction",
       "alt-l": null
     }
   },
