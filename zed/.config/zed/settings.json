@@ -12,9 +12,7 @@
       "host": "coder.magenta-canid-87.main",
       "projects": [
         {
-          "paths": [
-            "~/config"
-          ]
+          "paths": ["~/config"]
         }
       ]
     }
@@ -34,14 +32,14 @@
           "create_file": true,
           "delete_path": false,
           "diagnostics": true,
-          "find_replace_file": true,
+          "edit_file": true,
           "fetch": true,
           "list_directory": true,
           "move_path": true,
           "now": true,
           "path_search": true,
           "read_file": true,
-          "regex_search": true,
+          "grep": true,
           "rename": true,
           "symbol_info": true,
           "thinking": true,
@@ -54,12 +52,12 @@
     },
     "inline_assistant_model": {
       "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
+      "model": "claude-3-7-sonnet-latest"
     },
     "default_profile": "write",
     "default_model": {
-      "provider": "google",
-      "model": "gemini-2.5-pro-exp-03-25"
+      "provider": "zed.dev",
+      "model": "claude-3-7-sonnet-thinking-latest"
     },
     "version": "2",
     "enable_experimental_live_diffs": true
@@ -201,7 +199,7 @@
     "folder_icons": true,
     "show": "always",
     "show_diagnostics": "all",
-    "dock": "right"
+    "dock": "left"
   },
   "theme": {
     "mode": "system",
