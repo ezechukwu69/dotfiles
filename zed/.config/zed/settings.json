@@ -18,6 +18,13 @@
       ]
     }
   ],
+  "context_servers": {
+    "mcp-server-figma": {
+      "settings": {
+        "figma_api_key": ""
+      }
+    }
+  },
   "assistant": {
     "profiles": {
       "write": {
