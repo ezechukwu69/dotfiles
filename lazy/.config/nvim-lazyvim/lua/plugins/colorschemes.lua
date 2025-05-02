@@ -26,6 +26,7 @@ return {
       })
     end,
   },
+  { "EdenEast/nightfox.nvim" }, -- lazy
   {
     "vague2k/vague.nvim",
     enabled = true,
@@ -91,7 +92,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "vague",
+      colorscheme = "ayu-dark",
     },
   },
 }

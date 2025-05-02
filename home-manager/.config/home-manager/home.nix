@@ -121,6 +121,16 @@ in
       dbr = "devbox rm";
       dbs = "devbox services";
       dbS = "devbox shell";
+      gd="git diff";
+      gc="git c";
+      ga="git a";
+      gl="git l";
+      gs="git s";
+      gp="git push";
+      gu="git pull";
+      gC="git clone";
+      gi="git init";
+      gap="git add -p";
       v="nvim";
       et="emacs -nw";
       e="emacs";
@@ -129,7 +139,13 @@ in
     };
 
     initExtra = ''
+# export OLLAMA_NUM_GPU=999
+# export SYCL_CACHE_PERSISTENT=1
+# export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
+# export ONEAPI_DEVICE_SELECTOR=level_zero:0
+
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/installations/ollama-ipex:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/installations/flutter/bin:$PATH"

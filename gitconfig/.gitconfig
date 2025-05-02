@@ -12,12 +12,18 @@
   email = ezechukwu69@gmail.com
 
 [alias]
-    br = branch
-    co = commit -am
-    lol = log --graph --decorate --pretty=oneline
-    rel = reflog --date=iso
-    rep = reflog --date=iso --pretty
-    aa = add .
+    b = branch
+    c = commit -am
+  l = log --all --graph --pretty=format:'%C(magenta)%h %C(white) %an %ar%C(auto) %D%n%s%n' --abbrev-commit
+    r = reflog --date=iso
+    R = reflog --date=iso --pretty
+    a = add .
+    s = status
+
+[status]
+  branch = true
+  showUntrackedFiles = all
+  showStash = true
 
 [merge]
     tool = nvimdiff
@@ -34,3 +40,16 @@
     enabled = true
 [core]
 	longpaths = true
+
+[url "git@github.com:"]
+	insteadOf = "gh:"
+
+[url "git@github.com:"]
+	insteadOf = "ez:"
+
+[diff]
+  context = 3
+  renames = copies
+  interhunkLines = 10
+[log]
+  graphColors = blue,yellow,cyan,magenta,green,red

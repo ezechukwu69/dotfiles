@@ -30,23 +30,38 @@ return {
       },
     },
     opts = {
-      provider = "gemini2",
-      enable_cursor_planning_mode = "gemini2",
-      auto_suggestions_provider = "gemini2",
+      provider = "gemini",
+      mode = "agentic",
+      enable_cursor_planning_mode = nil,
+      gemini = {
+        model = "gemini-2.5-flash-preview-04-17",
+      },
+
+      disabled_tools = {
+        "read_file",
+        "rename_file",
+        "rename_dir",
+        "list_files",
+        "bash",
+        "delete_file",
+        "delete_dir",
+        "search_files",
+      },
+      system_prompt = function()
+        local hub = require("mcphub").get_hub_instance()
+        return hub:get_active_servers_prompt()
+      end,
+      custom_tools = function()
+        return {
+          require("mcphub.extensions.avante").mcp_tool(),
+        }
+      end,
       vendors = {
         xAI = {
           __inherited_from = "openai",
           endpoint = "https://api.x.ai/v1",
           model = "grok-beta",
           api_key_name = "XAI_API_KEY",
-        },
-        gemini2 = {
-          __inherited_from = "gemini",
-          model = "gemini-2.0-flash",
-        },
-        ["gemini1-5"] = {
-          __inherited_from = "gemini",
-          model = "gemini-1.5-flash",
         },
         qwen_local = {
           __inherited_from = "openai",
@@ -74,7 +89,8 @@ return {
         auto_apply_diff_after_generation = false,
         support_paste_from_clipboard = true,
         minimize_diff = true, -- Whether to remove unchanged lines when applying a code block,
-        enable_cursor_planning_mode = true, -- Whether to enable Cursor Planning Mode. Default to false.
+        enable_token_counting = true, -- Whether to enable Cursor Planning Mode. Default to false.
+        enable_cursor_planning_mode = true, -- enable cursor planning mode!
       },
       mappings = {
         --- @class AvanteConflictMappings
@@ -119,21 +135,25 @@ return {
         },
       },
       web_search_engine = {
-        provider = "google",
+        provider = "tavily",
+      },
+      diff = {
+        list_opener = "copen",
+        override_timeoutlen = 500,
       },
       file_selector = {
         --- @alias FileSelectorProvider "native" | "fzf" | "telescope" | string
-        provider = "fzf",
+        provider = "snacks",
+        -- Options override for custom providers
+        provider_opts = {},
+      },
+      selector = {
+        provider = "snacks",
         -- Options override for custom providers
         provider_opts = {},
       },
     },
     config = function(_, opts)
-      vim.keymap.set("i", "<M-z>", function()
-        require("avante").get_suggestion():suggest()
-      end, {
-        desc = "Request suggestion",
-      })
       require("avante").setup(opts)
     end,
   },

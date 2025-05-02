@@ -23,3 +23,5 @@ emulator_id=$(echo "$selected" | awk '{print $1}')
 
 # Launch the selected emulator
 flutter emulators --launch "$emulator_id"
+
+sleep 5

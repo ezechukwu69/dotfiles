@@ -26,8 +26,8 @@
   {
     "context": "Dock || !Terminal",
     "bindings": {
-      "alt-l": "workspace::ToggleRightDock",
-      "alt-h": "workspace::ToggleLeftDock"
+      "alt-o": "workspace::ToggleRightDock",
+      "alt-i": "workspace::ToggleLeftDock"
     }
   },
   {
@@ -56,29 +56,32 @@
   {
     "context": "Editor && vim_mode == normal && !VimWaiting",
     "bindings": {
-      "space g g": [
-        "task::Spawn",
-        {
-          "task_name": "Lazygit"
-        }
-      ],
-      "space g a": "agent::Keep",
-      "space g A": "agent::KeepAll",
-      "space g R": "agent::RejectAll",
-      "space g r": "agent::Reject",
-      "space G S": "git::StageAll",
-      "space G U": "git::UnstageAll",
-      "space G m": "git::GenerateCommitMessage",
-      "space G u": "git::UnstageFile",
-      "space G s": "git::StageFile",
-      "space G P": "git::Push",
-      "space G p": "git::Pull",
-      "space G c": "git::Commit",
-      "space G D": "git::Diff",
-      "space G d": "editor::ToggleSelectedDiffHunks",
-      "space G b": "git::Branch",
-      "space G R": "git::Restore",
-      "space G r": "git::RestoreFile",
+      // "space g g": [
+      //   "task::Spawn",
+      //   {
+      //     "task_name": "Lazygit"
+      //   }
+      // ],
+      "space t o": "task::Spawn",
+      "space t r": "task::Rerun",
+      "space g a a": "agent::Keep",
+      "space g a A": "agent::KeepAll",
+      "space g a R": "agent::RejectAll",
+      "space g a r": "agent::Reject",
+      "space g g S": "git::StageAll",
+      "space g g U": "git::UnstageAll",
+      "space g g m": "git::GenerateCommitMessage",
+      "space g g u": "git::UnstageFile",
+      "space g g s": "git::StageAndNext",
+      "space g g t": "git::ToggleStaged",
+      "space g g P": "git::Push",
+      "space g g p": "git::Pull",
+      "space g g c": "git::Commit",
+      "space g g D": "git::Diff",
+      "space g g d": "editor::ToggleSelectedDiffHunks",
+      "space g g b": "git::Branch",
+      "space g g r": "git::Restore",
+      "space g g R": "git::RestoreFile",
       "ctrl-c": "editor::Copy"
     }
   },
@@ -110,18 +113,15 @@
       "space c a": "editor::ToggleCodeActions",
       "space c f": "editor::Format",
       "space c r": "editor::Rename",
-      // "g r": "editor::FindAllReferences",
-      // "g d": "editor::GoToDefinitionSplit",
       "alt-k": "editor::MoveLineUp",
       "alt-j": "editor::MoveLineDown",
-      // "g o": "editor::GoToTypeDefinition",
       "space c S": "project_symbols::Toggle",
       "space c s": "outline::Toggle",
-      "alt-l": "workspace::ToggleRightDock",
-      "alt-h": "workspace::ToggleLeftDock",
+      "alt o": "workspace::ToggleRightDock",
+      "alt i": "workspace::ToggleLeftDock",
       "space c d": "editor::GoToDiagnostic",
       "space s d": "diagnostics::Deploy",
-      "space f b": "tab_switcher::Toggle",
+      "space f b": "tab_switcher::ToggleAll",
       "space f f": "file_finder::Toggle",
       "space f m": "vim::ToggleMarksView",
       "*": "pane::DeploySearch",
@@ -160,15 +160,13 @@
   {
     "context": "Editor && edit_prediction",
     "bindings": {
-      "alt-y": "editor::AcceptEditPrediction",
-      "alt-l": null
+      "alt-l": "editor::AcceptEditPrediction"
     }
   },
   {
     "context": "Editor && edit_prediction_conflict",
     "bindings": {
-      "alt-y": "editor::AcceptEditPrediction",
-      "alt-l": null
+      "alt-l": "editor::AcceptEditPrediction"
     }
   },
   {

@@ -1,0 +1,61 @@
+modmap:
+  - name: Modifier keys
+    remap:
+      capslock: esc
+      dot:
+        held: [shift_l, grave] # Required, also accepts arrays
+        alone: dot # Required, also accepts arrays
+        alone_timeout_millis: 250
+
+keymap:
+  - name: Default mode
+    mode: default
+    remap:
+      capslock: {set_mode: alt}
+      super-d:
+        remap:
+          e:
+            launch: ["zed"]
+          b:
+            launch: ["zen-browser"]
+          t:
+            launch: ["ghostty"]
+          d:
+            launch: ["bash", "-c", "docker", "desktop", "start"]
+
+  - name: Alt Mode
+    mode: alt
+    remap:
+      capslock: { set_mode: default }
+  # a:
+  #   held: SUPER_L # Required, also accepts arrays
+  #   alone: a # Required, also accepts arrays
+  #   alone_timeout_millis: 250
+  #     s:
+  #       held: ALT_L # Required, also accepts arrays
+  #       alone: s # Required, also accepts arrays
+  #       alone_timeout_millis: 250
+  #     d:
+  #       held: SHIFT_L # Required, also accepts arrays
+  #       alone: d # Required, also accepts arrays
+  #       alone_timeout_millis: 250
+  #     f:
+  #       held: CONTROL_L # Required, also accepts arrays
+  #       alone: f # Required, also accepts arrays
+  #       alone_timeout_millis: 250
+  #     j:
+  #       held: CONTROL_L # Required, also accepts arrays
+  #       alone: j # Required, also accepts arrays
+  #       alone_timeout_millis: 250
+  #     k:
+  #       held: SHIFT_L # Required, also accepts arrays
+  #       alone: k # Required, also accepts arrays
+  #       alone_timeout_millis: 250
+  #     l:
+  #       held: ALT_L # Required, also accepts arrays
+  #       alone: l # Required, also accepts arrays
+  #       alone_timeout_millis: 250
+  #     semicolon:
+  #       held: SUPER_L # Required, also accepts arrays
+  #       alone: semicolon # Required, also accepts arrays
+  #       alone_timeout_millis: 250 

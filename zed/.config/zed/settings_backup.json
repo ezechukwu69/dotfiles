@@ -38,7 +38,7 @@
           "list_directory": true,
           "move_path": true,
           "now": true,
-          "find_path": true,
+          "path_search": true,
           "read_file": true,
           "grep": true,
           "rename": true,
@@ -47,36 +47,18 @@
           "web_search": true,
           "open": true
         },
-        "enable_all_context_servers": false,
-        "context_servers": {
-          "mcp-server-figma": {
-            "tools": {
-              "download_figma_images": true,
-              "get_figma_data": true
-            }
-          },
-          "mcp-server-sequential-thinking": {
-            "tools": {
-              "sequentialthinking": true
-            }
-          },
-          "mcp-server-context7": {
-            "tools": {
-              "resolve-library-id": true,
-              "get-library-docs": true
-            }
-          }
-        }
+        "enable_all_context_servers": true,
+        "context_servers": {}
       }
     },
     "inline_assistant_model": {
-      "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
+      "provider": "google",
+      "model": "gemini-2.5-flash-preview-04-17"
     },
     "default_profile": "write",
     "default_model": {
-      "provider": "google",
-      "model": "gemini-2.5-flash-preview-04-17"
+      "provider": "lmstudio",
+      "model": "deepseek-r1-distill-qwen-7b"
     },
     "version": "2",
     "enable_experimental_live_diffs": true
@@ -84,11 +66,6 @@
   "load_direnv": "shell_hook",
   "file_finder": {
     "modal_max_width": "small"
-  },
-  "indent_guides": {
-    "enabled": true,
-    "coloring": "indent_aware",
-    "background_coloring": "disabled"
   },
   "restore_on_startup": "last_workspace",
   "auto_signature_help": false,
@@ -140,7 +117,14 @@
     "show_other_hints": true,
     "show_background": true,
     "edit_debounce_ms": 400,
-    "scroll_debounce_ms": 50
+    "scroll_debounce_ms": 50,
+    "toggle_on_modifiers_press": {
+      "control": true,
+      "shift": false,
+      "alt": false,
+      "platform": false,
+      "function": false
+    }
   },
   "languages": {
     "TypeScript": {
@@ -150,13 +134,15 @@
   },
   "lsp": {},
   "language_models": {
-    "ollama": {
-      "api_url": "http://localhost:11434",
+    "openai": {
+      "api_url": "http://192.168.100.4:11434/v1",
+      "version": "1",
+      "low_speed_timeout_in_seconds": 120,
       "available_models": [
         {
-          "name": "qwen2.5-coder",
-          "display_name": "qwen 2.5 coder 16K",
-          "max_tokens": 14000
+          "provider": "openai",
+          "name": "llama-3.2-3b-instruct",
+          "max_tokens": 4096
         }
       ]
     }
@@ -167,8 +153,7 @@
     "show_tab_bar_buttons": false
   },
   "buffer_font_features": {
-    "calt": true,
-    "liga": true
+    "calt": true
   },
   "features": {
     "edit_prediction_provider": "zed"

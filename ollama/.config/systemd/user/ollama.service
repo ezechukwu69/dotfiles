@@ -1,0 +1,13 @@
+[Unit]
+Description=Ollama service
+Documentation=https://github.com/intel/ipex-llm/blob/main/docs/mddocs/Quickstart/ollama_portable_zip_quickstart.md
+
+[Service]
+Environment=PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin
+WorkingDirectory=/home/ezechukwu69/installations/ollama-ipex
+Type=simple
+ExecStart=/bin/zsh -c "./start-ollama.sh"
+Restart=no
+
+[Install]
+WantedBy=default.target

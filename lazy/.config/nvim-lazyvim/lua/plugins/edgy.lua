@@ -44,24 +44,24 @@ return {
       ft = "dapui_console",
     })
 
-    table.insert(opts.right, {
-      title = "Avante",
-      ft = "Avante",
-    })
-    table.insert(opts.right, {
-      title = "Avante Selected Files",
-      ft = "AvanteSelectedFiles",
-      size = {
-        height = 3,
-      },
-    })
-    table.insert(opts.right, {
-      title = "Avante Input",
-      ft = "AvanteInput",
-      size = {
-        height = 7,
-      },
-    })
+    -- table.insert(opts.right, {
+    --   title = "Avante",
+    --   ft = "Avante",
+    -- })
+    -- table.insert(opts.right, {
+    --   title = "Avante Selected Files",
+    --   ft = "AvanteSelectedFiles",
+    --   size = {
+    --     height = 3,
+    --   },
+    -- })
+    -- table.insert(opts.right, {
+    --   title = "Avante Input",
+    --   ft = "AvanteInput",
+    --   size = {
+    --     height = 7,
+    --   },
+    -- })
     table.insert(opts.right, {
       title = "CodeCompanion",
       ft = "codecompanion",

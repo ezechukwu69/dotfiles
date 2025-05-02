@@ -23,13 +23,22 @@ local function configure_opts()
       },
       diff = {
         enabled = true,
-        provider = "default",
+        provider = "mini_diff",
       },
     },
     opts = {
       log_level = "DEBUG",
     },
-
+    extensions = {
+      mcphub = {
+        callback = "mcphub.extensions.codecompanion",
+        opts = {
+          show_result_in_chat = true, -- Show the mcp tool result in the chat buffer
+          make_vars = true, -- make chat #variables from MCP server resources
+          make_slash_commands = true, -- make /slash_commands from MCP server prompts
+        },
+      },
+    },
     strategies = {
       chat = {
         adapter = "gemini2",
@@ -79,13 +88,6 @@ local function configure_opts()
       },
     },
     adapters = {
-      -- ["gemini1.5-flash"] = function()
-      --   return require("codecompanion.adapters").extend("gemini", {
-      --     env = {
-      --       api_key = "GEMINI_API_KEY",
-      --     },
-      --   })
-      -- end,
       ["gemini"] = function()
         return require("codecompanion.adapters").extend("gemini", {
           env = {
@@ -107,16 +109,11 @@ local function configure_opts()
           },
           schema = {
             model = {
-              default = "gemini-2.0-flash",
+              default = "gemini-2.5-flash-preview-04-17",
             },
           },
         })
       end,
-      -- gemini2 = configure_openai_compatible_adapter(
-      --   "https://openrouter.ai/api",
-      --   os.getenv("OPENROUTER_API_KEY"),
-      --   "google/gemini-2.0-flash-exp:free"
-      -- ),
     },
   }
   return opts
