@@ -11,12 +11,14 @@
     "bindings": {
       "ctrl-w l": "workspace::ActivateNextPane",
       "ctrl-w h": "workspace::ActivatePreviousPane",
+      "ctrl-w q": "pane::CloseAllItems",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-k": "workspace::ActivatePaneUp",
       "ctrl-j": "workspace::ActivatePaneDown",
       "alt-d": "pane::CloseActiveItem",
-      "alt-h": "workspace::ToggleBottomDock"
+      "alt-h": "workspace::ToggleBottomDock",
+      "ctrl-t": ["task::Spawn", { "task_name": "terminal" }]
     }
   },
   {
@@ -45,8 +47,7 @@
       "down": "editor::ContextMenuNext",
       "tab": "editor::ContextMenuNext",
       "pageup": "editor::ContextMenuFirst",
-      "pagedown": "editor::ContextMenuLast",
-      "ctrl-s": "editor::ShowSignatureHelp"
+      "pagedown": "editor::ContextMenuLast"
     }
   },
   {
@@ -121,6 +122,7 @@
       "alt i": "workspace::ToggleLeftDock",
       "space c d": "editor::GoToDiagnostic",
       "space s d": "diagnostics::Deploy",
+      "space s g": "pane::DeploySearch",
       "space f b": "tab_switcher::ToggleAll",
       "space f f": "file_finder::Toggle",
       "space f m": "vim::ToggleMarksView",

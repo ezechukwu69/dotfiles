@@ -101,5 +101,37 @@
     },
     "use_new_terminal": false,
     "allow_concurrent_runs": false
+  },
+  {
+    "label": "terminal",
+    "command": "ghostty",
+    "tags": ["terminal-spawn"],
+    "reveal": "never",
+    "hide": "always",
+    "shell": {
+      "program": "zsh"
+    },
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true
+  },
+  {
+    "label": "Open NVIM",
+    "command": "ghostty -e 'nvim $ZED_FILE'",
+    "tags": ["open-nvim"],
+    "reveal": "never",
+    "hide": "always",
+    "shell": "system",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true
+  },
+  {
+    "label": "JJ watch",
+    "command": "ghostty -e 'zsh -c jjw'",
+    "tags": ["jj-watch"],
+    "reveal": "never",
+    "hide": "always",
+    "shell": "system",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": true
   }
 ]

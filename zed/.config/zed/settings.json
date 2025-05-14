@@ -18,42 +18,29 @@
       ]
     }
   ],
-  "context_servers": {
-    "mcp-server-figma": {
-      "settings": {
-        "figma_api_key": ""
-      }
-    }
-  },
-  "assistant": {
+  "context_servers": { },
+  "agent": {
+    "stream_edits": true,
     "profiles": {
       "write": {
-        "name": "Write",
         "tools": {
-          "create_directory": true,
-          "terminal": true,
-          "batch_tool": true,
-          "code_actions": true,
-          "code_symbols": true,
-          "contents": true,
           "copy_path": true,
-          "create_file": true,
+          "create_directory": true,
           "delete_path": false,
           "diagnostics": true,
           "edit_file": true,
           "fetch": true,
+          "find_path": true,
+          "grep": true,
           "list_directory": true,
           "move_path": true,
           "now": true,
-          "find_path": true,
+          "open": true,
           "read_file": true,
-          "grep": true,
-          "rename": true,
-          "symbol_info": true,
-          "thinking": true,
-          "web_search": true,
-          "open": true
+          "terminal": true,
+          "thinking": true
         },
+        "name": "Write",
         "enable_all_context_servers": false,
         "context_servers": {
           "mcp-server-figma": {
@@ -83,7 +70,7 @@
     "default_profile": "write",
     "default_model": {
       "provider": "google",
-      "model": "gemini-2.5-flash-preview-04-17"
+      "model": "gemini-2.5-pro-exp-03-25"
     },
     "version": "2",
     "enable_experimental_live_diffs": true
@@ -158,12 +145,19 @@
   "lsp": {},
   "language_models": {
     "ollama": {
-      "api_url": "http://localhost:11434",
       "available_models": [
         {
-          "name": "qwen2.5-coder",
-          "display_name": "qwen 2.5 coder 16K",
-          "max_tokens": 14000
+          "display_name": "qwen3 coder",
+          "keep_alive": 60,
+          "max_tokens": 4000,
+          "name": "qwen3:4b"
+        },
+        {
+          "supports_tools": true,
+          "display_name": "deepseek coder",
+          "keep_alive": 60,
+          "max_tokens": 4000,
+          "name": "deepseek-r1:8b"
         }
       ]
     }
@@ -190,8 +184,24 @@
     "toggle_relative_line_numbers": true,
     "default_mode": "normal"
   },
-  "ui_font_size": 13.5,
-  "buffer_font_size": 13,
+  "ui_font_size": 15,
+  "buffer_font_size": 13.5,
+  "diagnostics": {
+    "include_warnings": true,
+    "inline": {
+      "enabled": true
+    }
+  },
+  "active_pane_modifiers": {
+    "inactive_opacity": 0.5,
+    "magnification": 1.1
+  },
+  "centered_layout": {
+    "left_padding": 0,
+    "right_padding": 0
+  },
+
+  "agent_font_size": 15,
   "relative_line_numbers": true,
   "base_keymap": "VSCode",
   "ui_font_family": "Monaspace Neon",

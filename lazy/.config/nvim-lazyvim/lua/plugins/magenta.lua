@@ -1,7 +1,7 @@
 return {
   "dlants/magenta.nvim",
   lazy = false, -- you could also bind to <leader>mt
-  enabled = false,
+  enabled = true,
   build = "npm install --frozen-lockfile",
   opts = {
     provider = "anthropic",

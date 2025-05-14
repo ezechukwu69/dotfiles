@@ -149,7 +149,9 @@
   :config
   ;; OPTIONAL configuration
   (setq
-   gptel-model 'gemini-2.0-flash
+   ;; gptel-model 'gemini-2.0-flash
+   ;; gptel-model 'gemini-2.5-flash-preview-04-17
+   gptel-model 'gemini-2.5-pro-preview-05-06
    gptel-backend (gptel-make-gemini "Gemini"
                    :key (getenv "GEMINI_API_KEY")
                    :stream t)))

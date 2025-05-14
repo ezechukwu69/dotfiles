@@ -135,6 +135,7 @@ in
       et="emacs -nw";
       e="emacs";
       geminiai="aider --model gemini/gemini-2.0-flash --vim --no-attribute-author --no-attribute-committer --no-attribute-commit-message-author --no-attribute-commit-message-committer --watch-files --no-auto-commits --no-dirty-commits --edit-format diff-fenced --no-auto-lint --architect";
+      jjw="watch -c -t -n 1 jj";
       # zed="zeditor";
     };
 
@@ -143,7 +144,8 @@ in
 # export SYCL_CACHE_PERSISTENT=1
 # export SYCL_PI_LEVEL_ZERO_USE_IMMEDIATE_COMMANDLISTS=1
 # export ONEAPI_DEVICE_SELECTOR=level_zero:0
-
+export MANPAGER='nvim +Man!'
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/installations/ollama-ipex:$PATH"
 export PATH="$HOME/bin:$PATH"

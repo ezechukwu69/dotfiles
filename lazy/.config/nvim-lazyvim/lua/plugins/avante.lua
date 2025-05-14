@@ -89,8 +89,7 @@ return {
         auto_apply_diff_after_generation = false,
         support_paste_from_clipboard = true,
         minimize_diff = true, -- Whether to remove unchanged lines when applying a code block,
-        enable_token_counting = true, -- Whether to enable Cursor Planning Mode. Default to false.
-        enable_cursor_planning_mode = true, -- enable cursor planning mode!
+        -- enable_token_counting = true, -- Whether to enable Cursor Planning Mode. Default to false.
       },
       mappings = {
         --- @class AvanteConflictMappings

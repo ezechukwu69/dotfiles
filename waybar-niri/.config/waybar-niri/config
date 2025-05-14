@@ -1,13 +1,38 @@
 {
   // BAR SETTINGS
     "layer": "top",
-    "position": "bottom",
+    "position": "top",
+    "margin-top": 2,
+    "margin-left": 5,
+    "margin-right": 5,
 
     // MODULES
-    "modules-left": ["custom/logo", "niri/workspaces", "custom/music"],
-    "modules-center": ["clock", "custom/weather", "niri/window"],
-    "modules-right": ["tray", "niri/language", "pulseaudio", "custom/powermenu"],
+    "modules-left": ["custom/logo", "custom/music", "niri/window"],
+    "modules-center": ["privacy", "niri/workspaces", "custom/weather", "custom/archupdate"],
+    "modules-right": ["group/group-power", "pulseaudio", "clock", "custom/powermenu"],
 
+    "group/group-power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false,
+        },
+        "modules": [
+            "custom/utils",
+            "tray", // First element is the "group leader" and won't ever be hidden
+            "niri/language",
+            "idle_inhibitor",
+        ]
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": " ",
+            "deactivated": " "
+        }
+    },
 
     // LOGO
     "custom/logo": {
@@ -16,12 +41,38 @@
       "tooltip": false
     },
 
+    "cpu": {
+        "interval": 1,
+        "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+        "format-icons": [
+              "<span color='#69ff94'>▁</span>", // green
+              "<span color='#2aa9ff'>▂</span>", // blue
+              "<span color='#f8f8f2'>▃</span>", // white
+              "<span color='#f8f8f2'>▄</span>", // white
+              "<span color='#ffffa5'>▅</span>", // yellow
+              "<span color='#ffffa5'>▆</span>", // yellow
+              "<span color='#ff9977'>▇</span>", // orange
+              "<span color='#dd532e'>█</span>"  // red
+        ]
+    },
+
 
     "custom/micro": {
       "exec": "sleep 0.1 && ~/.config/waybar-niri/micro.sh",
       "restart-interval": 1,
       "on-click": "~/.config/waybar-niri/micro1.sh",
       "tooltip": false
+    },
+
+    "bluetooth": {
+      "format": " {status}",
+      "format-connected": " {device_alias}",
+      "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+      // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+      "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+      "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+      "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+      "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
     },
 
 
@@ -39,7 +90,10 @@
       "tooltip": false
     },
 
-
+    "custom/utils": {
+      "format": "󰇙",
+      "tooltip": false
+    },
 
 
     "custom/weather": {
@@ -56,11 +110,43 @@
       "exec": "~/.config/waybar-niri/music.sh",
       "tooltip": false,
       "hide-empty-text": true,
-      "max-length": 60,
+      "max-length": 20,
       "on-click-middle": "playerctl play-pause",
       "on-click": "playerctl previous",
       "on-click-right": "playerctl next"
+    },
 
+    "custom/archupdate": {
+      "format": "{} updates available",
+      "exec": "paru -Qu | wc -l",
+      "interval": 30,
+      "tooltip": false,
+      "hide-empty-text": true,
+      "max-length": 20,
+      "on-click": "ghostty -e 'paru -Syu'",
+    },
+
+    "privacy": {
+      "icon-spacing": 4,
+      "icon-size": 18,
+      "transition-duration": 250,
+      "modules": [
+        {
+          "type": "screenshare",
+          "tooltip": true,
+          "tooltip-icon-size": 24
+        },
+        {
+          "type": "audio-out",
+          "tooltip": true,
+          "tooltip-icon-size": 24
+        },
+        {
+          "type": "audio-in",
+          "tooltip": true,
+          "tooltip-icon-size": 24
+        }
+      ]
     },
 
     // TRAY
@@ -71,7 +157,7 @@
 
     // CLOCK
     "clock": {
-      "format": "{:%b %d %H:%M}",
+      "format": "{:%I:%m %p}",
       "format-alt": "{:%A, %d %B, %Y (%R)}"
     },
 
@@ -100,7 +186,7 @@
       "format": "{}",
       "icon": true,
       "seperate-outputs": true,
-      "max-length": 60
+      "max-length": 20
     },
 
     // niri KEYBOARD LAYOUT
@@ -113,7 +199,7 @@
 
     // WORKSPACES
     "niri/workspaces": {
-      "format": "{name}",
+      "format": "{}",
       "on-click": "activate",
       "sort-by-number": true
     },

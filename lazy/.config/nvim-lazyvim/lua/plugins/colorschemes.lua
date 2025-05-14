@@ -11,7 +11,6 @@ return {
     priority = 1000,
     -- opts = {},
   },
-
   {
     "Shatur/neovim-ayu",
     lazy = false,
@@ -88,11 +87,15 @@ return {
       })
     end,
   },
-
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    priority = 1000,
+  },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "ayu-dark",
+      colorscheme = "oxocarbon",
     },
   },
 }
