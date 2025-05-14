@@ -54,7 +54,7 @@ return {
     },
     picker = {
       layout = {
-        preset = "ivy",
+        preset = "telescope", -- "ivy" | "vscode" | "select" | "sidebar" | "top" | "left" | "right" | "default" | "telescope" | "dropdown"
       },
       matcher = {
         fuzzy = true,
@@ -65,6 +65,48 @@ return {
         scores = true,
       },
       layouts = {
+        telescope = {
+          reverse = false,
+          layout = {
+            box = "horizontal",
+            backdrop = false,
+            width = 0.8,
+            height = 0.9,
+            border = "none",
+            {
+              box = "vertical",
+              { win = "list", title = " Results ", title_pos = "center", border = "rounded" },
+              { win = "input", height = 1, border = "rounded", title = "{title} {live} {flags}", title_pos = "center" },
+            },
+            {
+              win = "preview",
+              title = "{preview:Preview}",
+              width = 0.45,
+              border = "rounded",
+              title_pos = "center",
+            },
+          },
+        },
+        default = {
+          layout = {
+            backdrop = false,
+            row = 1,
+            width = 0.8,
+            min_width = 80,
+            height = 0.8,
+            border = "rounded",
+            box = "horizontal",
+            {
+              box = "vertical",
+              border = "rounded",
+              title = "{title} {live} {flags}",
+              title_pos = "center",
+              { win = "list", border = "bottom" },
+              { win = "input", height = 1, border = "top" },
+            },
+            { win = "preview", title = "{preview}", width = 0.4, border = "rounded" },
+          },
+        },
         ivy = {
           layout = {
             box = "vertical",
@@ -84,7 +126,7 @@ return {
           },
         },
         vscode = {
-          preview = true,
+          preview = "main",
           layout = {
             backdrop = false,
             row = 1,
@@ -108,7 +150,7 @@ return {
           follow_file = true,
           auto_close = true,
           jump = { close = false },
-          layout = { preset = "ivy", preview = false },
+          -- layout = { preset = "ivy", preview = false },
         },
       },
     },

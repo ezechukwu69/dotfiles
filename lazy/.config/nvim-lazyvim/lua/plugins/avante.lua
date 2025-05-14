@@ -140,12 +140,6 @@ return {
         list_opener = "copen",
         override_timeoutlen = 500,
       },
-      file_selector = {
-        --- @alias FileSelectorProvider "native" | "fzf" | "telescope" | string
-        provider = "snacks",
-        -- Options override for custom providers
-        provider_opts = {},
-      },
       selector = {
         provider = "snacks",
         -- Options override for custom providers

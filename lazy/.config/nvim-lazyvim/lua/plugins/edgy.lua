@@ -17,7 +17,7 @@ return {
       left = { size = 30 },
       right = { size = 50 },
       bottom = { size = 10 },
-      top = { size = 10 },
+      top = { size = 15 },
     }
     table.insert(opts.left, {
       title = "DapUI stacks",
@@ -47,24 +47,27 @@ return {
     -- table.insert(opts.right, {
     --   title = "Avante",
     --   ft = "Avante",
+    --   size = {
+    --     height = 1,
+    --   },
     -- })
     -- table.insert(opts.right, {
     --   title = "Avante Selected Files",
     --   ft = "AvanteSelectedFiles",
-    --   size = {
-    --     height = 3,
-    --   },
+    --   -- size = {
+    --   --   height = 3,
+    --   -- },
     -- })
     -- table.insert(opts.right, {
     --   title = "Avante Input",
     --   ft = "AvanteInput",
-    --   size = {
-    --     height = 7,
-    --   },
+    --   -- size = {
+    --   --   height = 3,
+    --   -- },
     -- })
-    table.insert(opts.right, {
-      title = "CodeCompanion",
-      ft = "codecompanion",
-    })
+    -- table.insert(opts.right, {
+    --   title = "CodeCompanion",
+    --   ft = "codecompanion",
+    -- })
   end,
 }
