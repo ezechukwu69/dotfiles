@@ -1,0 +1,22 @@
+#!/bin/env zsh
+
+SERVERNAME=$1
+
+if [ -z "$SERVERNAME" ]; then
+  echo "Usage: nvvm [--connect] <servername>"
+  exit 1
+fi
+
+
+if [ "$SERVERNAME" = "--connect" ]; then
+  if [ -z "$2" ]; then
+    echo "Usage: nvvm --connect <servername>"
+    exit 1
+  fi
+  CONNECT_PATH=/run/user/$(id -u)/$2
+  echo "Connecting to $CONNECT_PATH"
+  $(which nvim) --server $CONNECT_PATH --remote-ui
+else
+  CONNECT_PATH=/run/user/$(id -u)/$SERVERNAME
+  $(which nvim) --listen $CONNECT_PATH --headless &
+fi

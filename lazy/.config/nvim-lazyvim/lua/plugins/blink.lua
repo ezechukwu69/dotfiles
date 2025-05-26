@@ -83,7 +83,7 @@ return {
         "snippets",
         "buffer",
         "lazydev",
-        "codecompanion",
+        -- "codecompanion",
       },
       -- cmdline = {},
       providers = {

@@ -10,9 +10,9 @@ return {
       desc = "Open Snacks explorer (Directory of Current File)",
     },
     {
-      "gs",
+      "g0",
       function()
-        Snacks.picker.lsp_symbols()
+        Snacks.picker.lsp_symbols({})
       end,
       desc = "Open Snacks lsp symbols",
     },

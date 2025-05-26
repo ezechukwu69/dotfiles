@@ -44,15 +44,23 @@ background=#1e1e2e
 color=#b4befe
 separator=false
 #STEP=5%
+#
+[i3-focusedwindow]
+label= 󰖲
+command=~/.config/i3blocks/modules/i3-focusedwindow/i3-focusedwindow 20
+interval=persist
+background=#1e1e2e
+separator=false
 
 ## Memory usage
 ##
 ## The type defaults to "mem" if the instance is not specified.
-[arch-update-click]
+[arch-update]
 # INTERFACE=wlan0
 label= 󰚰  
 color=#cdd6f4
-interval=60
+signal=10
+interval=10
 background=#1e1e2e
 separator=false
 
@@ -86,11 +94,11 @@ separator=false
 ##
 ## If the instance is not specified, use the interface used for default route.
 ## The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-#[iface]
-##IFACE=wlan0
-#color=#00FF00
-#interval=10
-#separator=false
+# [iface]
+# #IFACE=wlan0
+# color=#00FF00
+# interval=10
+# separator=false
 
 [wifi]
 # INTERFACE=wlan0

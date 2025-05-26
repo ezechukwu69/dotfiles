@@ -156,6 +156,15 @@
                    :key (getenv "GEMINI_API_KEY")
                    :stream t)))
 
+(use-package! emigo
+  :config
+  (emigo-enable) ;; Starts the background process automatically
+  :custom
+  ;; Encourage using OpenRouter with Deepseek
+  (emigo-model "openrouter/deepseek/deepseek-chat-v3-0324")
+  (emigo-base-url "https://openrouter.ai/api/v1")
+  (emigo-api-key (getenv "OPENROUTER_API_KEY")))
+
 ;; (use-package! supermaven
 ;;   :hook (prog-mode . supermaven-mode))
 ;; we recommend using use-package to organize your init.el

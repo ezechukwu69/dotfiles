@@ -120,17 +120,21 @@
     "tags": ["open-nvim"],
     "reveal": "never",
     "hide": "always",
-    "shell": "system",
+    "shell": {
+      "program": "zsh"
+    },
     "use_new_terminal": true,
     "allow_concurrent_runs": true
   },
   {
     "label": "JJ watch",
-    "command": "ghostty -e 'zsh -c jjw'",
+    "command": "ghostty -e 'watch -c -t -n 1 jj'",
     "tags": ["jj-watch"],
     "reveal": "never",
     "hide": "always",
-    "shell": "system",
+    "shell": {
+      "program": "zsh"
+    },
     "use_new_terminal": true,
     "allow_concurrent_runs": true
   }

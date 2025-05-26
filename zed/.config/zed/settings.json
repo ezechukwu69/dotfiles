@@ -7,21 +7,83 @@
 // custom settings, run `zed: open default settings` from the
 // command palette
 {
-  "icon_theme": "Material Icon Theme",
   "ssh_connections": [
     {
-      "host": "coder.magenta-canid-87.main",
+      "host": "deeneedapi.devpod",
       "projects": [
         {
-          "paths": ["~/config"]
+          "paths": [
+            "/workspace"
+          ]
+        },
+        {
+          "paths": [
+            "/workspaces"
+          ]
+        }
+      ]
+    },
+    {
+      "host": "deeneedweb.devpod",
+      "projects": [
+        {
+          "paths": [
+            "/workspaces/deeneedweb"
+          ]
         }
       ]
     }
   ],
-  "context_servers": { },
+  "icon_theme": "Material Icon Theme",
+  "dap": {
+    "Dart": {
+      "binary": "/home/ezechukwu69/installations/flutter/bin/dart"
+    }
+  },
+  "context_servers": {},
   "agent": {
     "stream_edits": true,
     "profiles": {
+      "full-stack-dev": {
+        "name": "Full Stack Dev",
+        "tools": {
+          "copy_path": false,
+          "create_directory": false,
+          "delete_path": false,
+          "diagnostics": true,
+          "edit_file": true,
+          "fetch": true,
+          "find_path": true,
+          "grep": false,
+          "list_directory": false,
+          "move_path": false,
+          "now": false,
+          "open": false,
+          "read_file": false,
+          "terminal": false,
+          "thinking": true
+        },
+        "enable_all_context_servers": false,
+        "context_servers": {
+          "mcp-server-figma": {
+            "tools": {
+              "download_figma_images": true,
+              "get_figma_data": true
+            }
+          },
+          "mcp-server-sequential-thinking": {
+            "tools": {
+              "sequentialthinking": false
+            }
+          },
+          "mcp-server-context7": {
+            "tools": {
+              "resolve-library-id": false,
+              "get-library-docs": false
+            }
+          }
+        }
+      },
       "write": {
         "tools": {
           "copy_path": true,
@@ -64,16 +126,15 @@
       }
     },
     "inline_assistant_model": {
-      "provider": "zed.dev",
-      "model": "claude-3-5-sonnet-latest"
+      "provider": "copilot_chat",
+      "model": "gpt-4o"
     },
     "default_profile": "write",
     "default_model": {
       "provider": "google",
-      "model": "gemini-2.5-pro-exp-03-25"
+      "model": "gemini-2.5-flash-preview-04-17"
     },
-    "version": "2",
-    "enable_experimental_live_diffs": true
+    "version": "2"
   },
   "load_direnv": "shell_hook",
   "file_finder": {
@@ -149,15 +210,9 @@
         {
           "display_name": "qwen3 coder",
           "keep_alive": 60,
-          "max_tokens": 4000,
-          "name": "qwen3:4b"
-        },
-        {
-          "supports_tools": true,
-          "display_name": "deepseek coder",
-          "keep_alive": 60,
-          "max_tokens": 4000,
-          "name": "deepseek-r1:8b"
+          "max_tokens": 16000,
+          "name": "qwen3:4b",
+          "supports_tools": true
         }
       ]
     }
@@ -172,7 +227,7 @@
     "liga": true
   },
   "features": {
-    "edit_prediction_provider": "zed"
+    "edit_prediction_provider": "supermaven"
   },
   "edit_predictions": {
     "mode": "eager"
@@ -182,10 +237,11 @@
     "use_multiline_find": true,
     "use_smartcase_find": true,
     "toggle_relative_line_numbers": true,
-    "default_mode": "normal"
+    "default_mode": "normal",
+    "use_system_clipboard": "always"
   },
   "ui_font_size": 15,
-  "buffer_font_size": 13.5,
+  "buffer_font_size": 14,
   "diagnostics": {
     "include_warnings": true,
     "inline": {
@@ -204,17 +260,20 @@
   "agent_font_size": 15,
   "relative_line_numbers": true,
   "base_keymap": "VSCode",
-  "ui_font_family": "Monaspace Neon",
-  "buffer_font_family": "Monaspace Neon",
-  "ui_font_weight": 400,
-  "buffer_font_weight": 400,
+  "ui_font_family": "ZedMono Nerd Font",
+  "buffer_font_family": "ZedMono Nerd Font",
+  "ui_font_weight": 500,
+  "buffer_font_weight": 500,
   "buffer_line_height": {
-    "custom": 1.5
+    "custom": 1.6
   },
   "terminal": {
-    "font_family": "Monaspace Neon",
-    "dock": "right"
+    "font_family": "ZedMono Nerd Font",
+    "dock": "bottom"
   },
+  // "debugger": {
+  //   "dock": "left"
+  // },
   "cursor_blink": false,
   "scrollbar": {
     "show": "never"
@@ -228,7 +287,7 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
-    "dark": "Carbonfox"
+    "dark": "Gruvbox Dark"
   },
   "show_background": true
 }

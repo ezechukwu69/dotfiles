@@ -55,3 +55,6 @@
 
 ;; (package! codeium :recipe (:host github :repo "Exafunction/codeium.el"))
 (package! gptel)
+
+(package! emigo
+  :recipe (:host github :repo "MatthewZMD/emigo" :files (:defaults "*.py" "*.el")))

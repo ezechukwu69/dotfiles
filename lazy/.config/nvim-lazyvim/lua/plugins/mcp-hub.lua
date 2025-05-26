@@ -37,6 +37,7 @@ return {
       },
 
       --set this to true when using build = "bundled_build.lua"
+      -- build = "bundled_build.lua",
       use_bundled_binary = false, -- Uses bundled mcp-hub script instead of global installation
 
       --WARN: Use the custom setup if you can't use `npm install -g mcp-hub` or cant have `build = "bundled_build.lua"`

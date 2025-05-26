@@ -122,7 +122,7 @@ end
 return {
   "olimorris/codecompanion.nvim",
   event = "VeryLazy",
-  enabled = true,
+  enabled = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",

@@ -16,5 +16,3 @@ set diffopt+=iwhite    " Ignore whitespace
 set diffopt+=algorithm:patience  " Better diff algorithm
 set diffopt+=vertical
 ]])
-
--- set colorscheme

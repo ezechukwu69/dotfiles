@@ -129,7 +129,8 @@ msg = {'full_text': msg}
 if args.cache_updates:
     msg['_update_cache'] = '\n'.join(updates)
 
-print(json.dumps(msg))
+# print(json.dumps(msg))
+print(msg["full_text"] + " ")
 
 # if you don't use caching, show the new list of updates
 if not args.cache_updates and block_button in [2, 3]:
