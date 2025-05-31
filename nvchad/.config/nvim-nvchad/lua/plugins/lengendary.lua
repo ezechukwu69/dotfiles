@@ -8,7 +8,7 @@ return {
       { "<leader>sL", "<cmd>lua require('legendary').toggle()<cr>", { desc = "Legendary: Toggle Legendary" } },
     },
     config = function()
-      require("which-key").add {
+      require("which-key").add({
         {
           mode = "n",
           {
@@ -19,13 +19,14 @@ return {
             desc = "Legendary: Open Legendary",
           },
         },
-      }
-      require("legendary").setup {
+      })
+      require("legendary").setup({
         extensions = {
           lazy_nvim = true,
+          -- codecompanion = true,
           -- which_key = true,
         },
-      }
+      })
     end,
   },
 }

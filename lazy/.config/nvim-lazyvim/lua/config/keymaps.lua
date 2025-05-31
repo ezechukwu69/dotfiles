@@ -2,7 +2,6 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 --
-local dap = require("dap")
 
 local map = vim.keymap.set
 
@@ -14,6 +13,13 @@ local map = vim.keymap.set
 -- map("n", "<space>cr", function()
 --   require("nvchad.lsp.renamer")()
 -- end, { desc = "LSP document symbols" })
+
+-- map("n", "<leader>dz", function()
+--   require("dapui.elements.console").toggle({})
+-- end, {
+--   desc = "Toggle scopes"
+-- })
+--
 
 map("n", "<leader>h", function() end, { desc = "terminal new horizontal term" })
 

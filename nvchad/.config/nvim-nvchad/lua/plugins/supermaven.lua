@@ -4,14 +4,19 @@ return {
     -- opts = {
     --   windows = { ghost_text = { enabled = true } },
     -- },
-    event = "VeryLazy",
-    enabled = true,
+    -- enabled = false,
+    lazy = true,
+    event = "InsertEnter",
+    keys = {
+      {"<Esc>", "<Esc>", desc = "Escape"},
+    },
     opts = {
-      windows = { ghost_text = { enabled = true } },
+      -- windows = { ghost_text = { enabled = true } },
+      disable_inline_completion = false,
       keymaps = {
-        accept_suggestion = "<C-q>",
-        clear_suggestion = "<C-x>",
-        accept_word = "<C-y>",
+        accept_suggestion = "<M-l>",
+        clear_suggestion = "<C-[>",
+        accept_word = "<C-]>",
       }, -- handled by nvim-cmp / blink.cmp
     },
   },

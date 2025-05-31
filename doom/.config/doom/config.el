@@ -228,3 +228,11 @@
 ;;      (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
 ;;   (setq codeium/document/text 'my-codeium/document/text)
 ;;   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
+
+(setq gptel-functions
+      '(("runShellCommand"
+         :description "Run a shell command"
+         :parameters (:type "object"
+                      :properties ((cmd :type "string")))
+         :function (lambda (args)
+                     (shell-command-to-string (alist-get 'cmd arg))))))

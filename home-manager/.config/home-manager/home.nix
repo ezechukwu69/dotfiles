@@ -136,6 +136,7 @@ in
       e="emacs";
       geminiai="aider --model gemini/gemini-2.0-flash --vim --no-attribute-author --no-attribute-committer --no-attribute-commit-message-author --no-attribute-commit-message-committer --watch-files --no-auto-commits --no-dirty-commits --edit-format diff-fenced --no-auto-lint --architect";
       jjw="watch -c -t -n 1 jj";
+      nt="launch-new-zellij-tab";
       # zed="zeditor";
     };
 
@@ -162,6 +163,7 @@ eval $(ssh-agent) 2> /dev/null
 ssh-add ~/.ssh/id_ed25519 2> /dev/null
 alias v="lvim"
 alias et="emacs -nw"
+export MOZ_ENABLE_WAYLAND=1
 alias e="emacs"
 eval "$(devbox global shellenv --init-hook)"
 # alias zed="zeditor"
@@ -175,6 +177,9 @@ else
   source ~/.zshrc_local
 fi
 bindkey -v
+function launch-new-zellij-tab {
+  zellij action new-tab --layout default --cwd "$PWD" -n "$(basename "$PWD")"
+}
 # fastfetch
     '';
   };

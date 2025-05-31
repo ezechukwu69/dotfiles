@@ -24,7 +24,23 @@ return {
         },
         debugger = {
           enabled = true,
-          exception_breakpoints = {},
+          exception_breakpoints = { "raised", "user-unhandled" },
+        },
+        dev_tools = {
+          autostart = true,
+          auto_open_browser = true,
+        },
+        outline = {
+          auto_open = false,
+        },
+        lsp = {
+          color = { -- show the derived colours for dart variables
+            enabled = true, -- whether or not to highlight color variables at all, only supported on flutter >= 2.10
+            background = true, -- highlight the background
+            -- foreground = , -- highlight the foreground
+            virtual_text = true, -- show the highlight using virtual text
+            virtual_text_str = "■", -- the virtual text character to highlight
+          },
         },
         register_configurations = function(paths)
           require("dap").configurations.dart = {

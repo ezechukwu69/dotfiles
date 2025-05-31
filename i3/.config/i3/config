@@ -9,7 +9,7 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 # Set colors from Xresources
-# Change 'color7' and 'color2' to whatever colors you want i3 to use 
+# Change 'color7' and 'color2' to whatever colors you want i3 to use
 # from the generated scheme.
 # NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
 # it fails to get colors from Xresources.
@@ -228,7 +228,7 @@ mode "resize" {
 bindsym $mod+x mode "lock"
 
 mode "lock" {
-    bindsym l exec i3lock --ignore-empty-password 2>/dev/null, mode "default" 
+    bindsym l exec i3lock --ignore-empty-password 2>/dev/null, mode "default"
     bindsym p exec --no-startup-id sleep 1 && xset dpms force suspend , mode "default"
     bindsym s exec --no-startup-id sleep 1 && i3lock --ignore-empty-password 2>/dev/null && systemctl suspend , mode "default"
     bindsym h exec --no-startup-id sleep 1 && systemctl hibernate , mode "default"
@@ -240,6 +240,7 @@ bindsym $mod+i mode "layout"
 default_border pixel 0
 default_floating_border pixel 0
 for_window [class="^.*"] border pixel 2
+for_window [class="Ulauncher"] border none
 
 gaps inner 5
 gaps outer 5
