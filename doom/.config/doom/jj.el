@@ -38,9 +38,7 @@
    "remote: "
    (eze/my-presorted-completion-table
     (split-string
-     (shell-command-to-string jj-format) "\n" t)                                                            )
-   nil
-   t)
+     (shell-command-to-string jj-format) "\n" t)))
   )
 
 (defvar my-terminal-color-mode-map (make-sparse-keymap)
@@ -87,6 +85,7 @@
    (list (eze/jj--get-logs))))
 
 (defun eze/jj-focus-buffer ()
+  (interactive)
   (eze/show-terminal-colors "*Shell Command Output*")
   (message "Status displayed in *Shell Command Output* buffer.")
   )
@@ -161,14 +160,73 @@
   (eze/jj-focus-buffer)
   )
 
+(defun eze/jj-remote-add (name url)
+  "Add a remote repository with NAME and URL."
+  (interactive
+   (list
+    (read-string "Enter remote name: ")
+    (read-string "Enter remote url: ")))
+
+  (shell-command (format "jj git remote add %s %s" name url))
+  (eze/jj-focus-buffer)
+  )
+
+(defun eze/jj-remote-remove (name)
+  "Remove a remote repository with NAME."
+  (interactive
+   (list
+    (eze/jj--get-remotes)))
+
+  (shell-command (format "jj git remote remove %s" name))
+  (eze/jj-focus-buffer)
+  )
+
+(defun eze/jj-remote-rename(name new_name)
+  "Rename a remote repository from NAME to NEW_NAME."
+  (interactive
+   (list
+    (eze/jj--get-remotes)
+    (read-string "Enter new remote name: ")
+    ))
+
+  (shell-command (format "jj git remote rename %s %s" name new_name))
+  (eze/jj-focus-buffer)
+  )
+
+(defun eze/jj-remote-set-url(name url)
+  "Rename a remote repository from NAME to NEW_NAME."
+  (interactive
+   (list
+    (eze/jj--get-remotes)
+    (read-string "Enter new remote name: ")
+    ))
+
+  (shell-command (format "jj git remote set-url %s %s" name url))
+  (eze/jj-focus-buffer)
+  )
+
+(defun eze/jj-remote-list (remote)
+  "List all remotes"
+  (interactive
+   (list
+    (eze/jj--get-remotes)))
+  (message "%s" remote)
+  )
+
 (map!
  :leader
  :prefix "j"
  :n "l" #'eze/jj-view
  :n "d" #'eze/jj-describe
+ :n "f" #'eze/jj-focus-buffer
  :n "s" #'eze/jj-status
  :n "b s" #'eze/jj-set-bookmark
  :n "b p" #'eze/jj-push-bookmark
  :n "b P" #'eze/jj-push-new-bookmark
  :n "b a" #'eze/jj-push-all-tracked-bookmark
+ :n "r a" #'eze/jj-remote-add
+ :n "r r" #'eze/jj-remote-remove
+ :n "r n" #'eze/jj-remote-rename
+ :n "r u" #'eze/jj-remote-set-url
+ :n "r l" #'eze/jj-remote-list
  )
