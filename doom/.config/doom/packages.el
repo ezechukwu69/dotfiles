@@ -54,7 +54,14 @@
 ;;   :recipe (:host github :repo "crazywolf132/supermaven.el"))
 
 ;; (package! codeium :recipe (:host github :repo "Exafunction/codeium.el"))
-(package! gptel)
+(unpin! gptel)
+(package! gptel
+  :recipe (:host github :repo "karthink/gptel" :branch "master" :files (:defaults "*.el"))
+  )
 
+(package! eldoc :built-in t)
+(package! kanagawa-themes)
 (package! emigo
   :recipe (:host github :repo "MatthewZMD/emigo" :files (:defaults "*.py" "*.el")))
+
+(package! mcp)

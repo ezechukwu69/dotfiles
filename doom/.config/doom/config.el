@@ -1,4 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+(require 'cl-lib)
+(defmacro incf (place &optional delta)
+  `(cl-incf ,place ,delta))
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
 
@@ -31,7 +34,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tokyo-night)
+(setq doom-theme 'doom-gruvbox)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -113,22 +116,22 @@
 ;;         (typescript-mode . typescript-ts-mode)
 ;;         ))
 
-(use-package aider
-  :config
-  (setq aider-args
-        '("--model" "gemini/gemini-2.0-flash"
-          "--vim"
-          "--no-attribute-author"
-          "--no-attribute-committer"
-          "--no-attribute-commit-message-author"
-          "--no-attribute-commit-message-committer"
-          "--watch-files"
-          "--no-auto-commits"
-          "--no-dirty-commits"
-          "--edit-format" "diff-fenced"
-          "--no-auto-lint"
-          "--architect"
-          )))
+;; (use-package aider
+;;   :config
+;;   (setq aider-args
+;;         '("--model" "gemini/gemini-2.0-flash"
+;;           "--vim"
+;;           "--no-attribute-author"
+;;           "--no-attribute-committer"
+;;           "--no-attribute-commit-message-author"
+;;           "--no-attribute-commit-message-committer"
+;;           "--watch-files"
+;;           "--no-auto-commits"
+;;           "--no-dirty-commits"
+;;           "--edit-format" "diff-fenced"
+;;           "--no-auto-lint"
+;;           "--architect"
+;;           )))
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
@@ -148,13 +151,19 @@
 (use-package! gptel
   :config
   ;; OPTIONAL configuration
+
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
   (setq
    ;; gptel-model 'gemini-2.0-flash
    ;; gptel-model 'gemini-2.5-flash-preview-04-17
-   gptel-model 'gemini-2.5-pro-preview-05-06
+   ;; gptel-include-reasoning '
+   gptel-default-mode 'org-mode
+   gptel-model 'gemini-2.5-flash-preview-05-20
    gptel-backend (gptel-make-gemini "Gemini"
                    :key (getenv "GEMINI_API_KEY")
-                   :stream t)))
+                   :stream t))
+  )
 
 (use-package! emigo
   :config
@@ -164,6 +173,20 @@
   (emigo-model "openrouter/deepseek/deepseek-chat-v3-0324")
   (emigo-base-url "https://openrouter.ai/api/v1")
   (emigo-api-key (getenv "OPENROUTER_API_KEY")))
+
+(use-package! mcp
+  :after gptel
+  :custom (mcp-hub-servers
+           `(
+             ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/ezechukwu69/")))
+             ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+             ))
+  :config
+  (require 'mcp-hub)
+  (require 'gptel-integrations)
+  :hook
+  (after-init . mcp-hub-start-all-server)
+  )
 
 ;; (use-package! supermaven
 ;;   :hook (prog-mode . supermaven-mode))
@@ -228,11 +251,4 @@
 ;;      (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
 ;;   (setq codeium/document/text 'my-codeium/document/text)
 ;;   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
-
-(setq gptel-functions
-      '(("runShellCommand"
-         :description "Run a shell command"
-         :parameters (:type "object"
-                      :properties ((cmd :type "string")))
-         :function (lambda (args)
-                     (shell-command-to-string (alist-get 'cmd arg))))))
+(load! "jj.el")

@@ -5,6 +5,7 @@ local servers = {
   awk_ls = {},
   bashls = {},
   vtsls = {},
+  prismals = {},
 
   pyright = {
     settings = {
