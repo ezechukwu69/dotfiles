@@ -61,6 +61,7 @@
 
 (package! eldoc :built-in t)
 (package! kanagawa-themes)
+(package! expand-region)
 (package! emigo
   :recipe (:host github :repo "MatthewZMD/emigo" :files (:defaults "*.py" "*.el")))
 

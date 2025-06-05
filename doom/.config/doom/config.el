@@ -174,6 +174,11 @@
   (emigo-base-url "https://openrouter.ai/api/v1")
   (emigo-api-key (getenv "OPENROUTER_API_KEY")))
 
+(use-package! expand-region
+  :bind
+  ("M-=" . er/expand-region)
+  ("M--" . er/contract-region))
+
 (use-package! mcp
   :after gptel
   :custom (mcp-hub-servers
