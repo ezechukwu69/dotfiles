@@ -15,7 +15,7 @@
                  "Select a log: "
                  (eze/my-presorted-completion-table
                   (split-string
-                   (shell-command-to-string jj-logs-format) "\n" t)                                                            )
+                   (shell-command-to-string jj-logs-format) "\n" t))
                  ) "	")
   )
 
@@ -26,10 +26,12 @@
    "branch: "
    (eze/my-presorted-completion-table
     (split-string
-     (shell-command-to-string jj-branch-format) "\n" t)                                                            )
+     (shell-command-to-string jj-branch-format) "\n" t))
    nil
    t)
   )
+
+
 
 (defun eze/jj--get-remotes()
   "Get list of all remotes from jj."
@@ -76,13 +78,16 @@
       ;; Create a custom minor mode with high-precedence map
       (my-terminal-color-mode 1)
       (switch-to-buffer-other-frame (current-buffer))
+      (goto-char (point-max))
+      (recenter -1)
       ))
   )
 
-(defun eze/jj-view ()
+(defun eze/jj-view (log)
   "View logs from jj"
   (interactive
-   (list (eze/jj--get-logs))))
+   (list (eze/jj--get-logs)))
+  (message "%s" log))
 
 (defun eze/jj-focus-buffer ()
   (interactive)
@@ -98,6 +103,18 @@
     (eze/jj--get-remotes)))
   (let (
         (command (format "jj git push -b %s --remote %s" branch remote))
+        )
+    (shell-command command))
+  (eze/jj-focus-buffer)
+  )
+
+(defun eze/jj-diff (log)
+  "Push bookmark to remote"
+  (interactive
+   (list
+    (eze/jj--get-logs)))
+  (let (
+        (command (format "jj diff -r %s" (nth 0 log)))
         )
     (shell-command command))
   (eze/jj-focus-buffer)
@@ -217,9 +234,10 @@
  :leader
  :prefix "j"
  :n "l" #'eze/jj-view
- :n "d" #'eze/jj-describe
+ :n "m" #'eze/jj-describe
  :n "f" #'eze/jj-focus-buffer
  :n "s" #'eze/jj-status
+ :n "d" #'eze/jj-diff
  :n "b s" #'eze/jj-set-bookmark
  :n "b p" #'eze/jj-push-bookmark
  :n "b P" #'eze/jj-push-new-bookmark
