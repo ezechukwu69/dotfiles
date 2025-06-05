@@ -256,4 +256,7 @@
 ;;      (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
 ;;   (setq codeium/document/text 'my-codeium/document/text)
 ;;   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
+(setq which-key-use-C-h-commands t)
+(setq which-key-paging-prefixes '("C-x"))
+(setq which-key-paging-key "<f5>")
 (load! "jj.el")
