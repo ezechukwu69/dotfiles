@@ -61,6 +61,10 @@
 
 (package! eldoc :built-in t)
 (package! kanagawa-themes)
+(package! poet-theme)
+(package! stimmung-themes)
+(package! cherry-blossom-theme)
+(package! avy)
 (package! expand-region)
 (package! emigo
   :recipe (:host github :repo "MatthewZMD/emigo" :files (:defaults "*.py" "*.el")))

@@ -29,11 +29,21 @@ return {
       ['<C-j>'] = { 'select_next', 'fallback_to_mappings' },
       ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
       ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
-      ['<C-s>'] = { 'show_signature','hide_signature', 'fallback' },
+      ['<C-s>'] = { 'show_signature', 'hide_signature', 'fallback' },
     },
     sources = {
+      per_filetype = {
+        org = {
+          "orgmode",
+        }
+      },
       default = { 'lsp', 'path', 'snippets', 'buffer', 'digraphs', 'supermaven' },
       providers = {
+        orgmode = {
+          name = "Orgmode",
+          module = "orgmode.org.autocompletion.blink",
+          fallbacks = { "buffer" }
+        },
         supermaven = {
           name = "Supermaven",
           module = "blink.compat.source",

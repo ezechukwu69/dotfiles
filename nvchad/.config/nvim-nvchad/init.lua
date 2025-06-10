@@ -1,42 +1,25 @@
-vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+-- local function bootstrap(url, ref)
+--   local name = url:gsub(".*/", "")
+--   local path = vim.fn.stdpath [[data]] .. "/lazy/" .. name
+--
+--   if vim.fn.isdirectory(path) == 0 then
+--     print(name .. ": installing in data dir...")
+--
+--     vim.fn.system { "git", "clone", url, path }
+--     if ref then
+--       vim.fn.system { "git", "-C", path, "checkout", ref }
+--     end
+--
+--     vim.cmd [[redraw]]
+--     print(name .. ": finished installing")
+--   end
+--   vim.opt.runtimepath:prepend(path)
+-- end
+--
+-- bootstrap("https://github.com/udayvir-singh/tangerine.nvim")
+--
+-- -- Optional and only needed if you also want the macros
+-- bootstrap("https://github.com/udayvir-singh/hibiscus.nvim")
 
--- bootstrap lazy and all plugins
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
-if not vim.uv.fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  vim.fn.system { "git", "clone", "--filter=blob:none", repo, "--branch=stable", lazypath }
-end
-
-vim.opt.rtp:prepend(lazypath)
-
-local lazy_config = require "configs.lazy"
-
--- load plugins
-require("lazy").setup({
-  {
-    "NvChad/NvChad",
-    lazy = false,
-    branch = "v2.5",
-    import = "nvchad.plugins",
-  },
-
-  { import = "plugins" },
-}, lazy_config)
-
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
-dofile(vim.g.base46_cache .. "statusline")
-
-require "options"
-require "autocmds"
-
-vim.schedule(function()
-  require "mappings"
-end)
-vim.cmd[[
-  packadd cfilter
-  packadd matchit
-]]
+require "load"

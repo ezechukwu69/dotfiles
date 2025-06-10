@@ -9,7 +9,7 @@
     // MODULES
     "modules-left": ["custom/logo", "custom/music", "niri/window"],
     "modules-center": ["privacy", "niri/workspaces", "custom/weather", "custom/archupdate"],
-    "modules-right": ["group/group-power", "pulseaudio", "clock", "custom/powermenu"],
+    "modules-right": ["group/group-power", "pulseaudio", "clock", "tray", "custom/powermenu"],
 
     "group/group-power": {
         "orientation": "inherit",

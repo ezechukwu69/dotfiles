@@ -51,7 +51,7 @@ return {
     { "<leader>/",       function() Snacks.picker.files() end,                                   desc = "Grep (Root Dir)" },
     { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
     { "<leader><space>", function() Snacks.picker.files() end,                                   desc = "Find Files (Root Dir)" },
-    { "<leader>n",       function() Snacks.picker.notifications() end,                           desc = "Notification History" },
+    { "<leader>fn",      function() Snacks.picker.notifications() end,                           desc = "Notification History" },
     -- find
     { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
     { "<leader>fB",      function() Snacks.picker.buffers({ hidden = true, nofile = true }) end, desc = "Buffers (all)" },
@@ -93,7 +93,7 @@ return {
     { "<leader>su",      function() Snacks.picker.undo() end,                                    desc = "Undotree" },
     -- ui
     { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
-    { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+    { "<leader>un",      function() Snacks.notifier.hide() end,                                  desc = "Dismiss All Notifications" },
 
   },
   ---@type snacks.Config

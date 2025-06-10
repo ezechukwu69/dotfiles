@@ -1,4 +1,4 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 (require 'cl-lib)
 (defmacro incf (place &optional delta)
   `(cl-incf ,place ,delta))
@@ -34,7 +34,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox)
+(setq doom-theme 'doom-tomorrow-night)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -42,10 +42,11 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/org/"
+      org-agenda-files (directory-files-recursively org-directory "\\.org$")
+      org-roam-directory (file-truename "~/org/roam"))
 
-
-;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
 ;;   (after! PACKAGE
@@ -135,12 +136,12 @@
 
 ;; accept completion from copilot and fallback to company
 (use-package! copilot
-  :hook (prog-mode . copilot-mode)
+  :hook '((prog-mode . copilot-mode))
   :bind (:map copilot-completion-map
-              ("<tab>" . 'copilot-accept-completion)
-              ("TAB" . 'copilot-accept-completion)
-              ("C-TAB" . 'copilot-accept-completion-by-word)
-              ("C-<tab>" . 'copilot-accept-completion-by-word))
+              ("M-l" . #'copilot-accept-completion)
+              ("TAB" . #'copilot-accept-completion)
+              ("C-TAB" . #'copilot-accept-completion-by-word)
+              ("C-<tab>" . #'copilot-accept-completion-by-word))
   :config
   (add-to-list 'copilot-indentation-alist '(prog-mode  2))
   (add-to-list 'copilot-indentation-alist '(org-mode  2))
@@ -245,7 +246,7 @@
 ;;   ;;     (lambda ()
 ;;   ;;         (setq-local codeium/editor_options/tab_size 4)))
 
-;;   ;; You can overwrite all the codeium configs!
+;;   ;; you can overwrite all the codeium configs!
 ;;   ;; for example, we recommend limiting the string sent to codeium for better performance
 ;;   (defun my-codeium/document/text ()
 ;;     (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (min (+ (point) 1000) (point-max))))
@@ -256,7 +257,28 @@
 ;;      (buffer-substring-no-properties (max (- (point) 3000) (point-min)) (point))))
 ;;   (setq codeium/document/text 'my-codeium/document/text)
 ;;   (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
-(setq which-key-use-C-h-commands t)
-(setq which-key-paging-prefixes '("C-x"))
-(setq which-key-paging-key "<f5>")
+(setq which-key-use-C-h-commands t
+      which-key-paging-prefixes '("C-x")
+      which-key-paging-key "<f5>"
+      evil-snipe-scope 'buffer
+      avy-all-windows t)
+
+(map! :leader
+      :desc "Show project diagnostics"
+      :n "c X" #'flymake-show-project-diagnostics
+      )
+
+;; (defun eglot-request-workspace-diagnostics ()
+;;   "Request diagnostics for the current workspace."
+;;   (interactive)
+;;   (when (eglot-server-capable :workspace/diagnostics)
+;;     (jsonrpc-request (eglot--current-server)
+;;                      :workspace/diagnostics
+;;                      `(:identifier nil))))
+
+;; (add-hook 'after-save-hook
+;;           (lambda ()
+;;             (when (eglot-server-capable :workspace/diagnostics)
+;;               (eglot-request-workspace-diagnostics))))
+
 (load! "jj.el")

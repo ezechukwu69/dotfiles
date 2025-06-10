@@ -233,7 +233,7 @@ layout {
 }
 
 environment {
-    DISPLAY ":1"
+    DISPLAY ":0"
 }
 
 // Add lines like this to spawn processes at startup.
@@ -291,6 +291,38 @@ window-rule {
     default-column-width {}
     geometry-corner-radius 7
     clip-to-geometry true
+    border {
+      on
+      width 2
+    }
+}
+
+
+window-rule {
+    match app-id=r#"^Emacs$"#
+    open-on-workspace "emacs"
+    open-fullscreen true
+}
+
+window-rule {
+    match app-id=r#"^ulauncher$"#
+    match is-focused=true
+    match is-floating=true
+    draw-border-with-background false
+    default-floating-position x=0 y=30 relative-to="top"
+
+    focus-ring {
+      off
+    }
+
+    border {
+      off
+    }
+    
+    shadow {
+      off
+    }
+
 }
 
 // Example: block out two password managers from screen capture.
@@ -328,7 +360,9 @@ binds {
     //Mod+D { spawn "fuzzel"; }
     // Mod+D { spawn "~/.config/niri/drun.sh"; }
     Mod+D { spawn "kunkun" "toggle"; }
-    Mod+Space { spawn "rofi" "-show" "drun"; }
+    Mod+z { focus-workspace "emacs"; }
+    // Mod+Space { spawn "rofi" "-show" "drun"; }
+    Mod+Space { spawn "ulauncher"; }
     Mod+X { spawn "xwayland-satellite"; }
     Mod+W { spawn "~/.config/niri/reload_waybar.sh"; }
     Mod+P { spawn "~/.config/niri/run.sh"; }
@@ -487,7 +521,7 @@ binds {
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
 
     // Switches focus between the current and the previous workspace.
-    // Mod+Tab { focus-workspace-previous; }
+    Mod+Tab { focus-workspace-previous; }
 
     Mod+Comma  { consume-window-into-column; }
     Mod+Period { expel-window-from-column; }
@@ -537,3 +571,5 @@ binds {
     // moving the mouse or pressing any other key.
     //Mod+Shift+P { power-off-monitors; }
 }
+
+workspace "emacs"
