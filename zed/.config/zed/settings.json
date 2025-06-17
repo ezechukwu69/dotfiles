@@ -132,7 +132,7 @@
     "default_profile": "write",
     "default_model": {
       "provider": "google",
-      "model": "gemini-2.5-flash-preview-04-17"
+      "model": "gemini-2.5-flash-preview-latest"
     },
     "version": "2"
   },

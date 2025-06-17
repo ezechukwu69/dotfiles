@@ -132,11 +132,13 @@ in
       gi="git init";
       gap="git add -p";
       v="nvim";
-      et="emacs -nw";
       e="emacs";
       geminiai="aider --model gemini/gemini-2.0-flash --vim --no-attribute-author --no-attribute-committer --no-attribute-commit-message-author --no-attribute-commit-message-committer --watch-files --no-auto-commits --no-dirty-commits --edit-format diff-fenced --no-auto-lint --architect";
       jjw="watch -c -t -n 1 jj";
       nt="launch-new-zellij-tab";
+      ls="eza";
+      emacsn="emacs -nw";
+      man="tldr";
       # zed="zeditor";
     };
 

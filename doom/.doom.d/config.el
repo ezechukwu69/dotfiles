@@ -151,8 +151,21 @@
    gptel-model 'gemini-2.5-flash-preview-05-20
    gptel-backend (gptel-make-gemini "Gemini"
                    :key (getenv "GEMINI_API_KEY")
-                   :stream t))
-  )
+                   :stream t)))
+
+
+(use-package! aider
+  :config
+  (setq aider-args '("--model"
+                     "gemini/gemini-2.5-flash-preview-05-20"
+                     "--no-attribute-author"
+                     "--no-auto-commits"
+                     "--no-dirty-commits"
+                     "--architect"
+                     ""))
+
+  (require 'aider-doom))
+
 
 (use-package! expand-region
   :bind
@@ -163,14 +176,17 @@
   :after gptel
   :custom (mcp-hub-servers
            `(("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/lizqwer/MyProject/")))
-             ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-             ))
+             ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+
   :config
   (require 'mcp-hub)
   (require 'gptel-integrations)
   :hook
-  (after-init . mcp-hub-start-all-server)
-  )
+  (after-init . mcp-hub-start-all-server))
+
+
+(unless (display-graphic-p)
+  (corfu-terminal-mode +1))
 
 (setq which-key-use-C-h-commands t
       which-key-paging-prefixes '("C-x")
@@ -180,12 +196,36 @@
 
 (map! :leader
       :desc "Show project diagnostics"
-      :n "c X" #'flymake-show-project-diagnostics
-      )
+      :n "c X" #'flymake-show-project-diagnostics)
+
 
 (add-hook 'dart-mode-hook
           (lambda ()
-            (add-hook 'after-save-hook #'flutter-hot-reload nil 'make-local)))
+            (setq lsp-dart-dap-flutter-hot-reload-on-save t)))
+
+
+
+(add-hook 'prog-mode-hook #'completion-preview-mode)
+(setq lsp-dart-dap-flutter-hot-reload-on-save t)
+
+(setq corfu-preselect 'first
+      corfu-popupinfo-mode -1)
+
+
+(map!
+ :desc "Transient"
+ :n "C-f" #'transient-scroll-up
+ :n "C-b" #'transient-scroll-down
+ :n "C-j" #'transient-scroll-up
+ :n "C-k" #'transient-scroll-down)
+
+
+(map! :leader
+      :n "c l" #'aider-transient-menu)
+
+;; (map! :leader
+;;  :n "c f" #'eglot-format-buffer
+;; )
 
 (load! "jj.el")
 (load! "ai.el")

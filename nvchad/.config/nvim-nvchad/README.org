@@ -1,0 +1,4 @@
+#+property: header-args :tangle yes
+
+* NVChad
+

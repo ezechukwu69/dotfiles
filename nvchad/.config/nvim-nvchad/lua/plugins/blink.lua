@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  dependencies = { "supermaven-nvim", "saghen/blink.compat" },
+  dependencies = { "supermaven-nvim", "saghen/blink.compat", "nvim-orgmode/orgmode" },
   opts = {
     completion = {
       documentation = { auto_show = true },
@@ -37,13 +37,17 @@ return {
           "orgmode",
         }
       },
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'digraphs', 'supermaven' },
+      default = { 'lsp', 'path', 'snippets', 'buffer', 'digraphs', 'supermaven', "orgmode" },
       providers = {
         orgmode = {
           name = "Orgmode",
           module = "orgmode.org.autocompletion.blink",
           fallbacks = { "buffer" }
         },
+        -- orgmode = {
+        --   name = "orgmode",
+        --   module = "blink.compat.source",
+        -- },
         supermaven = {
           name = "Supermaven",
           module = "blink.compat.source",

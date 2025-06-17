@@ -1,11 +1,12 @@
 return {
   {
     "nvim-orgmode/orgmode",
-    event = "VeryLazy",
-    tag = "0.3.7",
+    ft = { 'org' },
+    tag = "0.6.0",
     dependencies = {
       {
         "chipsenkbeil/org-roam.nvim",
+        ft = { 'org' },
         tag = "0.1.1",
       },
       {
@@ -28,9 +29,10 @@ return {
     },
     config = function()
       local Menu = require("org-modern.menu")
+      local org = require('orgmode')
       require("orgmode").setup({
         org_agenda_files = { "~/org/agenda.org" },
-        org_default_notes_file = "~/org/personal.org",
+        org_default_notes_file = "~/org/agenda.org",
         ui = {
           menu = {
             handler = function(data)

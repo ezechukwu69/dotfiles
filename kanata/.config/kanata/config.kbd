@@ -4,24 +4,28 @@
 )
 
 (defsrc
-      esc
-      ;;grv
-      .
-      a s d f g h j k l scln
-      1 2 3 4 5 6 7 8 9 0
-      [ ]
-      ;;lalt spc ralt
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt rmet rctl
 )
 
 ;; default/base layer modifications always active
 (deflayer default
-      @esc
-      ;; @grv
-      @.
-      @a @s @d @f _ _ @j @k @l @scln
-      @1 @2 @3 @4 @5 @6 @7 @8 @9 @0
-      @[ @]
-      ;;esc _ bspc
+  @esc  @1    @2    @3    @4    @5    @6    @7    @8    @9    @0    -    =    bspc
+  @tab  q    w    e    r    t    y    u    i    o    p    [    ] \
+  @esc @a   @s   @d   @f    _   _    @j   @k   @l  @scln @'   ret
+  lsft z    x    c    v    b    n    m    ,    @.    /    rsft
+  lctl lmet lalt           spc            ralt _ rctl
+)
+
+(deflayer symbols
+  @esc  @1    @2    @3    @4    @5    @6    @7    @8    @9    @0    -    =    bspc
+  tab  S-1 S-2  S-3  S-4  S-5  S-6  S-7  S-8  S-9   S-0   S-[   S-] \
+  caps a   s   d   f    g   _    j   k   l  scln '   ret
+  lsft z    x    c    v    b    n    m    ,    @.    /    rsft
+  lctl lmet lalt           spc            ralt _ rctl
 )
 
 (defvar
@@ -29,16 +33,30 @@
       hold-time 250
 )
 
+
 (defalias
+      ' (tap-hold-press $tap-time $hold-time '  (layer-toggle symbols))
       esc (tap-hold-press $tap-time $hold-time esc grv)
+      tab (tap-hold-press $tap-time $hold-time tab grv)
       . (tap-hold-press $tap-time $hold-time . S-grv)
-      a (tap-hold $tap-time $hold-time a lmet)
-      s (tap-hold $tap-time $hold-time s lalt)
-      d (tap-hold $tap-time $hold-time d lsft)
-      f (tap-hold $tap-time $hold-time f lctl)
-      j (tap-hold $tap-time $hold-time j rctl)
-      k (tap-hold $tap-time $hold-time k rsft)
-      l (tap-hold $tap-time $hold-time l lalt)
+      a (tap-hold $tap-time $hold-time a lalt)
+      s (tap-hold $tap-time $hold-time s lsft)
+      d (tap-hold $tap-time $hold-time d lctl)
+      f (tap-hold $tap-time $hold-time f lmet)
+      j (tap-hold $tap-time $hold-time j lmet)
+      k (tap-hold $tap-time $hold-time k rctl)
+      l (tap-hold $tap-time $hold-time l lsft)
+      scln (tap-hold $tap-time $hold-time scln ralt)
+      q (tap-hold $tap-time $hold-time q S-1)
+      w (tap-hold $tap-time $hold-time w S-2)
+      e (tap-hold $tap-time $hold-time e S-3)
+      r (tap-hold $tap-time $hold-time r S-4)
+      t (tap-hold $tap-time $hold-time t S-5)
+      y (tap-hold $tap-time $hold-time y S-6)
+      u (tap-hold $tap-time $hold-time u S-7)
+      i (tap-hold $tap-time $hold-time i S-8)
+      o (tap-hold $tap-time $hold-time o S-9)
+      p (tap-hold $tap-time $hold-time p S-0)
       1 (tap-hold $tap-time $hold-time 1 S-1)
       2 (tap-hold $tap-time $hold-time 2 S-2)
       3 (tap-hold $tap-time $hold-time 3 S-3)
@@ -51,5 +69,4 @@
       0 (tap-hold $tap-time $hold-time 0 S-0)
       [ (tap-hold $tap-time $hold-time [ S-[)
       ] (tap-hold $tap-time $hold-time ] S-])
-      scln (tap-hold $tap-time $hold-time scln lmet)
 )

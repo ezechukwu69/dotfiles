@@ -47,7 +47,7 @@
 ;; (unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
-(package! aider :recipe (:host github :repo "tninja/aider.el" :files ("aider.el" "aider-doom.el")))
+(package! aider :recipe (:host github :repo "tninja/aider.el"))
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 ;; (package! supermaven
@@ -65,6 +65,7 @@
 (package! stimmung-themes)
 (package! cherry-blossom-theme)
 (package! avy)
+(package! corfu-terminal)
 (package! expand-region)
 (package! emigo
   :recipe (:host github :repo "MatthewZMD/emigo" :files (:defaults "*.py" "*.el")))

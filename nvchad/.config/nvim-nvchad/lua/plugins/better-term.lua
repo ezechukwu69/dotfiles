@@ -1,5 +1,6 @@
 return {
   "CRAG666/betterTerm.nvim",
+  enabled = false,
   opts = {
     position = "bot",
     size = 15,

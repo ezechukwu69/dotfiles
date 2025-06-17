@@ -61,16 +61,18 @@ Returns a string like 'Name (Kind: Type, Range: L:C - L:C)'."
 LINE is 1-indexed, COLUMN is 0-indexed.
 If BUFFER-OR-file is a file path, it will try to find-file-noselect it.
 If RECENTER is non-nil, it will recenter the view."
-  (let* ((buffer (if (stringp buffer-or-file)
-                     (or (get-buffer buffer-or-file)
-                         (find-file-noselect buffer-or-file))
-                   buffer-or-file)))
-    (when buffer
-      (with-current-buffer buffer
-        (goto-line line)
-        (move-to-column column)
-        (when recenter
-          (recenter))))))
+  ;; (let* ((buffer (if (stringp buffer-or-file)
+  ;;                    (or (get-buffer buffer-or-file)
+  ;;                        (find-file-noselect buffer-or-file))
+  ;;                  buffer-or-file)))
+  ;;   (when buffer
+  ;;     (with-current-buffer buffer
+  ;;       (goto-line line)
+  ;;       (move-to-column column)
+  ;;       (when recenter
+  ;;         (recenter)))))
+        (message "Move to buffer")
+  )
 
 ;; --- Helper to format Flycheck diagnostic objects consistently (for Eglot) ---
 (defun my/format-flycheck-diagnostic (diag)
@@ -184,70 +186,79 @@ Returns a string like '[LEVEL] Message (File: filename, Range: L:C - L:C)'."
 
 (gptel-make-tool
  :name "update_file_content"
- :function (lambda (file_path new_contents)
-             (let ((expanded_file_path (expand-file-name file_path)))
-               (if (file-writable-p expanded_file_path)
-                   (progn
-                     (with-temp-file expanded_file_path
-                       (insert new_contents))
-                     (format "File '%s' updated successfully with new content." expanded_file_path)
-                     ;; If the file is open, jump to its start
-                     (let ((buffer (get-buffer (file-name-nondirectory expanded_file_path))))
-                       (when buffer
-                         (gptel-goto-line-column buffer 1 0 t))))
-                 (error "File not found or not writable: %s" expanded_file_path))))
- :description "Replace the entire contents of an existing file with new content. If the file does not exist, it will be created. Path can be absolute or relative."
- :args (list '(:name "file_path"
-               :type string
-               :description "The path to the file to update (absolute or relative to the current directory).")
-             '(:name "new_contents"
-               :type string
-               :description "The new full contents to write to the file."))
+ :function
+ (lambda (file_path new_contents)
+   (let ((expanded_file_path (expand-file-name file_path)))
+     (if (or (file-exists-p expanded_file_path)
+             (file-writable-p (file-name-directory expanded_file_path)))
+         (let ((buffer (find-file-noselect expanded_file_path)))
+           (with-current-buffer buffer
+             (erase-buffer)
+             (insert new_contents)
+             (save-buffer))
+           ;; Show buffer if not already visible, and jump to top
+           (let ((existing-window (get-buffer-window buffer)))
+             (if existing-window
+                 (with-selected-window existing-window
+                   (goto-char (point-min)))
+               (let ((new-window (display-buffer buffer)))
+                 (with-selected-window new-window
+                   (goto-char (point-min))))))
+           (format "File '%s' updated successfully with new content." expanded_file_path))
+       (error "File not found and directory not writable: %s" expanded_file_path))))
+ :description "Replace the entire contents of an existing file using a buffer. If the file does not exist, it will be created. The buffer is shown or reused."
+ :args (list
+  '(:name "file_path"
+    :type string
+    :description "The path to the file to update (absolute or relative to the current directory).")
+  '(:name "new_contents"
+    :type string
+    :description "The new full contents to write to the file."))
  :category "fs")
 
 (gptel-make-tool
  :name "append_to_file"
- :function (lambda (file_path content_to_append)
-             (let ((expanded-file-path (expand-file-name file_path)))
-               (message "DEBUG: append_to_file: Attempting to append to: %s" expanded-file-path)
+ :function
+ (lambda (file_path content_to_append)
+   (let ((expanded-file-path (expand-file-name file_path)))
+     (message "DEBUG: append_to_file: Attempting to append to: %s" expanded-file-path)
 
-               (make-directory (file-name-directory expanded-file-path) t)
+     (make-directory (file-name-directory expanded-file-path) t)
 
-               (unless (file-writable-p (file-name-directory expanded-file-path))
-                 (error "Directory for '%s' is not writable." file_path))
+     (unless (file-writable-p (file-name-directory expanded-file-path))
+       (error "Directory for '%s' is not writable." file_path))
 
-               (condition-case err
-                   (progn
-                     ;; More efficient implementation using append-to-file
-                     ;; (append-to-file content_to_append nil expanded-file-path)
+     (condition-case err
+         (let ((buffer (find-file-noselect expanded-file-path)))
+           (with-current-buffer buffer
+             (goto-char (point-max))
+             (insert content_to_append)
+             (save-buffer))
 
-                     ;; Original implementation (less efficient for large files)
-                     (if (file-exists-p expanded-file-path)
-                         (with-temp-buffer
-                           (insert-file-contents expanded-file-path)
-                           (goto-char (point-max))
-                           (insert content_to_append)
-                           (write-file expanded-file-path))
-                       (with-temp-file expanded-file-path
-                         (insert content_to_append)))
+           ;; Show the buffer and jump to end
+           (let ((existing-window (get-buffer-window buffer)))
+             (if existing-window
+                 (with-selected-window existing-window
+                   (goto-char (point-max))
+                   (recenter))
+               (let ((new-window (display-buffer buffer)))
+                 (with-selected-window new-window
+                   (goto-char (point-max))
+                   (recenter)))))
 
-                     (let ((buffer (get-buffer (file-name-nondirectory expanded-file-path))))
-                       (when buffer
-                         (with-current-buffer buffer
-                           (goto-char (point-max))
-                           (recenter))))
-                     (format "Content appended to file '%s'." expanded-file-path))
-                 (error
-                  ;; FIXED: Use `error-message-string` for robust error reporting.
-                  (error "Failed to append to file '%s' due to Emacs Lisp error: %s"
-                         file_path (error-message-string err))))))
- :description "Append content to the end of an existing file. If the file does not exist, it will be created (and its parent directories). Path can be absolute or relative."
- :args (list '(:name "file_path"
-               :type string
-               :description "The path to the file to append to (absolute or relative to the current directory).")
-             '(:name "content_to_append"
-               :type string
-               :description "The content string to append to the file."))
+           (format "Content appended to file '%s'." expanded-file-path))
+       (error
+        (error "Failed to append to file '%s' due to Emacs Lisp error: %s"
+               file_path (error-message-string err))))))
+ :description "Append content to the end of a file using a buffer. If the file does not exist, it will be created along with its parent directories. The buffer is shown or reused."
+ :args
+ (list
+  '(:name "file_path"
+    :type string
+    :description "The path to the file to append to (absolute or relative to the current directory).")
+  '(:name "content_to_append"
+    :type string
+    :description "The content string to append to the file."))
  :category "fs")
 
 ;; --- Buffer Operations ---
@@ -283,9 +294,7 @@ Returns a string like '[LEVEL] Message (File: filename, Range: L:C - L:C)'."
                (if buffer
                    (with-current-buffer buffer
                      (goto-char (point-min))
-                     (let ((count (replace-string old_text new_text nil (point-min) (point-max))))
-                       (format "Replaced '%s' with '%s' %d times in buffer '%s'."
-                               old_text new_text count buffer_name))
+                     (replace-string old_text new_text nil (point-min) (point-max))
                      ;; Jump to the start of the buffer to show the effect of replacement
                      (gptel-goto-line-column (buffer-name) 1 0 t))
                  (error "Buffer not found: %s" buffer_name))))
@@ -752,8 +761,12 @@ Returns a string like '[LEVEL] Message (File: filename, Range: L:C - L:C)'."
 
 (gptel-make-preset 'developer-assistant
   :description "A general purpose preset for development tasks, including file manipulation, buffer operations, and system commands."
-  :system "You are an AI assistant designed to help with Emacs-based development tasks.
+  :system "You are an AI assistant designed to help with programming-based development tasks in Emacs Editor.
 You have access to a wide range of tools to interact with the Emacs environment, the filesystem, and version control systems (Git).
+
+Run the following tasks before starting to moving further:
+- Gather context about the project structure, current directory, and open buffers before performing any actions if you wish to locate files or buffers to make changes
+- Prefer buffer operations over raw file manipulations when possible, as they provide better integration with Emacs.
 
 Here is a summary of your capabilities:
 
@@ -819,3 +832,26 @@ Show a list of tool calls involved in each action as part of the summary
            "git_status" "git_diff" "git_add" "git_commit" "compile_project" "get_emacs_variable"  "set_emacs_variable"
            "insert_and_get_buffer_content"
            ))
+
+;; convenience fixes
+(add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+(add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+
+(setq transient-display-buffer-action
+      '(display-buffer-below-selected
+        (dedicated . t)
+        (inhibit-same-window . nil)))
+
+(setq gptel-display-buffer-action
+      '(display-buffer-below-selected
+        (dedicated . t)
+        (inhibit-same-window . nil)))
+
+;; (add-to-list 'display-buffer-alist
+;;              '("\\*?Gemini\\s*?\\d*\\*?"
+;;                (display-buffer-in-side-window)
+;;                (side . right)
+;;                (slot . -1) ;; -1 == L  0 == Mid 1 == R
+;;                (window-parameters
+;;                 (window-width . 0.40) ;; Adjust width as needed
+;;                 (no-delete-other-windows . nil))))
