@@ -72,7 +72,7 @@ function M.pick_log(on_pick)
     local response = vim.fn.system(M.log)
     local lines = vim.split(response, "\n")
     lines = vim.tbl_filter(function(line)
-        return line ~= ""
+        return line ~= "" or line:match("^[ \t]") ~= nil
     end, lines)
     vim.ui.select(lines, {
         prompt = "Select a revset: ",
@@ -90,7 +90,7 @@ function M.select_remote(on_pick)
     local response = vim.fn.system("jj git remote list")
     local lines = vim.split(response, "\n")
     lines = vim.tbl_filter(function(line)
-        return line ~= ""
+        return line ~= "" or line:match("^[ \t]") ~= nil
     end, lines)
     vim.ui.select(lines, {
         prompt = "Select a remote: ",
@@ -108,7 +108,7 @@ function M.pick_branch(on_pick)
     local response = vim.fn.system("jj bookmark list --no-pager --color never")
     local lines = vim.split(response, "\n")
     lines = vim.tbl_filter(function(line)
-        return line ~= ""
+        return line ~= "" or line:match("^[ \t]") ~= nil
     end, lines)
     vim.ui.select(lines, {
         prompt = "Select a branch: ",
