@@ -1,62 +1,62 @@
-local M = {}
+local M = {
+    width = 0.4,
+    height = 0.9,
+    float_buf = nil,
+    float_win = nil,
 
-local float_buf = nil
-local float_win = nil
+    log =
+    "jj --no-pager --color never --no-graph -T \"change_id.short()  ++ '	 (' ++ committer.name() ++ ') 	 ' ++ description.first_line() ++ bookmarks.map(|item| ' 	*' ++ item.name() ++ if(item.remote(), '@' ++ item.remote())).join(' ') ++ ' \n'\"",
 
-local function open_float_window_with_keymap(content)
-    -- Reuse the buffer if it's still valid
-    if float_buf and vim.api.nvim_buf_is_valid(float_buf) then
-        -- Just reuse buffer and open in a new window
-        if float_win and vim.api.nvim_win_is_valid(float_win) then
-            vim.api.nvim_set_current_win(float_win)
-            return float_buf
+}
+
+function M.open_float_window_with_keymap(content)
+    local calculate_columns = function(columns)
+        local width = math.floor(columns * M.width)
+        return vim.o.columns - width
+    end
+
+    local opts = {
+        relative = "editor",
+        width = math.floor(vim.o.columns * M.width),
+        height = math.floor(vim.o.lines * M.height),
+        row = 0,
+        col = calculate_columns(vim.o.columns),
+        style = "minimal",
+        border = "rounded",
+    }
+
+    if M.float_buf and vim.api.nvim_buf_is_valid(M.float_buf) then
+        if M.float_win and vim.api.nvim_win_is_valid(M.float_win) then
+            vim.api.nvim_set_current_win(M.float_win)
+            return M.float_buf
         else
-            float_win = vim.api.nvim_open_win(float_buf, true, {
-                relative = "editor",
-                width = math.floor(vim.o.columns * 0.6),
-                height = math.floor(vim.o.lines * 0.5),
-                row = math.floor(vim.o.lines * 0.25),
-                col = math.floor(vim.o.columns * 0.2),
-                style = "minimal",
-                border = "rounded",
-            })
-            return float_buf
+            M.float_win = vim.api.nvim_open_win(M.float_buf, true, opts)
+            return M.float_buf
         end
     end
 
-    -- Otherwise create a new buffer and window
-    float_buf = vim.api.nvim_create_buf(false, true)
-    float_win = vim.api.nvim_open_win(float_buf, true, {
-        relative = "editor",
-        width = math.floor(vim.o.columns * 0.6),
-        height = math.floor(vim.o.lines * 0.5),
-        row = math.floor(vim.o.lines * 0.25),
-        col = math.floor(vim.o.columns * 0.2),
-        style = "minimal",
-        border = "rounded",
-    })
+    M.float_buf = vim.api.nvim_create_buf(false, true)
+    M.float_win = vim.api.nvim_open_win(M.float_buf, true, opts)
 
-    -- Buffer setup
-    vim.bo[float_buf].modifiable = true
-    vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, content or { "No content" })
-    vim.bo[float_buf].modifiable = false
+    vim.bo[M.float_buf].modifiable = true
+    vim.api.nvim_buf_set_lines(M.float_buf, 0, -1, false, content or { "No content" })
+    vim.bo[M.float_buf].modifiable = false
 
-    vim.bo[float_buf].readonly = true
-    vim.bo[float_buf].buftype = "nofile"
-    vim.bo[float_buf].bufhidden = "wipe"
-    vim.bo[float_buf].filetype = "jj"
+    vim.bo[M.float_buf].readonly = true
+    vim.bo[M.float_buf].buftype = "nofile"
+    vim.bo[M.float_buf].bufhidden = "wipe"
+    vim.bo[M.float_buf].filetype = "jj"
 
-    -- Keymap to close
     vim.keymap.set("n", "q", function()
-        if float_win and vim.api.nvim_win_is_valid(float_win) then
-            vim.api.nvim_win_close(float_win, true)
+        if M.float_win and vim.api.nvim_win_is_valid(M.float_win) then
+            vim.api.nvim_win_close(M.float_win, true)
         end
-    end, { buffer = float_buf, nowait = true, silent = true })
+    end, { buffer = M.float_buf, nowait = true, silent = true })
 
-    return float_buf
+    return M.float_buf
 end
 
-local function set_content(buf, content)
+function M.set_content(buf, content)
     vim.bo[buf].modifiable = true
     vim.bo[buf].readonly = false
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, content)
@@ -65,13 +65,8 @@ local function set_content(buf, content)
     vim.bo[buf].readonly = true
 end
 
-local log =
-"jj --no-pager --color never --no-graph -T \"change_id.short()  ++ '	 (' ++ committer.name() ++ ') 	 ' ++ description.first_line() ++ bookmarks.map(|item| ' 	*' ++ item.name() ++ if(item.remote(), '@' ++ item.remote())).join(' ') ++ ' \n'\""
-
-local function pick_log(on_pick)
-    local response = vim.fn.system(
-        log
-    )
+function M.pick_log(on_pick)
+    local response = vim.fn.system(M.log)
     local lines = vim.split(response, "\n")
     lines = vim.tbl_filter(function(line)
         return line ~= ""
@@ -88,8 +83,7 @@ local function pick_log(on_pick)
     end)
 end
 
-
-local function select_remote(on_pick)
+function M.select_remote(on_pick)
     local response = vim.fn.system("jj git remote list")
     local lines = vim.split(response, "\n")
     lines = vim.tbl_filter(function(line)
@@ -107,7 +101,7 @@ local function select_remote(on_pick)
     end)
 end
 
-local function pick_branch(on_pick)
+function M.pick_branch(on_pick)
     local response = vim.fn.system("jj bookmark list --no-pager --color never")
     local lines = vim.split(response, "\n")
     lines = vim.tbl_filter(function(line)
@@ -125,85 +119,85 @@ local function pick_branch(on_pick)
     end)
 end
 
-local function enter_input(prompt, on_enter)
+function M.enter_input(prompt, on_enter)
     local input = vim.fn.input(prompt)
     if input and on_enter then
         on_enter(input)
     end
 end
 
-local function jj_st()
+function M.jj_st()
     local result = vim.fn.system("jj st")
-    local buf = open_float_window_with_keymap()
-    set_content(buf, vim.split(result, "\n"))
+    local buf = M.open_float_window_with_keymap()
+    M.set_content(buf, vim.split(result, "\n"))
 end
 
-local function stringify(value)
+function M.stringify(value)
     return "\"" .. value .. "\""
 end
 
-local function jj_graph(args)
+function M.jj_graph(args)
     local cmd = "jj"
     if args and args ~= "" then
-        cmd = cmd .. " " .. stringify(args)
+        cmd = cmd .. " " .. M.stringify(args)
     end
-    vim.notify(stringify(cmd))
+    vim.notify(M.stringify(cmd))
     local result = vim.fn.system(cmd)
-    local buf = open_float_window_with_keymap()
-    set_content(buf, vim.split(result, "\n"))
+    local buf = M.open_float_window_with_keymap()
+    M.set_content(buf, vim.split(result, "\n"))
 end
 
-local function jj_get_commit_from_log(log)
+function M.jj_get_commit_from_log(log)
     local hash = vim.split(log, " ")[1]
     return hash
 end
 
-local function jj_describe()
-    pick_log(function(item)
-        enter_input("Describe: ", function(input)
+function M.jj_describe()
+    M.pick_log(function(item)
+        M.enter_input("Describe: ", function(input)
             local commit = "jj describe -m \"" .. input .. "\""
             local result = vim.fn.system(commit)
-            local buf = open_float_window_with_keymap()
-            set_content(buf, vim.split(result, "\n"))
+            local buf = M.open_float_window_with_keymap()
+            M.set_content(buf, vim.split(result, "\n"))
         end)
     end)
 end
 
-local function set_branch()
-    pick_branch(function(item)
-        pick_log(function(log_line)
+function M.set_branch()
+    M.pick_branch(function(item)
+        M.pick_log(function(log_line)
             local branch = vim.split(item, ":")[1]
-            local response = vim.fn.system("jj bookmark set " .. branch .. " -r " .. jj_get_commit_from_log(log_line))
-            set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
+            local response = vim.fn.system("jj bookmark set " .. branch .. " -r " .. M.jj_get_commit_from_log(log_line))
+            M.set_content(M.open_float_window_with_keymap(), vim.split(response, "\n"))
         end)
     end)
 end
 
-local function push()
-    select_remote(function(remote)
+function M.push()
+    M.select_remote(function(remote)
         remote = vim.split(remote, " ")[1]
         local response = vim.fn.system("jj git push --remote " .. remote)
-        set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
+        M.set_content(M.open_float_window_with_keymap(), vim.split(response, "\n"))
     end)
 end
 
-local function commit_and_push()
-    pick_log(function(item)
+function M.commit_and_push()
+    M.pick_log(function(item)
         local log_local = item
-        enter_input("Describe: ", function(input)
+        M.enter_input("Describe: ", function(input)
             local commit = "jj describe -m \"" .. input .. "\""
             local result = vim.fn.system(commit)
-            local buf = open_float_window_with_keymap()
-            set_content(buf, vim.split(result, "\n"))
-            pick_branch(function(branch)
+            local buf = M.open_float_window_with_keymap()
+            M.set_content(buf, vim.split(result, "\n"))
+            M.pick_branch(function(branch)
                 branch = vim.split(branch, ":")[1]
                 local response = vim.fn.system("jj bookmark set " ..
-                    branch .. " -r " .. jj_get_commit_from_log(log_local))
-                set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
-                select_remote(function(remote)
+                    branch .. " -r " .. M.jj_get_commit_from_log(log_local))
+                M.set_content(M.open_float_window_with_keymap(), vim.split(response, "\n"))
+                M.select_remote(function(remote)
                     remote = vim.split(remote, " ")[1]
                     response = vim.fn.system("jj git push --remote " .. remote)
-                    set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
+                    M.set_content(M.open_float_window_with_keymap(), vim.split(response, "\n"))
                 end)
             end)
         end)
@@ -211,22 +205,20 @@ local function commit_and_push()
 end
 
 vim.api.nvim_create_user_command("JJ", function(args)
-    if args.args == "status" then
-        jj_st()
-    elseif args.args == "st" then
-        jj_st()
+    if args.args == "status" or args.args == "st" then
+        M.jj_st()
     elseif args.args == "log" then
-        pick_log()
+        M.pick_log()
     elseif args.args == "describe" then
-        jj_describe()
+        M.jj_describe()
     elseif args.args == "branch-set" then
-        set_branch()
+        M.set_branch()
     elseif args.args == "push" then
-        push()
+        M.push()
     elseif args.args == "commit-and-push" then
-        commit_and_push()
+        M.commit_and_push()
     else
-        jj_graph(args.args)
+        M.jj_graph(args.args)
     end
 end, {
     desc = "JJ",
@@ -235,3 +227,5 @@ end, {
         return { "commit-and-push", "push", "status", "st", "log", "describe", "branch-set" }
     end,
 })
+
+return M
