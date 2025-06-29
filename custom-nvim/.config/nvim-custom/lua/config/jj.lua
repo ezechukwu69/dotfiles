@@ -189,23 +189,21 @@ end
 
 local function commit_and_push()
     pick_log(function(item)
-        log = item
+        local log_local = item
         enter_input("Describe: ", function(input)
             local commit = "jj describe -m \"" .. input .. "\""
             local result = vim.fn.system(commit)
             local buf = open_float_window_with_keymap()
             set_content(buf, vim.split(result, "\n"))
             pick_branch(function(branch)
-                pick_log(function(log_line)
-                    branch = vim.split(branch, ":")[1]
-                    local response = vim.fn.system("jj bookmark set " ..
-                        branch .. " -r " .. jj_get_commit_from_log(log_line))
+                branch = vim.split(branch, ":")[1]
+                local response = vim.fn.system("jj bookmark set " ..
+                    branch .. " -r " .. jj_get_commit_from_log(log_local))
+                set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
+                select_remote(function(remote)
+                    remote = vim.split(remote, " ")[1]
+                    response = vim.fn.system("jj git push --remote " .. remote)
                     set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
-                    select_remote(function(remote)
-                        remote = vim.split(remote, " ")[1]
-                        response = vim.fn.system("jj git push --remote " .. remote)
-                        set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
-                    end)
                 end)
             end)
         end)
