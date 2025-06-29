@@ -1,6 +1,32 @@
+local M = {}
+
+local float_buf = nil
+local float_win = nil
+
 local function open_float_window_with_keymap(content)
-    local buf = vim.api.nvim_create_buf(false, true) -- [listed = false], [scratch = true]
-    local win = vim.api.nvim_open_win(buf, true, {
+    -- Reuse the buffer if it's still valid
+    if float_buf and vim.api.nvim_buf_is_valid(float_buf) then
+        -- Just reuse buffer and open in a new window
+        if float_win and vim.api.nvim_win_is_valid(float_win) then
+            vim.api.nvim_set_current_win(float_win)
+            return float_buf
+        else
+            float_win = vim.api.nvim_open_win(float_buf, true, {
+                relative = "editor",
+                width = math.floor(vim.o.columns * 0.6),
+                height = math.floor(vim.o.lines * 0.5),
+                row = math.floor(vim.o.lines * 0.25),
+                col = math.floor(vim.o.columns * 0.2),
+                style = "minimal",
+                border = "rounded",
+            })
+            return float_buf
+        end
+    end
+
+    -- Otherwise create a new buffer and window
+    float_buf = vim.api.nvim_create_buf(false, true)
+    float_win = vim.api.nvim_open_win(float_buf, true, {
         relative = "editor",
         width = math.floor(vim.o.columns * 0.6),
         height = math.floor(vim.o.lines * 0.5),
@@ -10,19 +36,24 @@ local function open_float_window_with_keymap(content)
         border = "rounded",
     })
 
-    -- Make it read-only
-    vim.bo[buf].modifiable = false
-    vim.bo[buf].readonly = true
-    vim.bo[buf].buftype = "nofile"
-    vim.bo[buf].bufhidden = "wipe"
-    vim.bo[buf].filetype = "jj"
+    -- Buffer setup
+    vim.bo[float_buf].modifiable = true
+    vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, content or { "No content" })
+    vim.bo[float_buf].modifiable = false
 
-    -- Custom keymap: press 'q' to close
+    vim.bo[float_buf].readonly = true
+    vim.bo[float_buf].buftype = "nofile"
+    vim.bo[float_buf].bufhidden = "wipe"
+    vim.bo[float_buf].filetype = "jj"
+
+    -- Keymap to close
     vim.keymap.set("n", "q", function()
-        vim.api.nvim_win_close(win, true)
-    end, { buffer = buf, nowait = true, silent = true })
+        if float_win and vim.api.nvim_win_is_valid(float_win) then
+            vim.api.nvim_win_close(float_win, true)
+        end
+    end, { buffer = float_buf, nowait = true, silent = true })
 
-    return buf
+    return float_buf
 end
 
 local function set_content(buf, content)
@@ -150,9 +181,34 @@ end
 
 local function push()
     select_remote(function(remote)
-        local remote = vim.split(remote, " ")[1]
+        remote = vim.split(remote, " ")[1]
         local response = vim.fn.system("jj git push --remote " .. remote)
         set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
+    end)
+end
+
+local function commit_and_push()
+    pick_log(function(item)
+        log = item
+        enter_input("Describe: ", function(input)
+            local commit = "jj describe -m \"" .. input .. "\""
+            local result = vim.fn.system(commit)
+            local buf = open_float_window_with_keymap()
+            set_content(buf, vim.split(result, "\n"))
+            pick_branch(function(branch)
+                pick_log(function(log_line)
+                    branch = vim.split(branch, ":")[1]
+                    local response = vim.fn.system("jj bookmark set " ..
+                        branch .. " -r " .. jj_get_commit_from_log(log_line))
+                    set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
+                    select_remote(function(remote)
+                        remote = vim.split(remote, " ")[1]
+                        response = vim.fn.system("jj git push --remote " .. remote)
+                        set_content(open_float_window_with_keymap(), vim.split(response, "\n"))
+                    end)
+                end)
+            end)
+        end)
     end)
 end
 
@@ -169,6 +225,8 @@ vim.api.nvim_create_user_command("JJ", function(args)
         set_branch()
     elseif args.args == "push" then
         push()
+    elseif args.args == "commit-and-push" then
+        commit_and_push()
     else
         jj_graph(args.args)
     end
@@ -176,6 +234,6 @@ end, {
     desc = "JJ",
     nargs = "*",
     complete = function()
-        return { "push", "status", "st", "log", "describe", "branch-set" }
+        return { "commit-and-push", "push", "status", "st", "log", "describe", "branch-set" }
     end,
 })
