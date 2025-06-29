@@ -36,8 +36,8 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 15 :weight 'semi-bold)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 13))
+(setq doom-font (font-spec :family "0xProto Nerd Font" :size 13 :weight 'bold)
+      doom-variable-pitch-font (font-spec :family "0xProto Nerd Font" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -47,7 +47,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-pine)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -172,6 +172,10 @@
   ("M-=" . er/expand-region)
   ("M--" . er/contract-region))
 
+(use-package! prisma-mode
+  :config
+  (setq prisma-format-on-save t))
+
 (use-package! mcp
   :after gptel
   :custom (mcp-hub-servers
@@ -229,3 +233,40 @@
 
 (load! "jj.el")
 (load! "ai.el")
+
+(add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+
+(defun +ui/increase-opacity ()
+  (interactive)
+  (let* ((current (or (car (frame-parameter nil 'alpha)) 100))
+         (new (min 100 (+ current 5))))
+    (set-frame-parameter nil 'alpha (cons new new))))
+
+(defun +ui/decrease-opacity ()
+  (interactive)
+  (let* ((current (or (car (frame-parameter nil 'alpha)) 100))
+         (new (max 0 (- current 5))))
+    (set-frame-parameter nil 'alpha (cons new new))))
+
+(map! :leader
+      :desc "Increase transparency" "t +" #'+ui/decrease-opacity
+      :desc "Decrease transparency" "t -" #'+ui/increase-opacity)
+
+
+(use-package! lsp-mode
+  :hook ((typescript-ts-mode . lsp-deferred)
+         (tsx-ts-mode . lsp-deferred)))
+
+
+;; (add-to-list 'major-mode-remap-alist
+;;              '(typescript-mode . typescript-ts-mode))
+
+;; (add-to-list 'auto-mode-alist
+;;              '("\\.ts\\'" . typescript-ts-mode)
+;;              '("\\.tsx\\'" . tsx-ts-mode))
+
+;; (add-hook 'lsp-mode-hook
+;;           (lambda ()
+;;             (when (and (eq major-mode 'typescript-ts-mode)
+;;                        (not (lsp-find-workspace 'typescript-ts-mode nil)))
+;;               (lsp))))

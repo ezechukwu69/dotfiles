@@ -9,6 +9,7 @@ vim.opt.laststatus = 3
 -- To prevent this, set `splitkeep` to either `screen` or `topline`.
 vim.opt.splitkeep = "screen"
 o.cursorlineopt = 'both' -- to enable cursorline!
+vim.opt.path:append("**")
 
 vim.cmd [[
   set relativenumber

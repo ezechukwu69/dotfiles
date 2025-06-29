@@ -12,14 +12,10 @@
       "host": "deeneedapi.devpod",
       "projects": [
         {
-          "paths": [
-            "/workspace"
-          ]
+          "paths": ["/workspace"]
         },
         {
-          "paths": [
-            "/workspaces"
-          ]
+          "paths": ["/workspaces"]
         }
       ]
     },
@@ -27,9 +23,7 @@
       "host": "deeneedweb.devpod",
       "projects": [
         {
-          "paths": [
-            "/workspaces/deeneedweb"
-          ]
+          "paths": ["/workspaces/deeneedweb"]
         }
       ]
     }
@@ -47,7 +41,7 @@
       "full-stack-dev": {
         "name": "Full Stack Dev",
         "tools": {
-          "copy_path": false,
+          "copy_path": true,
           "create_directory": false,
           "delete_path": false,
           "diagnostics": true,
@@ -131,8 +125,8 @@
     },
     "default_profile": "write",
     "default_model": {
-      "provider": "google",
-      "model": "gemini-2.5-flash-preview-latest"
+      "provider": "zed.dev",
+      "model": "claude-3-7-sonnet"
     },
     "version": "2"
   },
@@ -232,7 +226,8 @@
   "edit_predictions": {
     "mode": "eager"
   },
-  "vim_mode": true,
+  // "vim_mode": true,
+  "helix_mode": true,
   "vim": {
     "use_multiline_find": true,
     "use_smartcase_find": true,
@@ -240,8 +235,8 @@
     "default_mode": "normal",
     "use_system_clipboard": "always"
   },
-  "ui_font_size": 15,
-  "buffer_font_size": 14,
+  "ui_font_size": 14,
+  "buffer_font_size": 13,
   "diagnostics": {
     "include_warnings": true,
     "inline": {
@@ -259,16 +254,16 @@
 
   "agent_font_size": 15,
   "relative_line_numbers": true,
-  "base_keymap": "VSCode",
-  "ui_font_family": "ZedMono Nerd Font",
-  "buffer_font_family": "ZedMono Nerd Font",
-  "ui_font_weight": 500,
-  "buffer_font_weight": 500,
+  "base_keymap": "Emacs",
+  "ui_font_family": "0xProto Nerd Font",
+  "buffer_font_family": "0xProto Nerd Font",
+  "ui_font_weight": 400,
+  "buffer_font_weight": 400,
   "buffer_line_height": {
     "custom": 1.6
   },
   "terminal": {
-    "font_family": "ZedMono Nerd Font",
+    "font_family": "0xProto Nerd Font",
     "dock": "bottom"
   },
   // "debugger": {
@@ -287,7 +282,7 @@
   "theme": {
     "mode": "system",
     "light": "Ayu Dark",
-    "dark": "Gruvbox Dark"
+    "dark": "Jellybeans"
   },
   "show_background": true
 }

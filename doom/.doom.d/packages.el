@@ -48,6 +48,7 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 (package! aider :recipe (:host github :repo "tninja/aider.el"))
+(package! prisma-mode :recipe (:host github :repo "davidarenas/prisma-mode"))
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 ;; (package! supermaven

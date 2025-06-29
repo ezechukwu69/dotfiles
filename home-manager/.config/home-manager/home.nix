@@ -138,6 +138,7 @@ in
       nt="launch-new-zellij-tab";
       ls="eza";
       emacsn="emacs -nw";
+      nv="NVIM_APPNAME=nvim-custom nvim";
       man="tldr";
       # zed="zeditor";
     };
@@ -154,6 +155,7 @@ export PATH="$HOME/installations/ollama-ipex:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.npm-global:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/installations/flutter/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"

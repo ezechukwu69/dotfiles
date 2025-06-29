@@ -40,6 +40,8 @@ return {
       end,
       desc = "Open Snacks lsp workspace symbols",
     },
+    { "<leader>.", function() Snacks.scratch() end,        desc = "Toggle Scratch Buffer" },
+    { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
     {
       "<leader>sp",
       function()
@@ -100,6 +102,7 @@ return {
   opts = {
     words = {},
     git = {},
+    scratch = {},
     gitbrowse = {},
     dim = {},
     notifier = {},

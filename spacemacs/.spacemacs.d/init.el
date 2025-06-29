@@ -46,11 +46,15 @@ This function should only modify configuration layer settings."
                   tree-sitter-fold-enable t
                   tree-sitter-fold-indicators-enable nil)
      git
+     tree-sitter
+     gtags
      ;; helm
      ;; ivy
      (compleseus :variables compleseus-engine 'vertico)
      (debug :variables debug-additional-debuggers '("remake"))
      lsp
+     dap
+     ;; eglot
      (dart :variables lsp-enable-on-type-formatting t)
      ;; codeium
      copilot
@@ -668,16 +672,16 @@ This function is called at the very end of Spacemacs initialization."
          evil-tutor evil-unimpaired evil-visual-mark-mode evil-visualstar
          exotica-theme expand-region eyebrowse eziam-themes fancy-battery
          farmhouse-themes flatland-theme flatui-theme flutter flx flycheck
-         flycheck-elsa flycheck-package flycheck-pos-tip forge fringe-helper
-         gandalf-theme ghub git-link git-messenger git-modes git-timemachine
-         gitignore-templates gntp gnuplot golden-ratio google-translate
-         gotham-theme grandshell-theme gruber-darker-theme gruvbox-theme
-         hc-zenburn-theme helm helm-ag helm-c-yasnippet helm-comint helm-company
-         helm-core helm-descbinds helm-git-grep helm-ls-git helm-lsp helm-make
-         helm-mode-manager helm-org helm-org-rifle helm-projectile helm-purpose
-         helm-swoop helm-themes helm-xref hemisu-theme heroku-theme hide-comnt
-         highlight-indentation highlight-numbers highlight-parentheses hl-todo
-         holy-mode htmlize hungry-delete hybrid-mode ibuffer-projectile
+         flycheck-eglot flycheck-elsa flycheck-package flycheck-pos-tip forge
+         fringe-helper gandalf-theme ghub git-link git-messenger git-modes
+         git-timemachine gitignore-templates gntp gnuplot golden-ratio
+         google-translate gotham-theme grandshell-theme gruber-darker-theme
+         gruvbox-theme hc-zenburn-theme helm helm-ag helm-c-yasnippet helm-comint
+         helm-company helm-core helm-descbinds helm-git-grep helm-ls-git helm-lsp
+         helm-make helm-mode-manager helm-org helm-org-rifle helm-projectile
+         helm-purpose helm-swoop helm-themes helm-xref hemisu-theme heroku-theme
+         hide-comnt highlight-indentation highlight-numbers highlight-parentheses
+         hl-todo holy-mode htmlize hungry-delete hybrid-mode ibuffer-projectile
          indent-guide info+ inkpot-theme inspector ir-black-theme ivy ivy-avy
          ivy-flycheck ivy-hydra ivy-purpose ivy-xref ivy-yasnippet jazz-theme
          jbeans-theme js-doc js2-mode js2-refactor json-mode json-navigator
