@@ -1,3 +1,4 @@
+_G.nvim_start_time = vim.loop.hrtime()
 require("config.lazy")
 require("config.options")
 require("config.mappings")

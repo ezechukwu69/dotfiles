@@ -1,7 +1,6 @@
 return {
-    'echasnovski/mini.nvim',
+    'nvim-treesitter/nvim-treesitter',
     dependencies = {
-        'nvim-treesitter/nvim-treesitter',
         'nvim-treesitter/nvim-treesitter-textobjects',
         'nvim-treesitter/playground',
     },
@@ -27,45 +26,59 @@ return {
                     node_decremental = "<M-->",
                 }
             },
+            textobjects = {
+                swap = {
+                    enable = true,
+                    swap_next = {
+                        ["<leader>ma"] = "@parameter.inner",
+                        ["<leader>mf"] = "@parameter.outer",
+                    },
+                    swap_previous = {
+                        ["<leader>mA"] = "@parameter.inner",
+                        ["<leader>mF"] = "@function.outer",
+                    },
+                },
+                move = {
+                    enable = true,
+                    set_jumps = true, -- Record jumps in jumplist
+                    goto_next_start = {
+                        ["]f"] = "@function.outer",
+                        ["]c"] = "@class.outer",
+                        ["]a"] = "@parameter.inner",
+                    },
+                    goto_next_end = {
+                        ["]F"] = "@function.outer",
+                        ["]C"] = "@class.outer",
+                        ["]A"] = "@parameter.inner",
+                    },
+                    goto_previous_start = {
+                        ["[f"] = "@function.outer",
+                        ["[c"] = "@class.outer",
+                        ["[a"] = "@parameter.inner",
+                    },
+                    goto_previous_end = {
+                        ["[F"] = "@function.outer",
+                        ["[C"] = "@class.outer",
+                        ["[A"] = "@parameter.inner",
+                    },
+                },
+                lsp_interop = {
+                    enable = true,
+                    border = 'rounded',
+                    peek_definition_code = {
+                        ["<leader>pf"] = "@function.outer",
+                        ["<leader>pc"] = "@class.outer",
+                        ["<leader>pi"] = "@identifier.outer",
+                    },
+                },
+            },
+            highlight = {
+                enable = true,
+                additional_vim_regex_highlighting = false,
+            },
             indent = {
                 enable = true,
             }
         }
-        require("mini.pairs").setup()
-        require("mini.ai").setup {
-            -- Table with textobject id as fields, textobject specification as values.
-            -- Also use this to disable builtin textobjects. See |MiniAi.config|.
-            custom_textobjects = nil,
-
-            -- Module mappings. Use `''` (empty string) to disable one.
-            mappings = {
-                -- Main textobject prefixes
-                around = 'a',
-                inside = 'i',
-
-                -- Next/last variants
-                around_next = 'an',
-                inside_next = 'in',
-                around_last = 'al',
-                inside_last = 'il',
-
-                -- Move cursor to corresponding edge of `a` textobject
-                goto_left = 'g[',
-                goto_right = 'g]',
-            },
-            -- Number of lines within which textobject is searched
-            n_lines = 50,
-
-            -- How to search for object (first inside current line, then inside
-            -- neighborhood). One of 'cover', 'cover_or_next', 'cover_or_prev',
-            -- 'cover_or_nearest', 'next', 'previous', 'nearest'.
-            search_method = 'cover_or_next',
-
-            -- Whether to disable showing non-error feedback
-            -- This also affects (purely informational) helper messages shown after
-            -- idle time if user input is required.
-            silent = false,
-        }
-        require('mini.bufremove').setup()
     end
 }

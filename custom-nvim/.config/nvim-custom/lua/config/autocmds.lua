@@ -26,7 +26,7 @@ autocmd("BufReadPost", {
 
 vim.g.autoformat_enabled = true
 
-autocmd({ "BufWritePre", "CursorHold" }, {
+autocmd({ "BufWritePre" }, {
     group = vim.api.nvim_create_augroup("NvchadWritePre", {}),
     callback = function(ev)
         if not vim.g.autoformat_enabled then
@@ -71,12 +71,37 @@ autocmd("FileType", {
     end
 })
 
--- autocmd("LspAttach", {
---     group = vim.api.nvim_create_augroup("DiagLspAttach", {}),
---     callback = function(ev)
---         local client = vim.lsp.get_client_by_id(ev.data.client_id)
---         if client:supports_method('textDocument/completion') then
---             vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
---         end
---     end
--- })
+autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("DiagLspAttach", {}),
+    callback = function(ev)
+        local map = vim.keymap.set
+        local buf = ev.buf
+        map("n", "gd", function()
+            vim.lsp.buf.definition()
+        end, { desc = "Go to definition", buffer = buf })
+        -- local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        -- if client:supports_method('textDocument/completion') then
+        --     vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+        -- end
+    end
+})
+
+vim.api.nvim_create_autocmd('User', {
+    pattern = 'MiniFilesBufferCreate',
+    callback = function(args)
+        local filter_show = function(fs_entry) return true end
+
+        local filter_hide = function(fs_entry)
+            return not vim.startswith(fs_entry.name, '.')
+        end
+        local buf_id = args.data.buf_id
+        vim.g.show_mini_dotfiles = true
+        local toggle_dotfiles = function()
+            vim.g.show_mini_dotfiles = not vim.g.show_mini_dotfiles
+            local new_filter = vim.g.show_mini_dotfiles and filter_show or filter_hide
+            MiniFiles.refresh({ content = { filter = new_filter } })
+        end
+        -- Tweak left-hand side of mapping to your liking
+        vim.keymap.set('n', 'g.', toggle_dotfiles, { buffer = buf_id })
+    end,
+})

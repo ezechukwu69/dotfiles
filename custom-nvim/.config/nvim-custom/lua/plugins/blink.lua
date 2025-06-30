@@ -30,6 +30,7 @@ return {
             ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
             ['<Up>'] = {},
             ['<Down>'] = {},
+            ['<esc>'] = {},
             ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
             ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
             ['<C-k>'] = { 'select_prev', 'fallback_to_mappings' },

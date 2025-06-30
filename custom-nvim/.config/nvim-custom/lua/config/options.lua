@@ -3,8 +3,10 @@ vim.lsp.set_log_level("WARN")
 
 -- How diagnostics are displayed
 vim.diagnostic.config({
-    virtual_lines = { current_line = true }
-    -- virtual_text = true,
+    -- virtual_lines = { current_line = true }
+    virtual_text = {
+        current_line = true,
+    },
 })
 
 local o = vim.o;
@@ -27,9 +29,11 @@ o.expandtab = true;
 o.softtabstop = 4;
 o.splitbelow = true;
 o.splitright = true;
-o.updatetime = 300;
+o.updatetime = 1000;
 opt.clipboard:append("unnamedplus");
 opt.ignorecase = true
 opt.smartcase = true
 opt.winborder = "rounded"
 opt.laststatus = 3
+opt.termguicolors = true
+vim.cmd("colorscheme oxocarbon")
