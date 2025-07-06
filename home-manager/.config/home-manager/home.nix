@@ -161,8 +161,9 @@ export PATH="$HOME/installations/flutter/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PATH="$HOME/.config/nvim/bin:$PATH"
 export PATH="$HOME/.cache/lm-studio/bin:$PATH"
-export PATH="$HOME/.local/share/gem/ruby/3.3.0/bin:$PATH"
+# export PATH="$HOME/.local/share/gem/ruby/3.3.0/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+export PATH="$PATH":"$HOME/.local/share/gem/ruby/3.4.0/bin"
 eval $(ssh-agent) 2> /dev/null
 ssh-add ~/.ssh/id_ed25519 2> /dev/null
 alias v="lvim"
