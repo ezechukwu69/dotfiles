@@ -44,5 +44,9 @@ return {
         vscode.json_decode = function(str)
             return vim.json.decode(json.json_strip_comments(str))
         end
+
+        dap.adapters.ruby = {
+        
+    }
     end,
 }
