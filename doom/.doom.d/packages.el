@@ -63,6 +63,7 @@
 (package! eldoc :built-in t)
 (package! kanagawa-themes)
 (package! poet-theme)
+(package! flyover :recipe (:host github :repo "konrad1977/flyover"))
 (package! stimmung-themes)
 (package! cherry-blossom-theme)
 (package! avy)

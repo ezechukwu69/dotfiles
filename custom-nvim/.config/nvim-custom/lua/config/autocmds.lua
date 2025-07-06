@@ -29,16 +29,42 @@ vim.g.autoformat_enabled = true
 autocmd({ "BufWritePre" }, {
   group = vim.api.nvim_create_augroup("NvchadWritePre", {}),
   callback = function(ev)
+    local ft_to_lsp = {
+      javascript = "vtsls",
+      typescript = "vtsls",
+      lua = "luals",
+      html = "htmlls",
+      eruby = "htmlls",
+      python = "pyright",
+      go = "gopls",
+    }
+
+    local ft = vim.bo[ev.buf].filetype
+    local preferred_client = ft_to_lsp[ft]
+
     if not vim.g.autoformat_enabled then
       return
     end
+
     local buf = ev.buf
-    local clients = vim.lsp.get_clients({ bufnr = buf })
-    for _, client in ipairs(clients) do
-      if client:supports_method("textDocument/formatting", buf) then
-        vim.lsp.buf.format({ bufnr = buf })
+    -- local clients = vim.lsp.get_clients({ bufnr = buf })
+
+    vim.lsp.buf.format({
+      bufnr = buf,
+      filter = function(client)
+        if preferred_client then
+          vim.notify("Formatting with " .. preferred_client)
+          return client.name == preferred_client
+        end
+
+        local is_formattable = client:supports_method "textDocument/formatting"
+
+        if is_formattable then
+          vim.notify("Formatting! with " .. client.name)
+        end
+        return is_formattable
       end
-    end
+    })
   end,
 })
 

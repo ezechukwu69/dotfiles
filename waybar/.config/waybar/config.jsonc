@@ -11,20 +11,40 @@
     // Choose the order of the modules
     "reload_style_on_change": true,
     "modules-left": [
-        "hyprland/workspaces"
+        "hyprland/workspaces",
+        "hyprland/window"
     ],
     "modules-center": [
-      "memory",
-      "cpu"
+        "network"
     ],
     "modules-right": [
+        "group/hardware",
         "pulseaudio",
-        "idle_inhibitor",
-        "tray",
-        "clock"
-        // "custom/power"
+        "clock",
+        "custom/power"
     ],
+    "group/hardware": {
+      "orientation": "inherit",
+      "drawer": {
+        "transition-duration": 500
+      },
+      "modules": [
+        "memory",
+        "cpu",
+        "tray",
+        "idle_inhibitor"
+      ]
+    },
     "hyprland/workspaces": {
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "🌎 $1",
+            "(.*) - fish": "> [$1]"
+        },
+        "max-length": 25,
+        "separate-outputs": true
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -67,11 +87,10 @@
                     }
     },
     "cpu": {
-        "format": "{usage}%  ",
-        "tooltip": false
+        "format": "  {usage}%"
     },
     "memory": {
-        "format": "{}%  "
+        "format": "  {}%"
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -117,17 +136,17 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
+        "format-wifi": "{essid} ({signalStrength}%)  ",
+        "format-ethernet": "{ipaddr}/{cidr}  ",
+        "tooltip-format": "{ifname} via {gwaddr}  ",
+        "format-linked": "{ifname} (No IP)  ",
         "format-disconnected": "Disconnected ⚠",
         "format-alt": "{ifname}: {ipaddr}/{cidr}"
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
         // "format": "{volume}% {icon} {format_source}",
-        "format": "{volume}% {icon}",
+        "format": "{icon} {volume}% ",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",

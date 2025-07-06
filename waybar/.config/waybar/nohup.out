@@ -1,0 +1,351 @@
+
+(waybar:19450): Gtk-WARNING **: 15:27:43.108: Theme parsing error: gtk.css:1:21: Failed to import: Error opening file /home/ezechukwu69/.config/gtk-3.0/colors.css: No such file or directory
+[2025-07-08 15:27:43.124] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:27:43.125] [info] Discovered appearance 'dark'
+[2025-07-08 15:27:43.125] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:27:43.127] [info] Hyprland IPC starting
+[2025-07-08 15:27:43.128] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:27:43.128] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:27:43.131: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:27:43.131: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:27:43.142] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:27:43.143] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:27:43.144: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:27:43.144: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:27:43.260: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:27:43.369] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:27:43.369] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:27:43.369] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:27:43.369] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:27:44.137: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:28:07.164: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:28:07.165: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:29:07.229: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:29:07.230: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:30:07.196: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:30:07.197: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:30:07.294: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:30:07.295: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:31:07.267: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:31:07.268: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:32:07.332: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:32:07.333: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:33:07.297: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:33:07.298: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:34:07.362: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:34:07.364: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:35:07.429: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:35:07.430: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:36:07.468: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:36:07.470: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:37:07.486: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:37:07.487: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:38:07.577: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:38:07.578: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:39:07.645: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:39:07.646: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:40:07.615: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:40:07.617: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:40:07.713: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:40:07.714: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:41:07.680: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:41:07.681: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:42:07.747: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:42:07.748: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:43:07.814: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:43:07.815: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:44:07.882: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:44:07.883: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:45:07.948: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:45:07.949: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:46:07.916: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:46:07.918: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:46:08.015: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:46:08.016: Unable to replace properties on 0: Error getting properties for ID
+[2025-07-08 15:46:34.749] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:34.864] [info] Reloading...
+[2025-07-08 15:46:35.385] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:35.391] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:35.391] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:35.393] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:46:35.394] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:46:35.398] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:35.398] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:35.401: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:35.401: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:46:35.403] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:35.403] [warning] 'swap-icon-label' must be a bool.
+[2025-07-08 15:46:35.403] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:35.403] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:35.403] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:35.404] [info] Loading persistent workspaces from Hyprland workspace rules
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:35.404: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:35.404: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:46:35.520: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:46:35.630] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:35.630] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:46:35.631] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:35.631] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:46:37.142: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:46:42.482] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:42.577] [info] Reloading...
+[2025-07-08 15:46:42.984] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:42.986] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:42.987] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:42.989] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:46:42.989] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:46:42.994] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:42.994] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:42.996: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:42.996: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:46:42.998] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:43.007] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:43.007] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:43.007] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:43.008: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:43.008: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:46:43.128: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:46:43.237] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:43.237] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:46:43.238] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:43.238] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:46:44.147: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:46:48.110] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:48.223] [info] Reloading...
+[2025-07-08 15:46:48.658] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:48.661] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:48.661] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:48.663] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:46:48.663] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:46:48.667] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:48.667] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:48.669: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:48.669: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:46:48.672] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:48.672] [warning] 'swap-icon-label' must be a bool.
+[2025-07-08 15:46:48.672] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:48.673] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:48.673] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:48.673] [info] Loading persistent workspaces from Hyprland workspace rules
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:48.673: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:48.673: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:46:48.794: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:46:48.905] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:48.905] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:46:48.905] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:48.905] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:46:50.139: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:46:58.392] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:58.484] [info] Reloading...
+[2025-07-08 15:46:58.906] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:58.908] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:58.909] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:58.912] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:46:58.912] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:46:58.915] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:58.915] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:58.917: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:58.917: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:46:58.921] [info] Hyprland config reloaded, reinitializing hyprland/workspaces module...
+[2025-07-08 15:46:58.928] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:58.928] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:46:58.933] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:58.935: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:46:58.935: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:46:59.051: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:46:59.160] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:59.160] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:46:59.161] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:46:59.161] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:47:00.153: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:47:01.389] [info] Reloading...
+[2025-07-08 15:47:01.393] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:47:01.393] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:47:01.881] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:47:01.881] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:01.883: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:01.883: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:47:01.886] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:47:01.886] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:01.887: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:01.887: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:47:02.002: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:47:02.112] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:47:02.112] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:47:02.113] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:47:02.113] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:47:03.149: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:47:07.288] [info] Reloading...
+[2025-07-08 15:47:07.291] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:47:07.291] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:47:07.898] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:47:07.898] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:07.900: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:07.900: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:47:07.901] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:47:07.902] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:07.903: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:07.903: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:47:08.025: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:47:08.027: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:47:08.128: Unable to replace properties on 0: Error getting properties for ID
+[2025-07-08 15:47:08.134] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:47:08.134] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:47:08.135] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:47:08.135] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:47:09.147: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:47:11.784] [info] Reloading...
+[2025-07-08 15:47:11.786] [info] Using configuration file /home/ezechukwu69/.config/waybar/config.jsonc
+[2025-07-08 15:47:11.787] [info] Using CSS file /home/ezechukwu69/.config/waybar/styles.css
+[2025-07-08 15:47:12.403] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:47:12.404] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:12.405: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:12.405: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+[2025-07-08 15:47:12.406] [info] Loading persistent workspaces from Hyprland workspace rules
+[2025-07-08 15:47:12.406] [warning] 'swap-icon-label' must be a bool.
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:12.407: invalid (NULL) pointer instance
+
+(waybar:19450): GLib-GObject-CRITICAL **: 15:47:12.407: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+
+** (waybar:19450): WARNING **: 15:47:12.532: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+[2025-07-08 15:47:12.641] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:47:12.641] [info] Bar configured (width: 1914, height: 34) for output: DP-1
+[2025-07-08 15:47:12.641] [warning] Requested height: 25 is less than the minimum height: 34 required by the modules
+[2025-07-08 15:47:12.641] [info] Bar configured (width: 1914, height: 34) for output: HDMI-A-2
+
+** (waybar:19450): WARNING **: 15:47:14.142: Status Notifier Item with bus name ':1.14' and object path '/org/ayatana/NotificationItem/nm_applet' is already registered
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:48:08.005: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:48:08.006: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:49:08.073: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:49:08.074: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:50:08.043: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:50:08.044: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:51:08.111: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:51:08.112: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:52:08.178: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:52:08.179: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:53:08.245: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:53:08.246: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:54:08.211: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:54:08.213: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:54:08.312: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:54:08.313: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:55:08.279: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:55:08.281: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:56:08.347: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:56:08.348: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:57:08.411: Unable to replace properties on 0: Error getting properties for ID
+
+(waybar:19450): LIBDBUSMENU-GLIB-WARNING **: 15:57:08.412: Unable to replace properties on 0: Error getting properties for ID

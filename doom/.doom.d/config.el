@@ -162,10 +162,22 @@
                      "--no-auto-commits"
                      "--no-dirty-commits"
                      "--architect"
-                     ""))
+                     "")))
 
-  (require 'aider-doom))
 
+(use-package! flyover
+  :hook '((flycheck-mode-hook . flyover-mode))
+  :config
+  (setq flyover-checkers '(flycheck flymake))
+  (setq flyover-info-icon "🛈")
+  (setq flyover-warning-icon "⚠")
+  (setq flyover-error-icon "✘")
+  (setq flyover-icon-left-padding 0.9)
+  (setq flyover-icon-right-padding 0.9)
+  (setq flyover-line-position-offset 1)
+  (setq flyover-levels '(error warning info)))
+
+(setq lsp-dart-dap-flutter-hot-reload-on-save t)
 
 (use-package! expand-region
   :bind
@@ -203,9 +215,14 @@
       :n "c X" #'flymake-show-project-diagnostics)
 
 
-(add-hook 'dart-mode-hook
-          (lambda ()
-            (setq lsp-dart-dap-flutter-hot-reload-on-save t)))
+;; (add-hook 'dart-mode-hook
+;;           (lambda ()
+;;             (setq lsp-dart-dap-flutter-hot-reload-on-save t)))
+;;
+
+;; (add-hook 'after-save-hook (lambda ()
+;;                              (when (eq major-mode 'dart-mode)
+;;                                (flutter-run-or-hot-reload))))
 
 
 

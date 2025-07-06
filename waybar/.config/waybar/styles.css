@@ -1,24 +1,25 @@
 @import "colors.css";
 
 * {
-    /* `otf-font-awesome` is required to be installed for icons */
-    font-family: JetBrainsMono Nerd Font, Roboto, Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    border-radius: 5px;
-    font-weight: bold;
+  /* `otf-font-awesome` is required to be installed for icons */
+  font-family: JetBrainsMono Nerd Font, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 window#waybar {
-    background-color: @background;
-    /* background-color: @blur_background8; */
-    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
-    color: #ffffff;
-    transition-property: background-color;
-    transition-duration: .5s;
+  background-color: #0A0708;
+  /* background-color: @blur_background8; */
+  /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+  border-radius: 4px;
+  color: #ffffff;
+  transition-property: background-color;
+  transition-duration: .5s;
 }
 
 window#waybar.hidden {
-    opacity: 0.2;
+  opacity: 0.2;
 }
 
 /*
@@ -31,52 +32,52 @@ window#waybar.solo {
 */
 
 window#waybar.termite {
-    background-color: #3F3F3F;
+  background-color: #3F3F3F;
 }
 
 window#waybar.chromium {
-    background-color: #000000;
-    border: none;
+  background-color: #000000;
+  border: none;
 }
 
 button {
-    /* Use box-shadow instead of border so the text isn't offset */
-    /* box-shadow: inset 0 -3px transparent; */
-    /* Avoid rounded borders under each button name */
-    border: none;
+  /* Use box-shadow instead of border so the text isn't offset */
+  /* box-shadow: inset 0 -3px transparent; */
+  /* Avoid rounded borders under each button name */
+  border: none;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 button:hover {
-    background: inherit;
-    box-shadow: inset 0 -3px @tertiary;
+  background: inherit;
+  box-shadow: inset 0 -3px @tertiary;
 }
 
 /* you can set a style on hover for any module like this */
 #pulseaudio:hover {
-    background-color: @secondary;
-    color: @on_secondary;
+  background-color: @secondary;
+  color: @on_secondary;
 }
 
 #workspaces {
-  background-color: @inverse_primary;
+  background-color: #444444;
   padding: 2px 4px;
   margin: 3px 0px;
 }
 
 #workspaces button {
-    padding: 0 4px;
+  padding: 0 4px;
 }
 
 #workspaces button.active {
-    background-color: @background;
-    color: @on_background;
-    padding: 0 15px;
+  /* background-color: @background; */
+  color: @tertiary;
+  /* padding: 0 15px; */
 }
 
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
+  background-color: #eb4d4b;
 }
 
 /* #window, */
@@ -85,8 +86,8 @@ button:hover {
 /* } */
 
 /* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-    margin-left: 5px;
+.modules-left>widget:first-child>#workspaces {
+  margin-left: 3px;
 }
 
 /* If workspaces is the rightmost module, omit right margin */
@@ -99,14 +100,19 @@ button:hover {
 #idle_inhibitor,
 #memory,
 #tray,
-#cpu
-{
-    background-color: @inverse_primary;
-    color: @on_surface;
-    padding: 0 10px;
-    margin: 3px 0px;
+#window,
+#hardware,
+#network,
+#custom-power,
+#cpu {
+  background-color: #444444;
+  color: @primary;
+  padding: 0 10px;
+  margin: 3px 0px;
 }
 
-#clock {
-  margin-right: 5px;
+#custom-power {
+  margin-right: 3px;
+  padding-left: 12px;
+  padding-right: 7px;
 }
