@@ -1,0 +1,30 @@
+[user]
+email = "ezechukwu69@gmail.com"
+name = "ezechukwu69"
+
+[ui]
+default-command = "log"
+always-allow-large-revsets = true
+color = "always"
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+pager = ["delta", "--paging", "always"]
+diff-formatter = ":git"
+
+[ui.streampager]
+interface = "full-screen-clear-output"
+
+[aliases]
+init = ["git", "init"]
+push = ["git", "push"]
+pull = ["git", "fetch"]
+bs = ["bookmark", "set"]
+
+[core]
+fsmonitor = "watchman"
+
+[revsets]
+log = "all()"
+#'present(@) | ancestors(immutable_heads().., 2) | present(trunk())'
+
+[templates]
+log = "builtin_log_compact_full_description"
