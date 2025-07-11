@@ -1,4 +1,4 @@
-theme = "ayu_dark"
+theme = "darcula-solid"
 
 [editor]
 true-color = true
@@ -8,6 +8,7 @@ end-of-line-diagnostics = "hint"
 cursorline = true
 mouse = true
 color-modes = true
+auto-format = true
 
 [editor.lsp]
 display-messages = true
@@ -24,17 +25,17 @@ cursor-line="error"
 
 [editor.whitespace]
 #space = ""
-nbsp = "⍽"
-nnbsp = "␣"
+# nbsp = "⍽"
+# nnbsp = "␣"
 tab = "→"
 #newline = "⏎"
-tabpad = "·" # Tabs will look like "→···" (depending on tab width)
+# tabpad = "·" # Tabs will look like "→···" (depending on tab width)
 
 [editor.whitespace.render]
-space = "all"
+# space = "all"
 tab = "all"
-nbsp = "all"
-nnbsp = "all"
+# nbsp = "all"
+# nnbsp = "all"
 newline = "none"
 
 [editor.cursor-shape]
@@ -51,6 +52,7 @@ A-j = "jump_view_down"
 A-k = "jump_view_up"
 A-h = "jump_view_left"
 A-l = "jump_view_right"
+A-x = "extend_line_up"
  
 [keys.normal.space.o]
 # e = [

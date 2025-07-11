@@ -246,7 +246,7 @@ spawn-at-startup "dunst"
 //spawn-at-startup "swaybg" "-i" "/home/ezechukwu69/wallpapers/robot-home.png"
 spawn-at-startup "waypaper" "--restore"
 spawn-at-startup "emacs" "--daemon"
-spawn-at-startup "waybar" "-c" "~/.config/waybar-niri/config" "-s" "~/.config/waybar-niri/style.css"
+spawn-at-startup "waybar" "-c" "~/.config/waybar-niri/config.jsonc" "-s" "~/.config/waybar-niri/style.css"
 spawn-at-startup "~/.config/niri/kanata.sh"
 spawn-at-startup "hypridle"
 spawn-at-startup "xwayland-satellite"
@@ -356,7 +356,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+T { spawn "ghostty"; }
+    Mod+Return { spawn "ghostty"; }
     //Mod+D { spawn "fuzzel"; }
     // Mod+D { spawn "~/.config/niri/drun.sh"; }
     Mod+D { spawn "kunkun" "toggle"; }
@@ -370,6 +370,8 @@ binds {
     //Super+Alt+L { spawn "swaylock"; }
     Super+Alt+L { spawn "hyprlock"; }
     Super+Alt+W { spawn "waypaper" "--restore"; }
+
+    Super+Ctrl+W  { spawn "waypaper"; }
 
     // You can also use a shell. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument in the end.
@@ -521,7 +523,10 @@ binds {
     // Mod+Ctrl+1 { move-window-to-workspace 1; }
 
     // Switches focus between the current and the previous workspace.
-    Mod+Tab { focus-workspace-previous; }
+    // Mod+Tab { focus-workspace-previous; }
+    Mod+Tab { toggle-overview; }
+
+    Mod+T { toggle-overview; }
 
     Mod+Comma  { consume-window-into-column; }
     Mod+Period { expel-window-from-column; }

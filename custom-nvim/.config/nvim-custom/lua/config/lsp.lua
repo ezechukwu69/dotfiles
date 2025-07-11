@@ -5,7 +5,9 @@ local servers = {
   "rubylsp",
   "emmet_ls",
   "htmlls",
-  "cssls"
+  "cssls",
+  "clangd",
+  "neocmake"
 }
 
 

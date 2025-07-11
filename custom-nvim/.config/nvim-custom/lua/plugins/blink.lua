@@ -5,12 +5,13 @@ return {
     "saghen/blink.compat",
     "nvim-orgmode/orgmode",
     'Kaiser-Yang/blink-cmp-avante',
+    { 'L3MON4D3/LuaSnip', version = 'v2.*' },
   },
   build = "cargo build --release",
   event = "InsertEnter",
   opts = {
     snippets = {
-      preset = "mini_snippets",
+      preset = "luasnip",
     },
     completion = {
       documentation = { auto_show = true },
