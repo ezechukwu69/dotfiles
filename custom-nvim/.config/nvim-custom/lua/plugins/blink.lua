@@ -15,6 +15,17 @@ return {
     },
     completion = {
       documentation = { auto_show = true },
+      menu = {
+        auto_show = true,
+        draw = {
+          treesitter = { 'lsp' },
+          columns = {
+            { "label",      "label_description", gap = 2 },
+            { "kind_icon", gap = 1 },
+            { "source_name" }
+          }
+        }
+      },
     },
     signature = {
       enabled = true,
@@ -24,13 +35,6 @@ return {
         show_on_insert = true,
         show_on_insert_on_trigger_character = true,
       },
-    },
-    menu = {
-      auto_show = true,
-      draw = {
-        { "label",     "label_description", gap = 1 },
-        { "kind_icon", "kind" }
-      }
     },
     keymap = {
       preset = "enter",

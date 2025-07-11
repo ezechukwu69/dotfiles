@@ -56,13 +56,6 @@ function M.open_terminal(command, override_opts)
       if exit_code == 0 then
         vim.api.nvim_win_close(M.opts.float_win, true)
         vim.api.nvim_buf_delete(M.opts.float_buf, { force = true })
-
-        vim.keymap.set("t", "q", function()
-          if M.opts.float_win and vim.api.nvim_win_is_valid(M.opts.float_win) then
-            -- vim.api.nvim_win_close(M.opts.float_win, true)
-            vim.api.nvim_win_hide(M.opts.float_win)
-          end
-        end, { buffer = M.opts.float_buf, nowait = true, silent = true })
       end
     end,
   })
