@@ -56,13 +56,19 @@ function M.open_terminal(command, override_opts)
       if exit_code == 0 then
         vim.api.nvim_win_close(M.opts.float_win, true)
         vim.api.nvim_buf_delete(M.opts.float_buf, { force = true })
+
+        -- vim.keymap.set("t", "q", function()
+        --   if M.opts.float_win and vim.api.nvim_win_is_valid(M.opts.float_win) then
+        --     -- vim.api.nvim_win_close(M.opts.float_win, true)
+        --     vim.api.nvim_win_hide(M.opts.float_win)
+        --   end
+        -- end, { buffer = M.opts.float_buf, nowait = true, silent = true })
       end
     end,
   })
   vim.cmd.startinsert()
 
   vim.keymap.set("t", "<M-q>", function()
-    vim.notify("closing gemini")
     if M.opts.float_win and vim.api.nvim_win_is_valid(M.opts.float_win) then
       -- vim.api.nvim_win_close(M.opts.float_win, true)
       vim.api.nvim_win_hide(M.opts.float_win)
@@ -205,7 +211,6 @@ function M.jj_graph(args)
   if args and args ~= "" then
     cmd = cmd .. " " .. M.stringify(args)
   end
-  vim.notify(M.stringify(cmd))
   local result = vim.fn.system(cmd)
   local buf = M.open_float_window_with_keymap()
   M.set_content(buf, vim.split(result, "\n"))
@@ -240,7 +245,6 @@ end
 function M.diff()
   M.pick_log(function(item)
     local command = { "jj", "diff", "-r", M.jj_get_commit_from_log(item) }
-    vim.notify(vim.inspect(command))
     M.open_terminal(command, { width = 0.9, height = 0.8 })
   end)
 end
