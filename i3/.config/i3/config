@@ -35,6 +35,13 @@ font pango:SpaceMono Nerd Font 10
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 #font pango:DejaVu Sans Mono 8
 
+
+# window terminal
+for_window [instance="term"] floating enable
+# for_window [instance="term"] fullscreen enable
+for_window [instance="term"] move scratchpad
+for_window [instance="term"] resize set 99 ppt 97 ppt
+
 # Start XDG autostart .desktop files using dex. See also
 # https://wiki.archlinux.org/index.php/XDG_Autostart
 exec --no-startup-id dex --autostart --environment i3
@@ -58,8 +65,8 @@ exec_always --no-startup-id xidlehook \
 --timer 300 'xset dpms force standby' '' \
 --timer 3 'i3lock' '' \
 --timer 300 'systemctl suspend' ''
-# exec --no-startup-id nitrogen --restore
-exec --no-startup-id ~/.fehbg
+exec --no-startup-id nitrogen --restore
+# exec --no-startup-id ~/.fehbg
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -72,6 +79,9 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym $mod+z [instance="term"] scratchpad show; [instance="term"] move position center
+bindsym $mod+e exec --no-startup-id zsh -c 'neovide --x11-wm-class-instance "term" --x11-wm-class "term" --fork'
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -87,6 +97,7 @@ bindsym $mod+Return exec ghostty
 bindsym $mod+q kill
 
 # start dmenu (a program launcher)
+bindsym $mod+space exec --no-startup-id albert
 bindsym $mod+d exec --no-startup-id rofi -show drun
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
@@ -139,7 +150,7 @@ bindsym $mod+Shift+w exec --no-startup-id kitty -d ~/.wallpaper -e ~/.config/i3/
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent

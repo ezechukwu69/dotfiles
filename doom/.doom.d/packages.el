@@ -69,7 +69,5 @@
 (package! avy)
 (package! corfu-terminal)
 (package! expand-region)
-(package! emigo
-  :recipe (:host github :repo "MatthewZMD/emigo" :files (:defaults "*.py" "*.el")))
 
 (package! mcp)

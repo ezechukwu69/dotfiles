@@ -13,9 +13,11 @@ map.set("n", "<leader>t<", ":tabmove -1<cr>", { noremap = true, silent = true, d
 map.set("n", "<leader>tl", ":tabnext<cr>", { noremap = true, silent = true, desc = "Next Tab" })
 map.set("n", "<leader>th", ":tabprevious<cr>", { noremap = true, silent = true, desc = "Previous Tab" })
 
-map.set("n", "gi", function() vim.lsp.buf.incoming_calls() end,
+map.set("n", "grc", function() vim.lsp.buf.incoming_calls() end,
   { noremap = true, silent = true, desc = "Incoming Calls" })
-map.set("n", "gI", function() vim.lsp.buf.outgoing_calls() end,
+map.set("n", "grC", function() vim.lsp.buf.outgoing_calls() end,
   { noremap = true, silent = true, desc = "Outgoing Calls" })
+map.set("n", "<leader>id", function() vim.cmd.detach() end,
+  { noremap = true, silent = true, desc = "Detach from Neovim" })
 
 -- map.set("n", "-", "<cmd>Explore<cr>", { noremap = true, silent = true })

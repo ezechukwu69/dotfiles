@@ -36,7 +36,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-font (font-spec :family "0xProto Nerd Font" :size 13 :weight 'bold)
+(setq doom-font (font-spec :family "Aporetic Serif Mono" :size 14 :weight 'bold)
       doom-variable-pitch-font (font-spec :family "0xProto Nerd Font" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -166,7 +166,8 @@
 
 
 (use-package! flyover
-  :hook '((flycheck-mode-hook . flyover-mode))
+  :hook '((prog-mode . flycheck-mode)
+          (flycheck-mode-hook . flyover-mode))
   :config
   (setq flyover-checkers '(flycheck flymake))
   (setq flyover-info-icon "🛈")
@@ -175,7 +176,7 @@
   (setq flyover-icon-left-padding 0.9)
   (setq flyover-icon-right-padding 0.9)
   (setq flyover-line-position-offset 1)
-  (setq flyover-levels '(error warning info)))
+  (setq flyover-levels '(error)))
 
 (setq lsp-dart-dap-flutter-hot-reload-on-save t)
 
@@ -188,17 +189,17 @@
   :config
   (setq prisma-format-on-save t))
 
-(use-package! mcp
-  :after gptel
-  :custom (mcp-hub-servers
-           `(("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/lizqwer/MyProject/")))
-             ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+;; (use-package! mcp
+;;   :after gptel
+;;   :custom (mcp-hub-servers
+;;            `(("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/lizqwer/MyProject/")))
+;;              ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
 
-  :config
-  (require 'mcp-hub)
-  (require 'gptel-integrations)
-  :hook
-  (after-init . mcp-hub-start-all-server))
+;; :config
+;; (require 'mcp-hub)
+;; (require 'gptel-integrations)
+;; :hook
+;; (after-init . mcp-hub-start-all-server))
 
 
 (unless (display-graphic-p)
@@ -210,9 +211,9 @@
       evil-snipe-scope 'buffer
       avy-all-windows t)
 
-(map! :leader
-      :desc "Show project diagnostics"
-      :n "c X" #'flymake-show-project-diagnostics)
+;; (map! :leader
+;;       :desc "Show project diagnostics"
+;;       :n "c X" #'flymake-show-project-diagnostics)
 
 
 ;; (add-hook 'dart-mode-hook
@@ -232,7 +233,6 @@
 (setq corfu-preselect 'first
       corfu-popupinfo-mode -1)
 
-
 (map!
  :desc "Transient"
  :n "C-f" #'transient-scroll-up
@@ -242,6 +242,9 @@
 
 
 (map! :leader
+      :n "e s" (lambda () (interactive)
+                 (pyvenv-activate "~/temp-env/.venv")
+                 )
       :n "c l" #'aider-transient-menu)
 
 ;; (map! :leader
@@ -271,8 +274,10 @@
 
 
 (use-package! lsp-mode
-  :hook ((typescript-ts-mode . lsp-deferred)
-         (tsx-ts-mode . lsp-deferred)))
+  :hook '(
+          (typescript-ts-mode . lsp-deferred)
+          (tsx-ts-mode . lsp-deferred))
+  )
 
 
 ;; (add-to-list 'major-mode-remap-alist
@@ -287,3 +292,4 @@
 ;;             (when (and (eq major-mode 'typescript-ts-mode)
 ;;                        (not (lsp-find-workspace 'typescript-ts-mode nil)))
 ;;               (lsp))))
+;; ~/.doom.d/config.el

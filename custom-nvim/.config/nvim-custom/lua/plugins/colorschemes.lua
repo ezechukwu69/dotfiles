@@ -1,9 +1,6 @@
 return {
   {
     "vague2k/vague.nvim",
-    enabled = true,
-    lazy = false,
-    priority = 1000,
     config = function()
       require("vague").setup({
         transparent = false, -- don't set background
@@ -68,9 +65,9 @@ return {
   },
   {
     "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
+    config = function()
+      require("tokyonight")
+    end
   },
   {
     "zenbones-theme/zenbones.nvim",
@@ -91,14 +88,18 @@ return {
   },
   {
     "wtfox/jellybeans.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {}, -- Optional
+    config = function()
+      require("jellybeans")
+    end
+  },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
   },
   {
     "wnkz/monoglow.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
+    config = function()
+      require("monoglow")
+    end
   }
 }

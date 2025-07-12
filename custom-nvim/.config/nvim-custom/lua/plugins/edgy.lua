@@ -6,13 +6,6 @@
 -- dapui_console
 return {
   "folke/edgy.nvim",
-  event = "VeryLazy",
-  -- options =
-  --   {
-  --     left = { size = 30 },
-  --     bottom = { size = 10 },
-  --     top = { size = 10 },
-  --   },
   opts = {
     options = {
       left = { size = 40 },

@@ -33,10 +33,6 @@ return {
       provider = "gemini",
       mode = "agentic",
       enable_cursor_planning_mode = nil,
-      gemini = {
-        model = "gemini-2.5-flash-preview-05-20",
-      },
-
       disabled_tools = {
         "read_file",
         "rename_file",
@@ -56,7 +52,10 @@ return {
           require("mcphub.extensions.avante").mcp_tool(),
         }
       end,
-      vendors = {
+      gemini = {
+        model = "gemini-2.5-flash",
+      },
+      providers = {
         xAI = {
           __inherited_from = "openai",
           endpoint = "https://api.x.ai/v1",

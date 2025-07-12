@@ -1,6 +1,10 @@
 return {
   "mbbill/undotree",
-  event = "VeryLazy",
+  dependencies = {
+    {
+      "MunifTanjim/nui.nvim",
+    }
+  },
   keys = {
     { "<leader>uu", "<cmd>UndotreeToggle<cr>", mode = "n" },
   }

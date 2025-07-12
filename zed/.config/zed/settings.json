@@ -226,8 +226,8 @@
   "edit_predictions": {
     "mode": "eager"
   },
-  // "vim_mode": true,
-  "helix_mode": true,
+  "vim_mode": true,
+  // "helix_mode": false,
   "vim": {
     "use_multiline_find": true,
     "use_smartcase_find": true,

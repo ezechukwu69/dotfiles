@@ -1,0 +1,21 @@
+return {
+  "plugins.treesitter",
+  "plugins.mini",
+  "plugins.colorschemes",
+  "plugins.snacks",
+  "plugins.which-key",
+  "plugins.lualine",
+  "plugins.blink",
+  "plugins.supermaven",
+  "plugins.flutter-tools",
+  "plugins.edgy",
+  "plugins.hunk",
+  "plugins.undotree",
+  "plugins.baleia",
+  "plugins.avante",
+  "plugins.helpers",
+  "plugins.org",
+  "plugins.tabby",
+  "plugins.dap",
+}
+

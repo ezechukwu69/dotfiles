@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 vim.lsp.set_log_level("WARN")
 -- DIAGNOSTICS
 
@@ -88,26 +90,6 @@ o.encoding = "UTF-8"
 opt.clipboard:append("unnamedplus");
 opt.laststatus = 3
 
-vim.cmd("colorscheme tokyonight-night")
--- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
--- vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
--- vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
-vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
--- vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "none" })
-
-local comment = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
-local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
-
--- blink cmp
-vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = comment.bg, fg = comment.fg })
-vim.api.nvim_set_hl(0, "EdgyNormal", { bg = "none", fg = comment.fg })
-vim.api.nvim_set_hl(0, "BlinkCmpMenuCompletion", { bg = comment.bg, fg = comment.fg })
-vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = comment.bg, fg = comment.fg })
-vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { bg = comment.bg, fg = comment.fg })
-vim.api.nvim_set_hl(0, "BlinkCmpDocSeparator", { bg = "none", fg = comment.fg })
-vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "none", fg = comment.fg })
-vim.api.nvim_set_hl(0, "BlinkCmpMenuSelection", { bg = comment.fg, fg = comment.bg })
-vim.api.nvim_set_hl(0, "BlinkCmpKind", { fg = normal.fg })
 
 local undodir = vim.fn.expand("~/.vim/undodir")
 if vim.fn.isdirectory(undodir) == 0 then
