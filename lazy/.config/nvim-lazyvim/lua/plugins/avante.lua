@@ -52,10 +52,10 @@ return {
           require("mcphub.extensions.avante").mcp_tool(),
         }
       end,
-      gemini = {
-        model = "gemini-2.5-flash",
-      },
       providers = {
+        gemini = {
+          model = "gemini-2.5-flash",
+        },
         xAI = {
           __inherited_from = "openai",
           endpoint = "https://api.x.ai/v1",
