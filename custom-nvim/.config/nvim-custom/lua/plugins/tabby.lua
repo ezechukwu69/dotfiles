@@ -10,7 +10,7 @@ local theme = {
 
 return {
   'nanozuki/tabby.nvim',
-  event = "VeryLazy",
+  event = "TabNewEntered",
   config = function()
     require('tabby').setup {
       line = function(line)

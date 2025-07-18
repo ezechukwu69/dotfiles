@@ -1,11 +1,9 @@
 return {
   {
     "yetone/avante.nvim",
-    event = "VeryLazy",
     build = "make",
     enabled = true,
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
@@ -13,7 +11,6 @@ return {
       "ravitemer/mcphub.nvim",
       {
         "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
         opts = {
           default = {
             embed_image_as_base64 = false,

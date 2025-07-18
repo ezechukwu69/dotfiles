@@ -40,6 +40,10 @@ return {
         title = "DapUI scopes",
         ft = "dapui_scopes",
       },
+      {
+        title = "Quickfix List",
+        ft = "qf",
+      },
     },
 
 

@@ -105,10 +105,52 @@ autocmd("LspAttach", {
     map("n", "gd", function()
       vim.lsp.buf.definition()
     end, { desc = "Go to definition", buffer = buf })
+
+    map("n", "<leader>wa", function()
+      vim.lsp.buf.add_workspace_folder()
+    end, { desc = "Add Workspace Folder" })
+    map("n", "<leader>wl", function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, { desc = "Add Workspace Folder" })
+    map("n", "<leader>wr", function()
+      vim.lsp.buf.remove_workspace_folder()
+    end, { desc = "Remove Workspace Folder" })
     -- local client = vim.lsp.get_client_by_id(ev.data.client_id)
     -- if client:supports_method('textDocument/completion') then
     --     vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
     -- end
+  end
+})
+
+autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("QuitWithQ", {}),
+  pattern = {
+    "qf",
+    "help",
+  },
+  callback = function(args)
+    local map = vim.keymap.set
+    map("n", "q", function()
+      vim.cmd("q")
+    end, { buffer = args.buf })
+  end
+})
+
+
+autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("LspCompletion", {}),
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if not client then
+      return
+    end
+    if client:supports_method('textDocument/completion') then
+      vim.opt.completeopt = "menuone,menu,noinsert,fuzzy,popup,preview"
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+      vim.keymap.set("i", "<C-Space>", function()
+        vim.lsp.completion.get()
+      end)
+    end
   end
 })
 

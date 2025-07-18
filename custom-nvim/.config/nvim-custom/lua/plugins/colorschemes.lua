@@ -101,5 +101,8 @@ return {
     config = function()
       require("monoglow")
     end
-  }
+  },
+  {
+    "adibhanna/forest-night.nvim"
+  },
 }

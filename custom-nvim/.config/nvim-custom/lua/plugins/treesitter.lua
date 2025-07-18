@@ -1,6 +1,7 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
+    event = "BufRead",
     dependencies = {
     },
     config = function()
@@ -70,6 +71,12 @@ return {
       }
     end
   },
-  { 'nvim-treesitter/nvim-treesitter-textobjects' },
-  { 'nvim-treesitter/playground' },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    event = "BufRead",
+  },
+  {
+    'nvim-treesitter/playground',
+    event = "BufRead",
+  },
 }

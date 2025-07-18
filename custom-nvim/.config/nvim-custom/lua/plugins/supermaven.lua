@@ -1,6 +1,7 @@
 return {
   {
     "supermaven-inc/supermaven-nvim",
+    event = "InsertEnter",
     keys = {
       { "<Esc>", "<Esc>", desc = "Escape" },
     },

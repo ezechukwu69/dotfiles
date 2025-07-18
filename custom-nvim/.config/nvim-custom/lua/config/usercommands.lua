@@ -1,8 +1,11 @@
 vim.api.nvim_create_user_command('LspRestart', function()
-  for _, client in pairs(vim.lsp.get_clients()) do
+  local bufnr = vim.api.nvim_get_current_buf()
+  for _, client in pairs(vim.lsp.get_clients({ bufnr = bufnr })) do
     client.stop(client, true)
   end
-  vim.cmd('edit')
+  vim.defer_fn(function()
+    vim.cmd('edit')
+  end, 100)
 end, {})
 
 local function map(tbl, func)
@@ -24,93 +27,10 @@ vim.api.nvim_create_user_command('PackDelete', function()
 end, {})
 
 
-local function serialize(tbl)
-  local lines = { "return {" }
-  table.insert(lines, "\"" .. tbl[1] .. "\",")
-  if tbl.opts then
-    table.insert(lines, "opts = {}")
-  end
-  table.insert(lines, "}")
-  return table.concat(lines, "\n")
-end
-
-local function write_to_file(path, content, on_success)
-  local uv = vim.loop
-  local fd = uv.fs_open(path, "w", 438) -- 438 = octal 0666 permission
-  if fd then
-    uv.fs_write(fd, content, -1)
-    uv.fs_close(fd)
-    if on_success then
-      on_success()
-    end
-  else
-    vim.notify("Failed to create file")
-  end
-end
-
-
-local function serializer(tbl, indent)
-  indent = indent or 0
-  local lines = {}
-  local pad = string.rep("  ", indent)
-
-  table.insert(lines, pad .. "return {")
-
-  for k, v in pairs(tbl) do
-    local key
-    if type(k) == "string" and k:match("^%a[%w_]*$") then
-      key = k .. " = "
-    else
-      key = ""
-    end
-
-    local value
-    if type(v) == "string" then
-      value = string.format("%q", v)
-    elseif type(v) == "number" or type(v) == "boolean" then
-      value = tostring(v)
-    elseif type(v) == "table" then
-      value = serializer(v, indent + 1)
-    else
-      value = "nil -- unsupported type: " .. type(v)
-    end
-
-    table.insert(lines, string.rep("  ", indent + 1) .. key .. value .. ",")
-  end
-
-  table.insert(lines, pad .. "}")
-  return table.concat(lines, "\n")
-end
-
-local function convert_to_key_value(tbl)
-  local _map = {}
-  for _, v in ipairs(tbl) do
-    _map[v] = v
-  end
-  return _map
-end
-
-local function convert_to_array(tbl)
-  local _map = {}
-  for _, v in pairs(tbl) do
-    table.insert(_map, v)
-  end
-  return _map
-end
-
-
-local function dofile_add(plugin_name)
-  local path = vim.fn.stdpath("config")
-  local plugins_dir = path .. "/lua/plugins"
-  local data = dofile(plugins_dir .. "/plugins.lua")
-  write_to_file(plugins_dir .. "/.plugins.lua-bak", serializer(data))
-  data = convert_to_key_value(data)
-  local string = "plugins." .. plugin_name
-  data[string] = string
-  data = convert_to_array(data)
-  data = serializer(data)
-  write_to_file(plugins_dir .. "/plugins.lua", data)
-end
+local utils = require("utils.pm")
+local serialize = utils.serialize
+local write_to_file = utils.write_to_file
+local dofile_add = utils.dofile_add
 
 vim.api.nvim_create_user_command('PackInstall', function(args)
   local package = vim.fn.input({ prompt = "Enter git url of package to install or {user}/{package} to install: " })

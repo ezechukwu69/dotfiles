@@ -1,25 +1,28 @@
 return {
   {
+    "chipsenkbeil/org-roam.nvim",
+    version = "0.1.1",
+    ft = "org",
+    config = function()
+      require("org-roam").setup {
+        directory = "~/org/roam"
+      }
+    end
+  },
+  {
+    "michaelb/sniprun",
+    ft = "org",
+    build = "sh install.sh",
+    config = function()
+      require("sniprun").setup()
+    end
+  },
+  {
     "nvim-orgmode/orgmode",
-    ft = { 'org' },
-    tag = "0.6.0",
+    version = "0.6.0",
     dependencies = {
       {
-        "chipsenkbeil/org-roam.nvim",
-        ft = { 'org' },
-        tag = "0.1.1",
-      },
-      {
-        "michaelb/sniprun",
-        build = "sh install.sh",
-        config = function()
-          require("sniprun").setup()
-        end
-      },
-      { "akinsho/org-bullets.nvim" },
-      {
-        "lukas-reineke/headlines.nvim",
-        dependencies = "nvim-treesitter/nvim-treesitter",
+        "danilshvalov/org-modern.nvim",
       },
       -- {
       --     "nvim-orgmode/telescope-orgmode.nvim",
@@ -27,12 +30,6 @@ return {
       --         require("telescope").load_extension("orgmode")
       --     end
       -- },
-      {
-        "danilshvalov/org-modern.nvim"
-      },
-      {
-        "massix/org-checkbox.nvim",
-      }
     },
     config = function()
       local Menu = require("org-modern.menu")
@@ -59,12 +56,27 @@ return {
           },
         },
       })
-      require("org-roam").setup {
-        directory = "~/org/roam"
-      }
-      require("org-bullets").setup()
+    end,
+  },
+  {
+    "lukas-reineke/headlines.nvim",
+    ft = "org",
+    config = function()
       require("headlines").setup()
+    end,
+  },
+  {
+    "massix/org-checkbox.nvim",
+    ft = "org",
+    config = function()
       require("orgcheckbox").setup()
     end,
-  }
+  },
+  {
+    "akinsho/org-bullets.nvim",
+    ft = "org",
+    config = function()
+      require("org-bullets").setup()
+    end,
+  },
 }

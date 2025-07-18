@@ -1,12 +1,13 @@
 return {
-  { "nvim-treesitter/nvim-treesitter" },
   { "stevearc/dressing.nvim" },
   { "nvim-lua/plenary.nvim" },
+  { "nvim-neotest/nvim-nio" },
   { "MunifTanjim/nui.nvim" },
   { "nvim-tree/nvim-web-devicons" },
+  { 'L3MON4D3/LuaSnip',           version = vim.version.range("v2.*"), event = "InsertEnter" },
   {
     "HakonHarnes/img-clip.nvim",
-    event = "VeryLazy",
+    ft = { "markdown", "Avante" },
     opts = {
       default = {
         embed_image_as_base64 = false,
@@ -18,6 +19,7 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown", "Avante" },
     opts = { file_types = { "markdown", "Avante" } },
   },
 }

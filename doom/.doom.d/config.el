@@ -37,7 +37,7 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-font (font-spec :family "Aporetic Serif Mono" :size 14 :weight 'bold)
-      doom-variable-pitch-font (font-spec :family "0xProto Nerd Font" :size 13))
+      doom-variable-pitch-font (font-spec :family "Aporetic Serif Mono" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -270,7 +270,16 @@
 
 (map! :leader
       :desc "Increase transparency" "t +" #'+ui/decrease-opacity
+      :desc "Project diagnostics" "c X" #'flymake-show-project-diagnostics
+      :desc "Project diagnostics" "c x" #'flymake-show-buffer-diagnostics
       :desc "Decrease transparency" "t -" #'+ui/increase-opacity)
+
+(map!
+ :desc "Rename variable" :n "grn" #'eglot-rename
+ :desc "Find references" :n "grr" #'eglot-find-references
+ :desc "Code actions" :n "gra" #'eglot-code-actions
+ :desc "Type Definitions" :n "grt" #'eglot-find-typeDefinition
+ )
 
 
 (use-package! lsp-mode
