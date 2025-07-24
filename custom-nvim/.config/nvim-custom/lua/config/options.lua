@@ -7,7 +7,7 @@ vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 -- How diagnostics are displayed
 vim.diagnostic.config({
   virtual_lines = { current_line = true },
-  update_in_insert = true,
+  update_in_insert = false,
   float = {
     border = "rounded",
     source = true,
@@ -34,7 +34,7 @@ vim.diagnostic.config({
 vim.lsp.inlay_hint.enable(true);
 
 vim.cmd [[
-  set complete=o,.,w,b,u,i
+  set complete=o,.,w,b,u
 ]]
 
 local _o = vim.o;

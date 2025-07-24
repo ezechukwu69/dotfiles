@@ -11,14 +11,14 @@
     // Choose the order of the modules
     "reload_style_on_change": true,
     "modules-left": [
-        "hyprland/workspaces",
         "hyprland/window"
     ],
     "modules-center": [
-        "network"
+        "hyprland/workspaces"
     ],
     "modules-right": [
         "group/hardware",
+        "network",
         "pulseaudio",
         "clock",
         "custom/power"

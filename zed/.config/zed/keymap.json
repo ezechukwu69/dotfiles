@@ -18,7 +18,12 @@
       "ctrl-j": "workspace::ActivatePaneDown",
       "alt-d": "pane::CloseActiveItem",
       "alt-h": "workspace::ToggleBottomDock",
-      "ctrl-t": ["task::Spawn", { "task_name": "terminal" }]
+      "ctrl-t": [
+        "task::Spawn",
+        {
+          "task_name": "terminal"
+        }
+      ]
     }
   },
   {

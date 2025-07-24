@@ -20,4 +20,5 @@ map.set("n", "grC", function() vim.lsp.buf.outgoing_calls() end,
 map.set("n", "<leader>id", function() vim.cmd.detach() end,
   { noremap = true, silent = true, desc = "Detach from Neovim" })
 
+map.set("n", "<leader>ft", ":echo &filetype<cr>", { noremap = true, silent = true, desc = "Check filetype" })
 -- map.set("n", "-", "<cmd>Explore<cr>", { noremap = true, silent = true })

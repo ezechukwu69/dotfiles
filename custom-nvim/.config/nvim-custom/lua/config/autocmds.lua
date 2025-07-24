@@ -127,6 +127,7 @@ autocmd("FileType", {
   pattern = {
     "qf",
     "help",
+    "neotest-output",
   },
   callback = function(args)
     local map = vim.keymap.set

@@ -9,7 +9,8 @@
 }
 
 window#waybar {
-  background-color: #0A0708;
+  /* background-color: #0A0708; */
+  background-color: rgba(18, 20, 20, 0);
   /* background-color: @blur_background8; */
   /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
   border-radius: 4px;
@@ -23,12 +24,6 @@ window#waybar.hidden {
 }
 
 /*
-window#waybar.empty {
-    background-color: transparent;
-}
-window#waybar.solo {
-    background-color: #FFFFFF;
-}
 */
 
 window#waybar.termite {
@@ -60,7 +55,7 @@ button:hover {
 }
 
 #workspaces {
-  background-color: #444444;
+  background-color: #0A0708;
   padding: 2px 4px;
   margin: 3px 0px;
 }
@@ -105,7 +100,7 @@ button:hover {
 #network,
 #custom-power,
 #cpu {
-  background-color: #444444;
+  background-color: #0A0708;
   color: @primary;
   padding: 0 10px;
   margin: 3px 0px;
@@ -116,3 +111,15 @@ button:hover {
   padding-left: 12px;
   padding-right: 7px;
 }
+
+/* #window#waybar.empty { */
+/*   background-color: transparent; */
+/* } */
+
+window#waybar.empty #window {
+  background-color: transparent;
+}
+
+/* window#waybar.solo { */
+/*   background-color: transparent; */
+/* } */

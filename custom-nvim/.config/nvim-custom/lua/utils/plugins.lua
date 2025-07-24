@@ -14,6 +14,7 @@ return {
   "plugins.baleia",
   -- "plugins.avante",
   "plugins.org",
+  "plugins.testing",
   "plugins.tabby",
   "plugins.dap",
   "plugins.blink",

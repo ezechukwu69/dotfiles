@@ -22,4 +22,34 @@ return {
     ft = { "markdown", "Avante" },
     opts = { file_types = { "markdown", "Avante" } },
   },
+  {
+    "A7Lavinraj/fyler.nvim",
+    version = "stable",
+    keys = {
+      {
+        "-",
+        "<cmd>Fyler kind=float<cr>",
+        desc = "Fyler",
+        mode = "n"
+      }
+    },
+    opts = {
+      close_on_select = true,
+      icon_provider = "nvim-web-devicons",
+      views = {
+        explorer = {
+          width = 0.3,
+          height = 0.8,
+          kind = "float",
+          border = "rounded",
+        },
+        confirm = {
+          width = 0.2,
+          height = 0.05,
+          kind = "float",
+          border = "single",
+        },
+      },
+    } -- check the default options in the README.md
+  },
 }

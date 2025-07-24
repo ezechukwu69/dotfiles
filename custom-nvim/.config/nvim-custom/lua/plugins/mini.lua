@@ -5,20 +5,20 @@ return {
   'echasnovski/mini.nvim',
   -- enabled = false,
   keys = {
-    {
-      '-',
-      function()
-        local file = vim.api.nvim_buf_get_name(0)
-        if file and file ~= '' and not starts_with(file, "minifiles:/") then
-          vim.notify(file)
-          MiniFiles.open(file, false)
-        else
-          MiniFiles.open()
-        end
-      end,
-      desc = 'MiniFiles',
-      mode = 'n'
-    },
+    -- {
+    --   '-',
+    --   function()
+    --     local file = vim.api.nvim_buf_get_name(0)
+    --     if file and file ~= '' and not starts_with(file, "minifiles:/") then
+    --       vim.notify(file)
+    --       MiniFiles.open(file, false)
+    --     else
+    --       MiniFiles.open()
+    --     end
+    --   end,
+    --   desc = 'MiniFiles',
+    --   mode = 'n'
+    -- },
   },
   config = function()
     require("mini.pairs").setup()
@@ -84,12 +84,15 @@ return {
       silent = false,
     }
     require('mini.bufremove').setup()
-    require('mini.files').setup({
+    -- require('mini.files').setup({
+    --   mappings = {},
+    --   options = { use_as_default_explorer = true, permanently_delete = false, },
+    --   windows = { preview = true, width_preview = 70, }
+    -- })
+    -- require("mini.cursorword").setup()
+    require("mini.splitjoin").setup({
       mappings = {
-      },
-      options = {
-        use_as_default_explorer = true,
-        permanently_delete = false,
+        toggle = 'gJ',
       }
     })
     require('mini.surround').setup {
@@ -118,27 +121,27 @@ return {
     --   file = "Session.vim",
     --   verbose = { read = true, write = true, delete = true },
     -- }
-    local logo = vim.fn.system("toilet -f smmono9 -F border ' Ezechukwu69 '")
+    -- local logo = vim.fn.system("toilet -f smmono9 -F border ' Ezechukwu69 '")
 
-    local starter = require('mini.starter')
+    -- local starter = require('mini.starter')
     local delta = (vim.loop.hrtime() - _G.nvim_start_time) / 1e6
-    starter.setup {
-      autoopen = true,
-      header = logo,
-      items = {
-        starter.sections.builtin_actions(),
-        -- starter.sections.recent_files(10, false),
-        starter.sections.recent_files(5, true),
-        -- starter.sections.pick(),
-        -- Use this if you set up 'mini.sessions'
-        -- starter.sections.sessions(5, true)
-      },
-      content_hooks = {
-        starter.gen_hook.adding_bullet(),
-        starter.gen_hook.aligning("center", "center"),
-        starter.gen_hook.padding(3, 2),
-      },
-      footer = string.format("Loaded in %.2f ms", delta),
-    }
+    --   starter.setup {
+    --     autoopen = true,
+    --     header = logo,
+    --     items = {
+    --       starter.sections.builtin_actions(),
+    --       -- starter.sections.recent_files(10, false),
+    --       starter.sections.recent_files(5, true),
+    --       -- starter.sections.pick(),
+    --       -- Use this if you set up 'mini.sessions'
+    --       -- starter.sections.sessions(5, true)
+    --     },
+    --     content_hooks = {
+    --       starter.gen_hook.adding_bullet(),
+    --       starter.gen_hook.aligning("center", "center"),
+    --       starter.gen_hook.padding(3, 2),
+    --     },
+    --     footer = string.format("Loaded in %.2f ms", delta),
+    --   }
   end
 }

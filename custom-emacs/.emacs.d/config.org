@@ -1,0 +1,774 @@
+#+TITLE: Emacs Config
+#+AUTHOR: Ezechukwu
+#+STARTUP: fold
+
+* TABLE OF CONTENTS :TOC:
+- [[#utilites][UTILITES]]
+- [[#package-management][PACKAGE MANAGEMENT]]
+- [[#ui-customization][UI CUSTOMIZATION]]
+- [[#doom-themes][DOOM THEMES]]
+- [[#font][FONT]]
+- [[#org-mode][ORG MODE]]
+- [[#evil-mode][EVIL MODE]]
+- [[#general-keybindings][GENERAL (Keybindings)]]
+- [[#tree-sitter][TREE SITTER]]
+- [[#eglot][EGLOT]]
+- [[#projectile][PROJECTILE]]
+- [[#completion][COMPLETION]]
+- [[#extensibility][EXTENSIBILITY]]
+- [[#which-key][WHICH-KEY]]
+- [[#languages][LANGUAGES]]
+- [[#ai][AI]]
+- [[#debugging][DEBUGGING]]
+- [[#buffer-placements][BUFFER PLACEMENTS]]
+- [[#file-default-modes][FILE DEFAULT MODES]]
+
+* UTILITES
+#+begin_src emacs-lisp
+  ;; Base cache directory
+  (recentf-mode 1)                       ;; Enable recent files
+  (setq recentf-max-saved-items 200)    ;; Increase the number of saved files
+  (setq recentf-auto-cleanup 'never)    ;; Disable automatic cleanup
+  (setq recentf-exclude '("/tmp/" "/ssh:")) ;; Ignore temporary files
+  (defvar font-family "Aporetic Serif Mono")
+  (defvar my-cache-dir
+    (expand-file-name (or (getenv "XDG_CACHE_HOME") "~/.cache") "emacs/")
+    "Directory to store all Emacs cache and generated files.")
+
+  (unless (file-exists-p my-cache-dir)
+    (make-directory my-cache-dir t))
+
+  ;; Move various generated files:
+  (setq
+   ;; ELPA packages (optional if you use straight.el)
+   package-user-dir (expand-file-name "elpa/" my-cache-dir)
+
+   ;; Custom-file (so it doesn't pollute init.el)
+   custom-file (expand-file-name "custom.el" my-cache-dir)
+
+   ;; Auto-save and backups
+   backup-directory-alist `(("." . ,(expand-file-name "backups/" my-cache-dir)))
+   auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-save/" my-cache-dir) t))
+   auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" my-cache-dir)
+
+   ;; URL cache
+   url-history-file (expand-file-name "url/history" my-cache-dir)
+
+   ;; Recentf
+   recentf-save-file (expand-file-name "recentf" my-cache-dir)
+
+   ;; Bookmarks
+   bookmark-default-file (expand-file-name "bookmarks" my-cache-dir)
+
+   ;; Tramp
+   tramp-persistency-file-name (expand-file-name "tramp" my-cache-dir)
+
+   ;; Eshell history
+   eshell-history-file-name (expand-file-name "eshell/history" my-cache-dir)
+
+   ;; Savehist
+   savehist-file (expand-file-name "savehist" my-cache-dir)
+
+   ;; Projectile cache
+   projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-cache-dir))
+
+
+  (setq native-comp-eln-load-path (list (expand-file-name "eln-cache/" my-cache-dir)))
+  (setq package-vc-dir (expand-file-name "vc/" my-cache-dir))
+#+end_src
+
+* PACKAGE MANAGEMENT
+
+#+begin_src emacs-lisp
+  (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+  (require 'package)
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")
+                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  (package-initialize)
+
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+
+  (require 'use-package)
+
+  ;; Enable saving minibuffer history
+  (savehist-mode 1)
+#+end_src
+
+* UI CUSTOMIZATION
+#+begin_src emacs-lisp
+  ;; Disable welcome message
+  (setq inhibit-startup-message t)
+  (global-hl-line-mode 1)
+  (custom-set-faces
+   '(hl-line ((t (:background "#2c2c2c"))))) ;; Dark highlight
+  (setq hl-line-sticky-flag nil)
+  ;; (custom-set-faces
+  ;;  '(hl-line ((t (:underline "white" :background nil)))))
+
+
+  ;; Disable window decorations
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  ;; Enable relative line numbers
+  (global-display-line-numbers-mode)
+  (setq display-line-numbers-type 'relative)
+
+  (use-package all-the-icons
+    :ensure t
+    :if (display-graphic-p))
+
+  (set-frame-parameter nil 'internal-border-width 10)
+  (setq window-divider-default-places t
+        window-divider-default-bottom-width 10
+        window-divider-default-right-width 10)
+  (window-divider-mode -1)
+#+end_src
+
+* DOOM THEMES
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :ensure t
+    :config
+    (setq doom-themes-enable-bold t
+	  doom-themes-enable-italic t)
+    (load-theme 'doom-ayu-dark t)
+    (doom-themes-org-config)
+    )
+#+end_src
+
+* FONT
+
+#+begin_src emacs-lisp
+  ;; Example: Load a theme (ensure it's installed, e.g., via M-x package-install)
+  ;; (load-theme 'modus-vivendi t)
+
+  ;; Example: Set font (replace with your preferred font and size)
+  (set-face-attribute 'default nil
+  		      :font (font-spec :family font-family
+  				       ;; :width 'normal
+  				       :size 14
+  				       ;; :width 'condensed
+  				       :weight 'bold))
+
+  (set-face-attribute 'variable-pitch nil
+  		      :font (font-spec :family font-family
+  				       ;; :width 'normal
+  				       :size 15
+  				       ;; :width 'extra-condensed
+  				       :weight 'bold))
+#+end_src
+
+* ORG MODE
+
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure t
+    :config
+    (setq org-agenda-files '("~/org/tasks.org" "~/org/projects.org"))
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)"
+                      "WAIT(w)" "|" "CANCELLED(c)")))
+    (require 'org-tempo)
+    (setq org-log-done 'time
+          org-log-into-drawer t))
+
+  (use-package toc-org
+    :ensure t
+    :hook (org-mode . toc-org-enable))
+
+  (use-package org-modern
+    :ensure t
+    :after org
+    :hook
+    ((org-mode . org-modern-mode)
+     (org-agenda-finalize . org-modern-agenda))
+    :config
+    (setq
+     org-modern-star 'replace           ; prettier bullets
+     org-hide-emphasis-markers t        ; hide *bold*/_italic_ markers
+     org-pretty-entities t              ; nicer quotes & symbols
+     org-modern-timestamp nil           ; disable timestamp prettify if misaligned
+     org-ellipsis "…")
+    )
+
+  (use-package doom-modeline
+    :ensure t
+    :after doom-themes
+    :init
+    (doom-modeline-mode 1)
+    :config
+    ;; Red background
+    (defun set-red-mode-line ()
+      "Set red mode line"
+      (interactive)
+      (custom-set-faces
+       '(doom-modeline ((t (:background "#682A10" :foreground "#FEDBC1"))))
+       '(mode-line ((t (:background "#682A10" :foreground "#FEDBC1"))))
+       '(mode-line-inactive ((t (:background "#36312E" :foreground "#6B6564"))))))
+
+    ;; Border TOP
+    (defun set-border-mode-line ()
+      "Set border modeline"
+      (interactive)
+      (custom-set-faces
+       ;; Active modeline
+       '(mode-line ((t (
+  		      :background nil
+  		      :foreground nil
+  		      :overline "white"
+  		      ))))
+       ;; Inactive modeline
+       '(mode-line-inactive ((t (:background nil
+  					   :foreground nil
+  					   :overline "white"
+  					   ))))
+       ;; Apply to Doom modeline
+       '(doom-modeline ((t (:inherit mode-line))))
+       ))
+    (set-border-mode-line)
+    )
+
+  (use-package mixed-pitch
+    :ensure t
+    :hook
+    ((org-mode . mixed-pitch-mode)))
+#+end_src
+
+* EVIL MODE
+
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-scroll t)
+    (setq evil-scroll-line-down t)
+    ;; (setq evil-want-minibuffer t)
+    (setq evil-scroll-line-up t)
+    (setq evil-want-keybinding nil)
+    :config
+    (evil-mode 1))
+
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (evil-collection-init))
+
+  (use-package evil-commentary
+    :ensure t
+    :after evil
+    :config
+    (evil-commentary-mode))
+#+end_src
+
+* GENERAL (Keybindings)
+
+#+begin_src emacs-lisp
+  (use-package general
+    :ensure t
+    :after evil
+    :config
+    (general-auto-unbind-keys)
+    (general-evil-setup t)
+
+    ;; Set leader key
+    (general-create-definer my/leader-keys
+      :keymaps 'evil-normal-state-map
+      :prefix "<SPC>"
+      :global-prefix "C-c") ;; Optional: a global prefix for non-evil modes
+
+    (my/leader-keys
+      "a" '(:ignore t :which-key "AI")
+      "a a" '(gptel :which-key "Gptel")
+      "a m" '(gptel-menu :which-key "Gptel Menu")
+      )
+
+    (my/leader-keys
+      "f" '(:ignore t :which-key "Find")
+      "f f" 'find-file
+      "SPC" 'projectile-find-file
+      "f b" 'consult-buffer
+      "s" '(:ignore t :which-key "Search")
+      "s D" 'flymake-show-buffer-diagnostics
+      "s d" 'flymake-show-project-diagnostics
+      "s g" 'consult-grep
+      "f p" 'projectile-find-file
+      "f r" 'consult-recent-file)
+
+    (my/leader-keys
+      "b" '(:ignore t :which-key "Buffers")
+      "b p" '(ibuffer-projectile-open-current :which-key "Project buffers")
+      "b i" 'ibuffer)
+
+    (my/leader-keys
+      "o" '(:ignore t :which-key "Org")
+      "o a" '(org-agenda :which-key "Org agenda"))
+
+    (my/leader-keys
+      "p" '(:ignore t :which-key "Projects")
+      "p s" 'projectile-switch-project
+      "p f" 'projectile-find-file
+      "p b" 'projectile-switch-to-buffer
+      "p d" 'projectile-dired
+      "p g" 'projectile-grep
+      "p r" 'projectile-replace
+      "p c" 'projectile-compile-project
+      "p t" 'projectile-test-project
+      "p k" 'projectile-kill-buffers
+      "p D" 'projectile-discover-projects-in-directory)
+
+    (general-define-key
+     :states '(normal visual)
+     :prefix "SPC c"
+     "n" 'eglot-rename
+     "a" 'eglot-code-actions
+     "i" 'eglot-find-implementation
+     "r" 'xref-find-references
+     "t" 'eglot-find-declaration)
+
+    (general-define-key
+     :states '(normal visual)
+     :prefix "g"
+     "O" 'consult-imenu
+     "S" 'consult-eglot-symbols
+     "c" 'evil-commentary)
+
+    (general-create-definer my/flutter-leader
+      :states '(normal visual)
+      :keymaps 'dart-mode-map
+      :prefix "SPC m"
+      :non-normal-prefix "C-c m")
+
+    (my/flutter-leader
+      "f r" #'flutter-run-or-hot-reload
+      "f R" #'flutter-hot-restart)
+
+    ;; Reload config
+    (general-create-definer my/config-keys
+      :keymaps 'evil-normal-state-map
+      :prefix "h"
+      :states 'normal)
+
+    (my/leader-keys
+      "h r r" (lambda ()
+  	      (interactive)
+  	      (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
+  	      (load-file (expand-file-name "init.el" user-emacs-directory)))
+      :which-key "Reload Config"
+      "h c" (lambda ()
+  	    (interactive)
+  	    (find-file (expand-file-name "config.org" user-emacs-directory)))
+      :which-key "Open Config"
+      "h l" 'check-parens))
+    #+end_src
+
+* TREE SITTER
+
+    #+begin_src emacs-lisp
+	(use-package tree-sitter-langs
+	:ensure t)
+
+	(use-package tree-sitter
+	:ensure t
+	:after tree-sitter-langs
+	:hook (tree-sitter-after-on . tree-sitter-hl-mode)
+	:config
+	(global-tree-sitter-mode))
+
+	;; Install grammars via Emacs (requires Emacs 29+)
+    (setq treesit-language-source-alist
+	    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+	    (c "https://github.com/tree-sitter/tree-sitter-c")
+	    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+	    (css "https://github.com/tree-sitter/tree-sitter-css")
+	    (dart "https://github.com/UserNobody14/tree-sitter-dart")
+	    (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+	    (json "https://github.com/tree-sitter/tree-sitter-json")
+	    (python "https://github.com/tree-sitter/tree-sitter-python")
+	    (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+	    (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+	    (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+
+    ;; Install all missing grammars
+    ;;(dolist (grammar (mapcar 'car treesit-language-source-alist))
+    ;;  (unless (treesit-language-available-p grammar)
+    ;;    (treesit-install-language-grammar grammar)))
+
+    (setq major-mode-remap-alist
+	'((bash-mode . bash-ts-mode)
+	    (c-mode . c-ts-mode)
+	    (c++-mode . c++-ts-mode)
+	    (css-mode . css-ts-mode)
+	    (js-mode . js-ts-mode)
+	    (json-mode . json-ts-mode)
+	    (python-mode . python-ts-mode)
+	    (ruby-mode . ruby-ts-mode)
+	    (typescript-mode . typescript-ts-mode))) ;; Enable for Dart too
+
+
+    #+end_src
+
+* EGLOT
+
+    #+begin_src emacs-lisp
+    (use-package eglot
+	:ensure t
+	:hook ((prog-mode . eglot-ensure))
+	:config
+	(setq eglot-inlay-hints-mode nil)
+	(setq completion-at-point-functions '(eglot-completion-at-point)))
+
+    (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (when (memq window-system '(mac ns x))
+	(exec-path-from-shell-initialize)))
+
+    ;; (with-eval-after-load 'eglot
+    ;; (add-to-list 'eglot-server-programs
+    ;;              '(dart-mode . ("dart" "language-server" "--protocol=lsp")))
+    ;; (add-to-list 'eglot-server-programs
+    ;;              '(typescript-ts-mode . ("typescript-language-server" "--stdio"))))
+
+    #+end_src
+
+* PROJECTILE
+
+    #+begin_src emacs-lisp
+    (use-package projectile
+	:ensure t
+	:config
+	(projectile-mode +1)
+	(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+	(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+    (use-package ibuffer-projectile
+	:ensure t)
+
+    (use-package ibuffer
+    :bind (("C-x C-b" . ibuffer)) ;; Replace buffer list
+    :config
+    (setq ibuffer-show-empty-filter-groups nil) ;; Hide empty groups
+
+    ;; Add hook to group buffers by project when opening ibuffer
+    (add-hook 'ibuffer-hook
+		(lambda ()
+		(ibuffer-projectile-set-filter-groups)
+		(unless (eq ibuffer-sorting-mode 'alphabetic)
+		    (ibuffer-do-sort-by-alphabetic)))))
+
+    #+end_src
+
+* COMPLETION
+
+    #+begin_src emacs-lisp
+      (use-package vertico
+        :ensure t
+        :init
+        (vertico-mode)
+        :config
+        ;; Enable cycling through candidates with M-n / M-p
+        (setq vertico-cycle t)
+        ;; Automatically resize minibuffer based on candidates
+        (setq vertico-resize t))
+
+      (use-package corfu
+        :ensure t
+        :init
+        (global-corfu-mode)
+        :config
+        (setq corfu-auto t        ;; Enable auto-completion
+            	corfu-auto-delay 0.1
+            	corfu-auto-prefix 1
+      	  corfu-border-width 4
+            	corfu-popupinfo-mode 1
+            	corfu-cycle t)
+        (custom-set-faces
+         '(corfu-default ((t (:background "#1e1e2e" :foreground "#f8f8f2" :family font-family :color "#1e1e2e" :style nil))))
+         '(corfu-border ((t (:background "#ffffff")))))
+        )
+
+      (with-eval-after-load 'corfu
+        (define-key evil-insert-state-map (kbd "C-n") #'corfu-next)
+        (define-key evil-insert-state-map (kbd "C-p") #'corfu-previous))
+
+      (use-package cape
+        :ensure t
+        :after corfu
+        :init
+        ;; Add dabbrev for text completion everywhere
+        (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+        ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
+        (add-to-list 'completion-at-point-functions #'cape-file)    ;; file paths
+        (add-hook 'org-mode-hook #'org-src-mode)
+        (add-hook 'org-src-mode-hook #'corfu-mode)
+
+        (add-hook 'corfu-mode-hook
+                  (lambda ()
+                    (setq-local line-spacing 0.15)))
+        )
+
+      ;; (use-package corfu-popupinfo
+      ;;   :after corfu
+      ;;   :config
+      ;;   (corfu-popupinfo-mode)
+      ;;   (setq completion-in-region-function #'corfu-completion-in-region)
+      ;;   )
+
+      (use-package corfu-terminal
+        :if (not (display-graphic-p))
+        :config
+        (corfu-terminal-mode))
+
+      (use-package marginalia
+        :ensure t
+        :after vertico
+        :config
+        (marginalia-mode))
+
+      (use-package consult
+        :ensure t)
+
+      (use-package consult-eglot
+        :ensure t
+        :after (eglot consult)
+        :commands consult-eglot-symbols)
+
+
+      (use-package orderless
+        :ensure t
+        :config
+        (setq completion-styles '(
+                        	    orderless
+                        	    basic)))
+
+      (use-package embark
+        :ensure t
+        :bind
+        (("C-." . embark-act)
+         ("M-." . embark-dwim)
+         ("C-h B" . embark-bindings)))
+
+      (use-package embark-consult
+        :ensure t
+        :after (embark consult)
+        :hook (embark-collect-mode . consult-preview-at-point-mode))
+    #+end_src
+
+* EXTENSIBILITY
+    This configuration is designed to be extensible. You can add new packages and configurations by creating new sections in this file. For example, to add a new package, you can create a new heading and add a ~use-package~ block.
+
+    You can also create a directory for custom lisp files.
+
+    #+begin_src emacs-lisp
+    #+end_src
+
+* WHICH-KEY
+
+    #+begin_src emacs-lisp
+    (use-package which-key
+    :ensure t
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 0.3 ;; Shorter delay for popup
+	    which-key-max-display-columns nil ;; Allow which-key to use full width
+	    which-key-min-display-lines 10 ;; Ensure enough lines for display
+	    which-key-sort-order 'which-key-key-order)) ;; Sort by key sequence
+    #+end_src
+
+* LANGUAGES
+
+Dart mode
+
+    #+begin_src emacs-lisp
+      (use-package dart-mode
+        :ensure t
+        :hook (dart-mode . eglot-ensure))
+
+      (use-package flutter
+        :ensure t
+        :after dart-mode)
+    #+end_src
+
+Markdown Mode
+
+    #+begin_src emacs-lisp
+      (use-package markdown-mode
+        :ensure t
+        :mode ("\\.md\\'" . markdown-mode))
+
+      (defun my/eglot-render-markdown ()
+        "Format Eglot's *eglot-help* buffer using markdown-mode."
+        (when (string= (buffer-name) "*eglot-help*")
+          (markdown-view-mode) ;; Read-only rendered view
+          ;; Optional: enable visual enhancements
+          (visual-line-mode 1)
+          (setq-local shr-use-fonts t)))
+
+      (add-hook 'help-mode-hook #'my/eglot-render-markdown)
+      (setq markdown-fontify-code-blocks-natively t)
+ #+end_src
+
+* AI
+
+#+begin_src emacs-lisp
+  (use-package copilot
+    :ensure t
+    :vc (:url "https://github.com/copilot-emacs/copilot.el"
+    	    :rev :newest
+              :branch "main")
+    :hook '((prog-mode . copilot-mode))
+    :bind (:map copilot-completion-map
+    	      ("M-l" . #'copilot-accept-completion)
+    	      ("TAB" . #'copilot-accept-completion)
+    	      ("C-TAB" . #'copilot-accept-completion-by-word)
+    	      ("C-<tab>" . #'copilot-accept-completion-by-word))
+    :config
+    (add-to-list 'copilot-indentation-alist '(prog-mode  2))
+    (add-to-list 'copilot-indentation-alist '(org-mode  2))
+    (add-to-list 'copilot-indentation-alist '(text-mode  2))
+    (add-to-list 'copilot-indentation-alist '(closure-mode  2))
+    (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode  2)))
+#+end_src
+
+GPTEL
+#+begin_src emacs-lisp
+  (use-package gptel :vc (:url "https://github.com/karthink/gptel"
+            		     :rev :newest
+            		     :branch "master")
+    :ensure t
+    :config
+    ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+    ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+    (setq
+     gptel-model 'gemini-2.5-flash
+     gptel-default-mode 'org-mode
+     gptel-backend (gptel-make-gemini "Gemini"
+            	   :key (getenv "GEMINI_API_KEY")
+          	   :stream t)
+     ;; gptel-tools '("mcp-terminal-commander")
+     )
+    (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+    (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+    (gptel-make-preset 'coding                       ;preset name, a symbol
+      :description "A preset optimized for coding tasks" ;for your reference
+      :backend "Claude"                     ;gptel backend or backend name
+      :model 'claude-3-7-sonnet-20250219.1
+      :system "You are an expert coding assistant. Your role is to provide high-quality code solutions, refactorings, and explanations."
+      :tools '("read_buffer" "modify_buffer")) ;gptel tools or tool names
+    )
+
+  (use-package mcp
+    :ensure t
+    :after gptel
+    :custom (mcp-hub-servers
+      	   `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+      	     ("terminal-commander" . (:command "uvx" :args ("terminal_controller")))
+      	     ))
+    :config
+    (require 'mcp-hub)
+    (require 'gptel-integrations)
+    ;; :hook (after-init . mcp-hub-start-all-server)
+    )
+#+end_src
+
+* DEBUGGING
+#+begin_src emacs-lisp
+  (use-package dape
+    :ensure t
+    :init
+    (use-package repeat
+      :ensure t
+      :config (repeat-mode))
+    :config
+    ;; Show UI buffers on the right
+    (setq dape-buffer-window-arrangement 'right))
+
+(with-eval-after-load 'dape
+  (add-to-list 'dape-configs
+    `(flutter-dart
+       :modes (dart-mode)
+       :command ,(concat (getenv "FLUTTER_SDK") "/bin/flutter")
+       :command-args ("run" "--machine" "-d" :device "lib/main.dart")
+       :port :none
+       :type "flutter"
+       :request "launch")))
+
+#+end_src
+
+* BUFFER PLACEMENTS
+
+#+begin_src emacs-lisp
+  (defun my/focus-buffer (window)
+    (select-window window))
+
+  (add-to-list 'display-buffer-alist
+    	     '("^\\*eldoc\\*"
+    	       (display-buffer-at-bottom)
+    	       (display-buffer-reuse-mode-window)
+    	       (body-function . my/focus-buffer)
+    	       (window-height . 10)))
+  (add-to-list 'display-buffer-alist
+    	     '("^\\*Flutter\\*"
+    	       (display-buffer-at-bottom)
+    	       (display-buffer-reuse-mode-window)
+    	       (body-function . my/focus-buffer)
+  	       (window-height . 10)))
+  (add-to-list 'display-buffer-alist
+  	     '("\\*Flymake diagnostics for \*"
+  	       (display-buffer-at-bottom)
+  	       (display-buffer-reuse-mode-window)
+  	       (body-function . my/focus-buffer)
+  	       (window-height . 10)))
+#+end_src
+
+* FILE DEFAULT MODES
+
+Set the commands to run for eglot
+#+begin_src emacs-lisp
+  (with-eval-after-load 'eglot
+    (dolist (m '(typescript-ts-mode tsx-ts-mode js-ts-mode))
+      (add-to-list 'eglot-server-programs
+  		   `(,m .
+  			("vtsls" "--stdio"))))
+    ;; Remove legacy tsserver if desired
+    (setq eglot-server-programs
+          (assq-delete-all 'typescript-ts-mode eglot-server-programs))
+
+    (setq-default eglot-workspace-configuration
+                  '((vtsls
+                     . ((completeFunctionCalls . t)
+                        (typescript . ((updateImportsOnFileMove . ((enabled . "always")))
+                                       (suggest . ((completeFunctionCalls . t)))
+                                       (inlayHints . ((parameterNames . ((enabled . "literals")
+                                                                         (suppressWhenArgumentMatchesName . nil)))
+                                                      (parameterTypes . ((enabled . t)))
+                                                      (variableTypes . ((enabled . nil)))
+                                                      (propertyDeclarationTypes . ((enabled . t)))
+                                                      (functionLikeReturnTypes . ((enabled . t)))
+                                                      (enumMemberValues . ((enabled . t))))))))))))
+#+end_src
+
+Set filetype modes
+
+  #+begin_src emacs-lisp
+  ;; No external package needed — this mode exists in Emacs core
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+#+end_src
+
+Also set the eglot auto start
+#+begin_src emacs-lisp
+(add-hook 'typescript-mode-hook #'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+(add-hook 'js-ts-mode-hook #'eglot-ensure)
+#+end_src
