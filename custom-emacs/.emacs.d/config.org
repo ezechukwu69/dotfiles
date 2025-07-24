@@ -25,56 +25,56 @@
 
 * UTILITES
 #+begin_src emacs-lisp
-  ;; Base cache directory
-  (recentf-mode 1)                       ;; Enable recent files
-  (setq recentf-max-saved-items 200)    ;; Increase the number of saved files
-  (setq recentf-auto-cleanup 'never)    ;; Disable automatic cleanup
-  (setq recentf-exclude '("/tmp/" "/ssh:")) ;; Ignore temporary files
-  (defvar font-family "Aporetic Serif Mono")
-  (defvar my-cache-dir
-    (expand-file-name (or (getenv "XDG_CACHE_HOME") "~/.cache") "emacs/")
-    "Directory to store all Emacs cache and generated files.")
+;; Base cache directory
+   (recentf-mode 1)                       ;; Enable recent files
+   (setq recentf-max-saved-items 200)    ;; Increase the number of saved files
+   (setq recentf-auto-cleanup 'never)    ;; Disable automatic cleanup
+   (setq recentf-exclude '("/tmp/" "/ssh:")) ;; Ignore temporary files
+   (defvar font-family "Aporetic Serif Mono")
+   (defvar my-cache-dir
+     (expand-file-name (or (getenv "XDG_CACHE_HOME") "~/.cache") "emacs/")
+     "Directory to store all Emacs cache and generated files.")
 
-  (unless (file-exists-p my-cache-dir)
-    (make-directory my-cache-dir t))
+   (unless (file-exists-p my-cache-dir)
+     (make-directory my-cache-dir t))
 
-  ;; Move various generated files:
-  (setq
-   ;; ELPA packages (optional if you use straight.el)
-   package-user-dir (expand-file-name "elpa/" my-cache-dir)
+   ;; Move various generated files:
+   (setq
+    ;; ELPA packages (optional if you use straight.el)
+    package-user-dir (expand-file-name "elpa/" my-cache-dir)
 
-   ;; Custom-file (so it doesn't pollute init.el)
-   custom-file (expand-file-name "custom.el" my-cache-dir)
+    ;; Custom-file (so it doesn't pollute init.el)
+    custom-file (expand-file-name "custom.el" my-cache-dir)
 
-   ;; Auto-save and backups
-   backup-directory-alist `(("." . ,(expand-file-name "backups/" my-cache-dir)))
-   auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-save/" my-cache-dir) t))
-   auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" my-cache-dir)
+    ;; Auto-save and backups
+    backup-directory-alist `(("." . ,(expand-file-name "backups/" my-cache-dir)))
+    auto-save-file-name-transforms `((".*" ,(expand-file-name "auto-save/" my-cache-dir) t))
+    auto-save-list-file-prefix (expand-file-name "auto-save-list/.saves-" my-cache-dir)
 
-   ;; URL cache
-   url-history-file (expand-file-name "url/history" my-cache-dir)
+    ;; URL cache
+    url-history-file (expand-file-name "url/history" my-cache-dir)
 
-   ;; Recentf
-   recentf-save-file (expand-file-name "recentf" my-cache-dir)
+    ;; Recentf
+    recentf-save-file (expand-file-name "recentf" my-cache-dir)
 
-   ;; Bookmarks
-   bookmark-default-file (expand-file-name "bookmarks" my-cache-dir)
+    ;; Bookmarks
+    bookmark-default-file (expand-file-name "bookmarks" my-cache-dir)
 
-   ;; Tramp
-   tramp-persistency-file-name (expand-file-name "tramp" my-cache-dir)
+    ;; Tramp
+    tramp-persistency-file-name (expand-file-name "tramp" my-cache-dir)
 
-   ;; Eshell history
-   eshell-history-file-name (expand-file-name "eshell/history" my-cache-dir)
+    ;; Eshell history
+    eshell-history-file-name (expand-file-name "eshell/history" my-cache-dir)
 
-   ;; Savehist
-   savehist-file (expand-file-name "savehist" my-cache-dir)
+    ;; Savehist
+    savehist-file (expand-file-name "savehist" my-cache-dir)
 
-   ;; Projectile cache
-   projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-cache-dir))
+    ;; Projectile cache
+    projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" my-cache-dir))
 
 
-  (setq native-comp-eln-load-path (list (expand-file-name "eln-cache/" my-cache-dir)))
-  (setq package-vc-dir (expand-file-name "vc/" my-cache-dir))
+   (setq native-comp-eln-load-path (list (expand-file-name "eln-cache/" my-cache-dir)))
+   (setq package-vc-dir (expand-file-name "vc/" my-cache-dir))
 #+end_src
 
 * PACKAGE MANAGEMENT
@@ -126,7 +126,7 @@
   (setq window-divider-default-places t
         window-divider-default-bottom-width 10
         window-divider-default-right-width 10)
-  (window-divider-mode -1)
+  (window-divider-mode 1)
 #+end_src
 
 * DOOM THEMES
@@ -296,7 +296,7 @@
       "SPC" 'projectile-find-file
       "f b" 'consult-buffer
       "s" '(:ignore t :which-key "Search")
-      "s D" 'flymake-show-buffer-diagnostics
+      "s D" 'consult-flymake
       "s d" 'flymake-show-project-diagnostics
       "s g" 'consult-grep
       "f p" 'projectile-find-file
@@ -372,45 +372,45 @@
 * TREE SITTER
 
     #+begin_src emacs-lisp
-	(use-package tree-sitter-langs
-	:ensure t)
+      	(use-package tree-sitter-langs
+      	:ensure t)
 
-	(use-package tree-sitter
-	:ensure t
-	:after tree-sitter-langs
-	:hook (tree-sitter-after-on . tree-sitter-hl-mode)
-	:config
-	(global-tree-sitter-mode))
+      	(use-package tree-sitter
+      	:ensure t
+      	:after tree-sitter-langs
+      	:hook (tree-sitter-after-on . tree-sitter-hl-mode)
+      	:config
+      	(global-tree-sitter-mode))
 
-	;; Install grammars via Emacs (requires Emacs 29+)
-    (setq treesit-language-source-alist
-	    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
-	    (c "https://github.com/tree-sitter/tree-sitter-c")
-	    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-	    (css "https://github.com/tree-sitter/tree-sitter-css")
-	    (dart "https://github.com/UserNobody14/tree-sitter-dart")
-	    (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-	    (json "https://github.com/tree-sitter/tree-sitter-json")
-	    (python "https://github.com/tree-sitter/tree-sitter-python")
-	    (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-	    (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-	    (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+      	;; Install grammars via Emacs (requires Emacs 29+)
+      (setq treesit-language-source-alist
+      	    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+      	    (c "https://github.com/tree-sitter/tree-sitter-c")
+      	    (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+      	    (css "https://github.com/tree-sitter/tree-sitter-css")
+      	    (dart "https://github.com/UserNobody14/tree-sitter-dart")
+      	    (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+      	    (json "https://github.com/tree-sitter/tree-sitter-json")
+      	    (python "https://github.com/tree-sitter/tree-sitter-python")
+      	    (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+      	    (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+      	    (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
 
-    ;; Install all missing grammars
-    ;;(dolist (grammar (mapcar 'car treesit-language-source-alist))
-    ;;  (unless (treesit-language-available-p grammar)
-    ;;    (treesit-install-language-grammar grammar)))
+      ;; Install all missing grammars
+      ;;(dolist (grammar (mapcar 'car treesit-language-source-alist))
+      ;;  (unless (treesit-language-available-p grammar)
+      ;;    (treesit-install-language-grammar grammar)))
 
-    (setq major-mode-remap-alist
-	'((bash-mode . bash-ts-mode)
-	    (c-mode . c-ts-mode)
-	    (c++-mode . c++-ts-mode)
-	    (css-mode . css-ts-mode)
-	    (js-mode . js-ts-mode)
-	    (json-mode . json-ts-mode)
-	    (python-mode . python-ts-mode)
-	    (ruby-mode . ruby-ts-mode)
-	    (typescript-mode . typescript-ts-mode))) ;; Enable for Dart too
+      (setq major-mode-remap-alist
+      	'((bash-mode . bash-ts-mode)
+      	    (c-mode . c-ts-mode)
+      	    (c++-mode . c++-ts-mode)
+      	    (css-mode . css-ts-mode)
+      	    (js-mode . js-ts-mode)
+      	    (json-mode . json-ts-mode)
+      	    (python-mode . python-ts-mode)
+      	    (ruby-mode . ruby-ts-mode)
+      	    (typescript-mode . typescript-ts-mode))) ;; Enable for Dart too
 
 
     #+end_src
@@ -485,11 +485,11 @@
         (global-corfu-mode)
         :config
         (setq corfu-auto t        ;; Enable auto-completion
-            	corfu-auto-delay 0.1
-            	corfu-auto-prefix 1
-      	  corfu-border-width 4
-            	corfu-popupinfo-mode 1
-            	corfu-cycle t)
+              corfu-auto-delay 0.1
+              corfu-auto-prefix 1
+              corfu-border-width 4
+              corfu-popupinfo-mode 1
+              corfu-cycle t)
         (custom-set-faces
          '(corfu-default ((t (:background "#1e1e2e" :foreground "#f8f8f2" :family font-family :color "#1e1e2e" :style nil))))
          '(corfu-border ((t (:background "#ffffff")))))
@@ -515,17 +515,25 @@
                     (setq-local line-spacing 0.15)))
         )
 
-      ;; (use-package corfu-popupinfo
-      ;;   :after corfu
-      ;;   :config
-      ;;   (corfu-popupinfo-mode)
-      ;;   (setq completion-in-region-function #'corfu-completion-in-region)
-      ;;   )
+      (use-package corfu-popupinfo
+        :after corfu
+        :hook ((corfu-mode . corfu-popupinfo-mode))
+        :config
+        (setq corfu-popupinfo-delay '(0.5 . 1.0)))
+
+
+      (use-package popon
+        :vc (:url "https://codeberg.org/akib/emacs-popon.git"
+      	    :branch "master")
+        :after corfu)
 
       (use-package corfu-terminal
-        :if (not (display-graphic-p))
+        :vc (:url "https://codeberg.org/akib/emacs-corfu-terminal.git"
+      	    :branch "master")
+        :after popon
         :config
-        (corfu-terminal-mode))
+        (unless (display-graphic-p)
+          (corfu-terminal-mode)))
 
       (use-package marginalia
         :ensure t
@@ -546,8 +554,8 @@
         :ensure t
         :config
         (setq completion-styles '(
-                        	    orderless
-                        	    basic)))
+                                  orderless
+                                  basic)))
 
       (use-package embark
         :ensure t
@@ -561,6 +569,11 @@
         :after (embark consult)
         :hook (embark-collect-mode . consult-preview-at-point-mode))
     #+end_src
+
+Install corfu nerd icons with =package-install nerd-icons-corfu=
+#+begin_src emacs-lisp
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+#+end_src
 
 * EXTENSIBILITY
     This configuration is designed to be extensible. You can add new packages and configurations by creating new sections in this file. For example, to add a new package, you can create a new heading and add a ~use-package~ block.
