@@ -16,28 +16,28 @@ color7 = '#161310'
 color8 = '#efbd94'
 color9 = '#c9ca93'
 
-# Prompt symbols 
-[character]
-success_symbol = "[🞈](color9 bold)"
-error_symbol = "[🞈](@{error})"
-vicmd_symbol = "[🞈](#f9e2af)"
+# # Prompt symbols 
+# [character]
+# success_symbol = "[🞈](color9 bold)"
+# error_symbol = "[🞈](@{error})"
+# vicmd_symbol = "[🞈](#f9e2af)"
 
-[directory]
-format = "[](fg:color1 bg:color4)[󰉋](bg:color1 fg:color2)[ ](fg:color1 bg:color4)[$path ](fg:color3 bg:color4)[ ](fg:color4)"
+# [directory]
+# format = "[](fg:color1 bg:color4)[󰉋](bg:color1 fg:color2)[ ](fg:color1 bg:color4)[$path ](fg:color3 bg:color4)[ ](fg:color4)"
 
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
+# [directory.substitutions]
+# "Documents" = "󰈙 "
+# "Downloads" = " "
+# "Music" = " "
+# "Pictures" = " "
 
-[git_branch]
-format = "[](fg:color8 bg:color4)[ ](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5) $branch](fg:color3 bg:color4)[](fg:color4) "
+# [git_branch]
+# format = "[](fg:color8 bg:color4)[ ](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5) $branch](fg:color3 bg:color4)[](fg:color4) "
 
-[time]
-format = "[](fg:color8 bg:color4)[ ](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5) $time](fg:color3 bg:color4)[](fg:color4) "
-disabled = false
-time_format = "%R" # Hour:Minute Format
+# [time]
+# format = "[](fg:color8 bg:color4)[ ](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5) $time](fg:color3 bg:color4)[](fg:color4) "
+# disabled = false
+# time_format = "%R" # Hour:Minute Format
 
 [python]
 format = "[](fg:color8 bg:color4)[${symbol}${version}](bg:color8 fg:color5)[](fg:color8 bg:color4)[(bg:color8 fg:color5)( ${virtualenv})](fg:color3 bg:color4)[](fg:color4) "
