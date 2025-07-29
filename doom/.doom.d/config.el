@@ -286,15 +286,53 @@
 ;;           (typescript-t-mode . lsp-deferred)
 ;;           (tsx-ts-mode . lsp-deferred))
 ;;
-(use-package! keycast
-  :config
-  (keycast-header-line-mode)
+;;
+
+(after! keycast ;; same as (with-eval-after-load 'keycast
+  (add-to-list 'global-mode-string '("" mode-line-keycast)))
+
+
+
+(after! keycast
   )
+
+(use-package! keycast
+  :hook (after-init . keycast-mode)
+  :config
+  (define-minor-mode keycast-mode
+    "Show current command and its key binding in the mode line (fix for use with doom-modeline)."
+    :global t
+    (if keycast-mode
+        (add-hook 'pre-command-hook 'keycast--update t)
+      (remove-hook 'pre-command-hook 'keycast--update)))
+
+  (add-to-list 'global-mode-string '("" keycast-mode-line)))
 
 (use-package! spacious-padding
   :if (display-graphic-p)
+  :after doom-modeline
   :config
-  (spacious-padding-mode 1))
+  (setq spacious-padding-widths
+        '( :internal-border-width 15
+           :header-line-width 4
+           :mode-line-width 8
+           :tab-width 4
+           :right-divider-width 30
+           :scroll-bar-width 8
+           ;; :fringe-width 8
+           ))
+
+  ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
+  ;; is very flexible and provides several examples.
+  (setq spacious-padding-subtle-frame-lines
+        `( :mode-line-active "#FFFFFF"
+           :mode-line-inactive vertical-border))
+
+  (spacious-padding-mode 1)
+
+  ;; Set a key binding if you need to toggle spacious padding.
+  (define-key global-map (kbd "<f8>") #'spacious-padding-mode)
+  )
 
 ;; (add-to-list 'major-mode-remap-alist
 ;;              '(typescript-mode . typescript-ts-mode))
