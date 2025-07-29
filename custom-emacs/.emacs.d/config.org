@@ -6,9 +6,11 @@
 - [[#utilites][UTILITES]]
 - [[#package-management][PACKAGE MANAGEMENT]]
 - [[#ui-customization][UI CUSTOMIZATION]]
+- [[#padding][PADDING]]
 - [[#emacs-default][EMACS DEFAULT]]
 - [[#doom-themes][DOOM THEMES]]
 - [[#font][FONT]]
+- [[#magit][MAGIT]]
 - [[#org-mode][ORG MODE]]
 - [[#evil-mode][EVIL MODE]]
 - [[#general-keybindings][GENERAL (Keybindings)]]
@@ -20,21 +22,24 @@
 - [[#which-key][WHICH-KEY]]
 - [[#languages][LANGUAGES]]
 - [[#ai][AI]]
+- [[#keycaster][KEYCASTER]]
 - [[#debugging][DEBUGGING]]
 - [[#buffer-placements][BUFFER PLACEMENTS]]
 - [[#file-default-modes][FILE DEFAULT MODES]]
 - [[#terminals][TERMINALS]]
 - [[#helpful][HELPFUL]]
+- [[#dired][DIRED]]
 - [[#final-fixes][FINAL FIXES]]
 
 * UTILITES
 #+begin_src emacs-lisp
+  ;;; -*- lexical-binding:t; coding:utf-8 -*-
   ;; Base cache directory
   (add-hook 'emacs-startup-hook
-	    (lambda ()
-	      (message "*** Emacs loaded in %s seconds with %d garbage collections."
-		       (emacs-init-time "%.2f")
-		       gcs-done)))
+  	    (lambda ()
+  	      (message "*** Emacs loaded in %s seconds with %d garbage collections."
+  		       (emacs-init-time "%.2f")
+  		       gcs-done)))
   (recentf-mode 1)                       ;; Enable recent files
   (setq recentf-max-saved-items 200)    ;; Increase the number of saved files
   (setq recentf-auto-cleanup 'never)    ;; Disable automatic cleanup
@@ -42,7 +47,7 @@
   ;; (defvar font-family "Aporetic Serif Mono")
   (defvar font-family "Pragmasevka Nerd Font")
   (defvar my-cache-dir
-    (expand-file-name (or (getenv "XDG_CACHE_HOME") "~/.cache") "emacs/")
+    (expand-file-name "emacs/" (or (getenv "XDG_CACHE_HOME") "~/.cache"))
     "Directory to store all Emacs cache and generated files.")
 
   (unless (file-exists-p my-cache-dir)
@@ -92,9 +97,10 @@
 #+begin_src emacs-lisp
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
   (require 'package)
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/")
-                           ("elpa" . "https://elpa.gnu.org/packages/")))
+  (setq package-archives '(
+			 ("elpa" . "https://elpa.gnu.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")
+			 ("org" . "https://orgmode.org/elpa/")))
   (package-initialize)
 
   (unless (package-installed-p 'use-package)
@@ -121,8 +127,9 @@
 
   ;; Disable window decorations
   (menu-bar-mode -1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
+  (if (display-graphic-p)
+      (tool-bar-mode -1)
+    (scroll-bar-mode -1))
 
   ;; Enable relative line numbers
   (global-display-line-numbers-mode)
@@ -135,6 +142,14 @@
   ;; (set-frame-parameter nil 'internal-border-width 10)
 #+end_src
 
+* PADDING
+#+begin_src emacs-lisp
+  (use-package spacious-padding
+    :ensure t
+    :if (display-graphic-p)
+    :config
+    (spacious-padding-mode 1))
+#+end_src
 * EMACS DEFAULT 
 Essential emacs defaults
 #+begin_src emacs-lisp
@@ -166,6 +181,10 @@ Essential emacs defaults
     :demand t
     :config
     (blink-cursor-mode -1)
+    (setq make-backup-files nil)
+    (setq create-lockfiles nil)
+    (setq custom-file (make-temp-file "emacs-custom-"))
+    (require 'ffap)
      ;;;; UTF-8
     (prefer-coding-system 'utf-8)
      ;;;; Remove Extra Ui
@@ -180,6 +199,7 @@ Essential emacs defaults
           ;; move by logical lines rather than visual lines (better for macros)
           line-move-visual nil)
     )
+
   (use-package eshell
     :commands eshell
     :config
@@ -220,19 +240,59 @@ Essential emacs defaults
   				       :weight 'bold))
 #+end_src
 
+* MAGIT
+#+begin_src emacs-lisp
+  (use-package magit
+     :ensure t
+     :bind ("C-x g" . magit-status) ; Binds C-x g to open the Magit status buffer
+     :config
+     (require 'magit-transient)
+
+     ;; Optional: Configure how Magit opens new buffers
+     ;; Display magit status in the current window if possible, or a new window
+     (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-vdiff)
+
+     ;; Optional: Customize visual aspects
+     (setq magit-section-highlight t) ; Highlight current section
+     (setq magit-fill-log-message t) ; Auto-wrap log messages
+
+     ;; Optional: If you use Forge for GitHub/GitLab integration
+     ;; (use-package forge :ensure t :after magit))
+     )
+#+end_src
+
 * ORG MODE
 
 #+begin_src emacs-lisp
   (use-package org
     :ensure t
     :config
-    (setq org-agenda-files '("~/org/tasks.org" "~/org/projects.org"))
+    (setq org-directory "~/org")
+    (setq org-M-Ret-may-split-line '((default . nil)))
+    (setq org-insert-heading-respect-content t)
+    (setq org-agenda-files (list org-directory))
     (setq org-todo-keywords
           '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)"
                       "WAIT(w)" "|" "CANCELLED(c)")))
     (require 'org-tempo)
     (setq org-log-done 'time
           org-log-into-drawer t))
+
+  (use-package org-roam
+    :ensure t
+    :bind ((
+  	  "C-c n i" . org-roam-node-insert)
+  				 ("C-c n f" . org-roam-node-find)
+  				 ("C-c n d" . org-roam-dailies-goto-today)
+  				 ("C-c n t" . org-roam-dailies-goto-tomorrow)
+  				 ("C-c n y" . org-roam-dailies-goto-yesterday)
+  				 ("C-c n c" . org-roam-capture))
+    :init
+    (setq org-roam-v2-ack t)
+    :custom
+    (org-roam-directory "~/org/roam")
+    :config
+    (org-roam-setup))
 
   (use-package toc-org
     :ensure t
@@ -310,7 +370,11 @@ Essential emacs defaults
     (setq evil-scroll-line-up t)
     (setq evil-want-keybinding nil)
     :config
-    (evil-mode 1))
+    (evil-mode 1)
+    (with-eval-after-load 'evil
+      (evil-define-key 'normal org-mode-map
+	(kbd "RET") #'org-open-at-point))
+    )
 
   (use-package evil-collection
     :after evil
@@ -347,10 +411,18 @@ Essential emacs defaults
       "a m" '(gptel-menu :which-key "Gptel Menu")
       )
 
+    (defun toggle-evil-mode ()
+      "Toggle evil mode between enabled and disabled"
+      (interactive)
+      (if evil-mode
+  			 (evil-mode -1)
+  			    (evil-mode 1)))
+
     (my/leader-keys
       "f" '(:ignore t :which-key "Find")
       "f f" 'find-file
       "SPC" 'project-find-file
+      "." 'toggle-evil-mode
       "f b" 'consult-buffer
       "s" '(:ignore t :which-key "Search")
       "s D" 'consult-flymake
@@ -554,179 +626,213 @@ Essential emacs defaults
 * COMPLETION
 
     #+begin_src emacs-lisp
-      (use-package vertico
-        :ensure t
-        :init
-        (vertico-mode)
-        :config
-        ;; Enable cycling through candidates with M-n / M-p
-        (setq vertico-cycle t)
-        ;; Automatically resize minibuffer based on candidates
-        (setq vertico-resize t)
-        (setq minibuffer-prompt-properties
-              '(read-only t cursor-intangible t face minibuffer-prompt))
-        (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-        ;; Enable recursive minibuffers
-        (setq enable-recursive-minibuffers t)
-        (minibuffer-depth-indicate-mode 1))
+            (use-package vertico
+              :ensure t
+              :init
+              (vertico-mode)
+              :config
+              ;; Enable cycling through candidates with M-n / M-p
+              (setq vertico-cycle t)
+              ;; Automatically resize minibuffer based on candidates
+              (setq vertico-resize t)
+              (setq minibuffer-prompt-properties
+                    '(read-only t cursor-intangible t face minibuffer-prompt))
+              (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+              ;; Enable recursive minibuffers
+              (setq enable-recursive-minibuffers t)
+              (minibuffer-depth-indicate-mode 1))
 
-      (use-package corfu
-        :ensure t
-        :init
-        (global-corfu-mode)
-        (corfu-history-mode)
-        :config
-        (setq corfu-auto t        ;; Enable auto-completion
-              corfu-auto-delay 0.1
-              corfu-auto-prefix 1
-              corfu-border-width 4
-              corfu-popupinfo-mode 1
-              corfu-cycle t)
-        (defun my-elisp-setup ()
-          "Enable Eldoc and Corfu in Emacs Lisp buffers."
-          (eldoc-mode 1)     ;; Inline documentation
-          (corfu-mode 1))    ;; Popup completion UI
+            (use-package eldoc-box
+              :ensure t
+              :after evil
+              :bind (("M-n" . eldoc-box-scroll-up)
+                     ("M-p" . eldoc-box-scroll-down)
+                     ;; (:map evil-normal-state-map
+                     ;;       ("K" . eldoc-box-help-at-point)) ; Show help at point
+                     )
+              ;; :hook (eldoc-mode . eldoc-box-hover-mode)
+              ;; :custom
+            	:config
+            	(setq eldoc-echo-area-use-multiline-p nil) ;; don't expand
+      		;; (setq eldoc-message-function #'ignore)    ;; Do not display in minibuffer
+		      ;; (eldoc-box-max-pixel-height 200)
+              )
 
-        (add-hook 'emacs-lisp-mode-hook #'my-elisp-setup)
-        (defun my-org-src-setup ()
-          "Enable Eldoc and Corfu in Org src edit buffers."
-          (when (derived-mode-p 'emacs-lisp-mode)
-            (my-elisp-setup)))
+            (with-eval-after-load 'evil
+              (evil-define-key* 'normal 'global
+                (kbd "C-c k") #'eldoc-box-help-at-point)) ;;
 
-        (add-hook 'org-src-mode-hook #'my-org-src-setup)
+            (use-package corfu
+              :ensure t
+              :init
+              (global-corfu-mode)
+              (corfu-history-mode)
+              :config
+              (setq corfu-auto t        ;; Enable auto-completion
+                    corfu-auto-delay 0.1
+                    corfu-auto-prefix 1
+                    corfu-border-width 4
+                    corfu-popupinfo-mode 1
+                    corfu-cycle t)
+              (defun my-elisp-setup ()
+                "Enable Eldoc and Corfu in Emacs Lisp buffers."
+                (eldoc-mode 1)     ;; Inline documentation
+                (corfu-mode 1))    ;; Popup completion UI
 
-        (defun my-org-eldoc-in-src-block ()
-          "Provide Eldoc support for Elisp inside Org src blocks."
-          (when (org-in-src-block-p '("emacs-lisp"))
-            (let* ((context (thing-at-point 'symbol t))
-                   (sym (and context (intern-soft context))))
-      	(cond
-      	 ((and sym (fboundp sym))
-                ;; Function: Show its args
-                (elisp-get-fnsym-args-string sym))
-      	 ((and sym (boundp sym))
-                ;; Variable: Show its docstring
-                (elisp-get-var-docstring sym))))))
+              (add-hook 'emacs-lisp-mode-hook #'my-elisp-setup)
+              (defun my-org-src-setup ()
+                "Enable Eldoc and Corfu in Org src edit buffers."
+                (when (derived-mode-p 'emacs-lisp-mode)
+                  (my-elisp-setup)))
 
-        (defun my-org-enable-inline-eldoc ()
-          "Enable inline Eldoc in Org mode for Elisp blocks."
-	  (setq-local eldoc-documentation-function #'my-org-eldoc-in-src-block)
-	  (eldoc-mode 1))
+              (add-hook 'org-src-mode-hook #'my-org-src-setup)
 
-        (add-hook 'org-mode-hook #'my-org-enable-inline-eldoc)
-        ;; (custom-set-faces
-        ;;  '(corfu-default ((t (:background "#1e1e2e" :foreground "#f8f8f2" :family font-family :color "#1e1e2e" :style nil))))
-        ;;  '(corfu-border ((t (:background "#ffffff")))))
-        )
+              (defun my-org-eldoc-in-src-block ()
+                "Provide Eldoc support for Elisp inside Org src blocks."
+                (when (org-in-src-block-p '("emacs-lisp"))
+                  (let* ((context (thing-at-point 'symbol t))
+                         (sym (and context (intern-soft context))))
+                    (cond
+                     ((and sym (fboundp sym))
+                      ;; Function: Show its args
+                      (elisp-get-fnsym-args-string sym))
+                     ((and sym (boundp sym))
+                      ;; Variable: Show its docstring
+                      (elisp-get-var-docstring sym))))))
 
-      (with-eval-after-load 'corfu
-        (define-key evil-insert-state-map (kbd "C-n") #'corfu-next)
-        (define-key evil-insert-state-map (kbd "C-p") #'corfu-previous))
+              (defun my-org-enable-inline-eldoc ()
+                "Enable inline Eldoc in Org mode for Elisp blocks."
+                (setq-local eldoc-documentation-function #'my-org-eldoc-in-src-block)
+                (eldoc-mode 1))
 
-      (use-package cape
-        :ensure t
-        :after corfu
-        :init
-        (defun my/add-shell-completion ()
-          (interactive)
-          (add-to-list 'completion-at-point-functions 'cape-history)
-          (add-to-list 'completion-at-point-functions 'pcomplete-completions-at-point))
+              (add-hook 'org-mode-hook #'my-org-enable-inline-eldoc)
+              ;; (custom-set-faces
+              ;;  '(corfu-default ((t (:background "#1e1e2e" :foreground "#f8f8f2" :family font-family :color "#1e1e2e" :style nil))))
+              ;;  '(corfu-border ((t (:background "#ffffff")))))
+              )
 
-        (add-hook 'shell-mode-hook #'my/add-shell-completion nil t)
-        ;; Add dabbrev for text completion everywhere
-        ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-        ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
-        ;; (add-to-list 'completion-at-point-functions #'cape-file)    ;; file paths
+            (with-eval-after-load 'corfu
+              (define-key evil-insert-state-map (kbd "C-n") #'corfu-next)
+              (define-key evil-insert-state-map (kbd "C-p") #'corfu-previous))
 
-        ;; (add-hook 'corfu-mode-hook
-        ;;           (lambda ()
-        ;;             (setq-local line-spacing 0.15)))
-        :config
-        (advice-add #'eglot-completion-at-point :around #'cape-wrap-nonexclusive)
-        (advice-add #'comint-completion-at-point :around #'cape-wrap-nonexclusive)
-        ;; Silence then pcomplete capf, no errors or messages!
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
-        ;; Ensure that pcomplete does not write to the buffer
-        ;; and behaves as a pure `completion-at-point-function'.
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
+            (use-package cape
+              :ensure t
+              :after corfu
+              :init
+              (defun my/add-shell-completion ()
+                (interactive)
+                (add-to-list 'completion-at-point-functions 'cape-history)
+                (add-to-list 'completion-at-point-functions 'pcomplete-completions-at-point))
 
-      (use-package corfu-popupinfo
-        :after corfu
-        :hook ((corfu-mode . corfu-popupinfo-mode))
-        :config
-        (setq corfu-popupinfo-delay '(0.5 . 1.0)))
+              (add-hook 'shell-mode-hook #'my/add-shell-completion nil t)
+              ;; Add dabbrev for text completion everywhere
+              ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+              ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
+              ;; (add-to-list 'completion-at-point-functions #'cape-file)    ;; file paths
 
+              ;; (add-hook 'corfu-mode-hook
+              ;;           (lambda ()
+              ;;             (setq-local line-spacing 0.15)))
+              :config
+              (add-hook 'prog-mode-hook (lambda ()
+                                	      (advice-add #'eglot-completion-at-point :around #'cape-wrap-nonexclusive)))
+              (advice-add #'comint-completion-at-point :around #'cape-wrap-nonexclusive)
+              ;; Silence then pcomplete capf, no errors or messages!
+              (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+              ;; Ensure that pcomplete does not write to the buffer
+              ;; and behaves as a pure `completion-at-point-function'.
+              (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
 
-      (use-package popon
-        :vc (:url "https://codeberg.org/akib/emacs-popon.git"
-                  :branch "master")
-        :after corfu)
-
-      (use-package corfu-terminal
-        :vc (:url "https://codeberg.org/akib/emacs-corfu-terminal.git"
-                  :branch "master")
-        :after popon
-        :config
-        (unless (display-graphic-p)
-          (corfu-terminal-mode)))
-
-      (use-package yasnippet
-        :ensure t
-        :init
-        (yas-global-mode 1)
-        :config
-        (setq eglot-extend-to-xref t)
-        (setq eglot-enable-snippet t)
-        (defun corfu-maybe-expand-snippet ()
-          (when (and (bound-and-true-p yas-minor-mode)
-                     (yas-expand))))
-        (advice-add 'corfu-insert :after #'corfu-maybe-expand-snippet)
-        )
-
-      (use-package marginalia
-        :ensure t
-        :after vertico
-        :custom
-        (marginalia-annotators
-         '(marginalia-annotators-heavy marginalia-annotators-light nil))
-        :config
-        (marginalia-mode))
-
-      (use-package consult
-        :ensure t
-        :config
-        (recentf-mode t)
-        )
-
-      (use-package consult-eglot
-        :ensure t
-        :after (eglot consult)
-        :commands consult-eglot-symbols)
+            (use-package corfu-popupinfo
+              :after corfu
+              :hook ((corfu-mode . corfu-popupinfo-mode))
+              :config
+              (setq corfu-popupinfo-delay '(0.5 . 1.0)))
 
 
-      (use-package orderless
-        :ensure t
-        :config
-        (setq completion-styles '(
-                                  orderless
-                                  basic)))
+            (use-package popon
+              :vc (:url "https://codeberg.org/akib/emacs-popon.git"
+                        :branch "master")
+              :after corfu)
 
-      (use-package embark
-        :ensure t
-        :bind
-        (("C-=" . embark-act)
-         ("C--" . embark-dwim)
-         ("C-h B" . embark-bindings)))
+            (use-package corfu-terminal
+              :vc (:url "https://codeberg.org/akib/emacs-corfu-terminal.git"
+                        :branch "master")
+              :after popon
+              :config
+              (unless (display-graphic-p)
+                (corfu-terminal-mode)))
 
-      (use-package embark-consult
-        :ensure t
-        :after (embark consult)
-        :hook (embark-collect-mode . consult-preview-at-point-mode))
+            (use-package yasnippet
+              :ensure t
+              :init
+              (yas-global-mode 1)
+              :config
+              (setq eglot-extend-to-xref t)
+              (setq eglot-enable-snippet t)
+              (defun corfu-maybe-expand-snippet ()
+                (when (and (bound-and-true-p yas-minor-mode)
+                           (yas-expand))))
+              (advice-add 'corfu-insert :after #'corfu-maybe-expand-snippet)
+              )
+
+            (use-package marginalia
+              :ensure t
+              :after vertico
+              :custom
+              (marginalia-annotators
+               '(marginalia-annotators-heavy marginalia-annotators-light nil))
+              :config
+              (marginalia-mode))
+
+            (use-package consult
+              :ensure t
+              :bind (
+                     ("C-s" . consult-line))
+              :config
+              (recentf-mode t)
+              )
+
+            (use-package consult-eglot
+              :ensure t
+              :after (eglot consult)
+              :commands consult-eglot-symbols)
+
+
+            (use-package orderless
+              :ensure t
+              :config
+              (setq completion-styles '(
+                                        orderless
+                                        basic)))
+
+            (use-package embark
+              :ensure t
+              :bind
+              (("C-=" . embark-act)
+               ("C--" . embark-dwim)
+               ("C-h B" . embark-bindings)))
+
+            (use-package embark-consult
+              :ensure t
+              :after (embark consult)
+              :hook (embark-collect-mode . consult-preview-at-point-mode))
     #+end_src
 
 Install corfu nerd icons with =package-install nerd-icons-corfu=
-#+begin_src emacs-lisp
-  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
+    #+begin_src emacs-lisp
+      (use-package nerd-icons
+      	:ensure t ; This will ensure nerd-icons is installed)
+      	)
+
+      (use-package nerd-icons-corfu
+      	:ensure t ; This will ensure nerd-icons is installed
+      	:after nerd-icons
+      	:config
+      	(when (display-graphic-p) ; Only load if graphical (nerd-icons are visual)
+      	  ;; (nerd-icons-install-fonts) ; Install the fonts if you haven't already
+      	  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+        )
 #+end_src
 
 * EXTENSIBILITY
@@ -767,20 +873,22 @@ Dart mode
 Markdown Mode
 
     #+begin_src emacs-lisp
-      (use-package markdown-mode
-        :ensure t
-        :mode ("\\.md\\'" . markdown-mode))
+          (use-package markdown-mode
+            :ensure t
+            :mode ("\\.md\\'" . markdown-mode)
+            :config
+            (setq markdown-fontify-code-blocks-natively t))
 
-      (defun my/eglot-render-markdown ()
-        "Format Eglot's *eglot-help* buffer using markdown-mode."
-        (when (string= (buffer-name) "*eglot-help*")
-          (markdown-view-mode) ;; Read-only rendered view
-          ;; Optional: enable visual enhancements
-          (visual-line-mode 1)
-          (setq-local shr-use-fonts t)))
+          (defun my/eglot-render-markdown ()
+            "Format Eglot's *eglot-help* buffer using markdown-mode."
+            (when (string= (buffer-name) "*eglot-help*")
+              (markdown-view-mode) ;; Read-only rendered view
+              ;; Optional: enable visual enhancements
+              (visual-line-mode 1)
+              (setq-local shr-use-fonts t)))
 
-      (add-hook 'help-mode-hook #'my/eglot-render-markdown)
-      (setq markdown-fontify-code-blocks-natively t)
+          (add-hook 'help-mode-hook #'my/eglot-render-markdown)
+          (setq markdown-fontify-code-blocks-natively t)
  #+end_src
 
 * AI
@@ -807,42 +915,51 @@ Markdown Mode
 
 GPTEL
 #+begin_src emacs-lisp
-  (use-package gptel :vc (:url "https://github.com/karthink/gptel"
-            		     :rev :newest
-            		     :branch "master")
-    :ensure t
-    :config
-    ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
-    ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-    (setq
-     gptel-model 'gemini-2.5-flash
-     gptel-default-mode 'org-mode
-     gptel-backend (gptel-make-gemini "Gemini"
-            	   :key (getenv "GEMINI_API_KEY")
-          	   :stream t)
-     ;; gptel-tools '("mcp-terminal-commander")
-     )
-    (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-    (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
-    (gptel-make-preset 'coding                       ;preset name, a symbol
-      :description "A preset optimized for coding tasks" ;for your reference
-      :backend "Claude"                     ;gptel backend or backend name
-      :model 'claude-3-7-sonnet-20250219.1
-      :system "You are an expert coding assistant. Your role is to provide high-quality code solutions, refactorings, and explanations."
-      :tools '("read_buffer" "modify_buffer")) ;gptel tools or tool names
-    )
+  ;; (use-package gptel :vc (:url "https://github.com/karthink/gptel"
+  ;;           		     :rev :newest
+  ;;           		     :branch "master")
+  ;;   :ensure t
+  ;;   :config
+  ;;   ;; (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+  ;;   ;; (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+  ;;   (setq
+  ;;    gptel-model 'gemini-2.5-flash
+  ;;    gptel-default-mode 'org-mode
+  ;;    gptel-backend (gptel-make-gemini "Gemini"
+  ;;           	   :key (getenv "GEMINI_API_KEY")
+  ;;         	   :stream t)
+  ;;    ;; gptel-tools '("mcp-terminal-commander")
+  ;;    )
+  ;;   (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+  ;;   (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
+  ;;   (gptel-make-preset 'coding                       ;preset name, a symbol
+  ;;     :description "A preset optimized for coding tasks" ;for your reference
+  ;;     :backend "Claude"                     ;gptel backend or backend name
+  ;;     :model 'claude-3-7-sonnet-20250219.1
+  ;;     :system "You are an expert coding assistant. Your role is to provide high-quality code solutions, refactorings, and explanations."
+  ;;     :tools '("read_buffer" "modify_buffer")) ;gptel tools or tool names
+  ;;   )
 
-  (use-package mcp
+  ;; (use-package mcp
+  ;;   :ensure t
+  ;;   :after gptel
+  ;;   :custom (mcp-hub-servers
+  ;;     	   `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+  ;;     	     ("terminal-commander" . (:command "uvx" :args ("terminal_controller")))
+  ;;     	     ))
+  ;;   :config
+  ;;   (require 'mcp-hub)
+  ;;   (require 'gptel-integrations)
+  ;;   ;; :hook (after-init . mcp-hub-start-all-server)
+  ;;   )
+#+end_src
+
+* KEYCASTER
+#+begin_src emacs-lisp
+  (use-package keycast
     :ensure t
-    :after gptel
-    :custom (mcp-hub-servers
-      	   `(("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-      	     ("terminal-commander" . (:command "uvx" :args ("terminal_controller")))
-      	     ))
     :config
-    (require 'mcp-hub)
-    (require 'gptel-integrations)
-    ;; :hook (after-init . mcp-hub-start-all-server)
+    (keycast-header-line-mode)
     )
 #+end_src
 
@@ -948,28 +1065,52 @@ Also set the eglot auto start
 
 * HELPFUL
 #+begin_src emacs-lisp
-(use-package helpful
-  :ensure t
-  :bind
-  (([remap describe-function] . helpful-function)
-   ([remap describe-variable] . helpful-variable)
-   ([remap describe-key]      . helpful-key)
-   ([remap describe-symbol]   . helpful-symbol)
-   ("C-h F" . helpful-function)
-   ("C-h V" . helpful-variable)
-   ("C-h K" . helpful-key)
-   ("C-h S" . helpful-symbol)))
+  (use-package helpful
+    :ensure t
+    :bind
+    (([remap describe-function] . helpful-function)
+     ([remap describe-variable] . helpful-variable)
+     ([remap describe-key]      . helpful-key)
+     ([remap describe-symbol]   . helpful-symbol)
+     ("C-h F" . helpful-function)
+     ("C-h V" . helpful-variable)
+     ("C-h K" . helpful-key)
+     ("C-h S" . helpful-symbol)))
 
 #+end_src
 
+* DIRED
+#+begin_src emacs-lisp
+  (setq dired-listing-switches "-alh --group-directories-first")
+  (setq dired-hide-details-hide-symlink-targets nil)
+
+  ;; Hide dot entries
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              (dired-hide-details-mode 1)))
+  (use-package all-the-icons-dired
+    :ensure t
+    :hook (dired-mode . all-the-icons-dired-mode))
+  (use-package diredfl
+    :ensure t
+    :hook (dired-mode . diredfl-mode))
+  (setq dired-recursive-deletes 'always
+        dired-recursive-copies 'always)
+  (use-package dirvish
+    :ensure t
+    :init (dirvish-override-dired-mode))
+  (setq nerd-icons-scale-factor 1.0) 
+  (setq all-the-icons-scale-factor 0.5)
+#+end_src
 * FINAL FIXES
 #+begin_src emacs-lisp
-  (setq window-divider-default-places t
-        window-divider-default-bottom-width 10
-        window-divider-default-right-width 10)
-  (window-divider-mode -1)
-  (custom-set-faces
-   `(window-divider ((t (:foreground ,(face-attribute 'default :background)))))   ;; normal
-   `(window-divider-first-pixel ((t (:foreground ,(face-attribute 'default :background)))))
-   `(window-divider-last-pixel ((t (:foreground ,(face-attribute 'default :background))))))
+  ;; (setq window-divider-default-places t
+  ;;       window-divider-default-bottom-width 10
+  ;;       window-divider-default-right-width 10)
+  ;; (window-divider-mode -1)
+  ;; (custom-set-faces
+  ;;  `(window-divider ((t (:foreground ,(face-attribute 'default :background)))))   ;; normal
+  ;;  `(window-divider-first-pixel ((t (:foreground ,(face-attribute 'default :background)))))
+  ;;  `(window-divider-last-pixel ((t (:foreground ,(face-attribute 'default :background))))))
 #+end_src
+

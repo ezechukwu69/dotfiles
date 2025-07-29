@@ -21,4 +21,20 @@ map.set("n", "<leader>id", function() vim.cmd.detach() end,
   { noremap = true, silent = true, desc = "Detach from Neovim" })
 
 map.set("n", "<leader>ft", ":echo &filetype<cr>", { noremap = true, silent = true, desc = "Check filetype" })
+map.set("n", "<C-x>0", "<C-w>q", { noremap = true, silent = true, desc = "Close current window" })
+map.set("n", "<C-x>1", "<C-w>o", { noremap = true, silent = true, desc = "Delete other window" })
+map.set("n", "<C-x>2", "<C-w>s", { noremap = true, silent = true, desc = "Split Below" })
+map.set("n", "<C-x>3", "<C-w>v", { noremap = true, silent = true, desc = "Split Right" })
+map.set("n", "<M-z>", "dt", { noremap = true, silent = true, desc = "Delete to character" })
+map.set("n", "<C-x>o", "<C-w><C-w>", { noremap = true, silent = true, desc = "Other window" })
+map.set("n", "<M-f>", "<C-o>e", { noremap = true, silent = true, desc = "Move word forward in insert" })
+map.set("n", "<C-x>h", "GVgg", { noremap = true, silent = true, desc = "Move word forward in insert" })
+
+-- Split bindings
+map.set("n", "<C-x>4<C-o>", function()
+  vim.cmd.vsplit()
+  Snacks.picker.buffers()
+end, { desc = "Open buffer in split" })
+
+map.set("n", "<C-s>", "/", { noremap = true, silent = true, desc = "Search forward" })
 -- map.set("n", "-", "<cmd>Explore<cr>", { noremap = true, silent = true })

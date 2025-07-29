@@ -182,8 +182,8 @@
 
 (use-package! expand-region
   :bind
-  ("M-=" . er/expand-region)
-  ("M--" . er/contract-region))
+  (("M-=" . er/expand-region)
+   ("M--" . er/contract-region)))
 
 (use-package! prisma-mode
   :config
@@ -281,13 +281,20 @@
  :desc "Type Definitions" :n "grt" #'eglot-find-typeDefinition
  )
 
-
-(use-package! lsp-mode
-  :hook '(
-          (typescript-ts-mode . lsp-deferred)
-          (tsx-ts-mode . lsp-deferred))
+;; (use-package! lsp-mode
+;;   :hook '(
+;;           (typescript-t-mode . lsp-deferred)
+;;           (tsx-ts-mode . lsp-deferred))
+;;
+(use-package! keycast
+  :config
+  (keycast-header-line-mode)
   )
 
+(use-package! spacious-padding
+  :if (display-graphic-p)
+  :config
+  (spacious-padding-mode 1))
 
 ;; (add-to-list 'major-mode-remap-alist
 ;;              '(typescript-mode . typescript-ts-mode))
@@ -301,4 +308,52 @@
 ;;             (when (and (eq major-mode 'typescript-ts-mode)
 ;;                        (not (lsp-find-workspace 'typescript-ts-mode nil)))
 ;;               (lsp))))
+;;
+;; BUFFER PLACEMENTS
+(defun my/focus-buffer (window)
+  (select-window window))
+
+(add-to-list 'display-buffer-alist
+             '("^\\*eldoc\\*"
+               (display-buffer-at-bottom)
+               (display-buffer-reuse-mode-window)
+               (body-function . my/focus-buffer)
+               (window-height . 10)))
+(add-to-list 'display-buffer-alist
+             '("^\\*Flutter\\*"
+               (display-buffer-at-bottom)
+               (display-buffer-reuse-mode-window)
+               (body-function . my/focus-buffer)
+               (window-height . 10)))
+(add-to-list 'display-buffer-alist
+             '("\\*Flymake diagnostics for \*"
+               (display-buffer-at-bottom)
+               (display-buffer-reuse-mode-window)
+               (body-function . my/focus-buffer)
+               (window-height . 10)))
+
+;; SET SERVER PROGRAMS
+(with-eval-after-load 'eglot
+  (dolist (m '(typescript-ts-mode tsx-ts-mode js-ts-mode))
+    (add-to-list 'eglot-server-programs
+                 `(,m .
+                   ("vtsls" "--stdio"))))
+  ;; Remove legacy tsserver if desired
+  (setq eglot-server-programs
+        (assq-delete-all 'typescript-ts-mode eglot-server-programs))
+
+  (setq-default eglot-workspace-configuration
+                '((vtsls
+                   . ((completeFunctionCalls . t)
+                      (typescript . ((updateImportsOnFileMove . ((enabled . "always")))
+                                     (suggest . ((completeFunctionCalls . t)))
+                                     (inlayHints . ((parameterNames . ((enabled . "literals")
+                                                                       (suppressWhenArgumentMatchesName . nil)))
+                                                    (parameterTypes . ((enabled . t)))
+                                                    (variableTypes . ((enabled . nil)))
+                                                    (propertyDeclarationTypes . ((enabled . t)))
+                                                    (functionLikeReturnTypes . ((enabled . t)))
+                                                    (enumMemberValues . ((enabled . t))))))))))))
+
+
 ;; ~/.doom.d/config.el

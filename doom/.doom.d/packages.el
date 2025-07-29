@@ -61,6 +61,8 @@
   )
 
 (package! eldoc :built-in t)
+(package! spacious-padding)
+(package! keycast)
 (package! kanagawa-themes)
 (package! poet-theme)
 (package! flyover :recipe (:host github :repo "konrad1977/flyover"))
