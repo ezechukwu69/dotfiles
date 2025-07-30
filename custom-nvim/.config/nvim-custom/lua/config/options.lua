@@ -85,6 +85,36 @@ _o.synmaxcol = 300   -- don't syntax highlight long lines
 -- -- _o.wildmode = "longest,list,full" -- wildmenu mode
 opt.winborder = "rounded"
 opt.diffopt:append("linematch:60")
+opt.diffopt:append("linematch:60")
+_o.redrawtime = 10000
+_o.maxmempattern = 20000
+_o.showtabline = 1
+_o.tabline = ""
+--
+-- -- File handling
+_o.backup = false                            -- creates a backup file
+_o.writebackup = false                       -- in case of a crash
+_o.swapfile = false                          -- creates a swapfile
+_o.undofile = true                           -- enable persistent undo
+_o.undodir = vim.fn.expand("~/.vim/undodir") -- set undo directory
+_o.updatetime = 300;                         -- time to update neovim in ms
+_o.timeoutlen = 500                          -- key timeout duration
+_o.ttimeoutlen = 0                           -- time to wait for a key code sequence
+_o.autoread = true                           -- auto read file when changed on disk
+_o.autowrite = false                         -- auto write file when changed on disk
+--
+-- -- Behaviour settings
+_o.hidden = true                  -- enable hidden buffers
+_o.errorbells = false             -- no error bells
+_o.backspace = "indent,eol,start" -- better backspace behaviour
+_o.autochdir = false              -- don't change dir automatically
+opt.iskeyword:append("-");        -- treat words with '-' as part of words
+opt.path:append("**")             -- recursively search for file in path
+-- _o.selection = "exclusive"
+_o.modifiable = true
+_o.encoding = "UTF-8"
+opt.clipboard:append("unnamedplus");
+opt.laststatus = 3
 _o.redrawtime = 10000
 _o.maxmempattern = 20000
 _o.showtabline = 1

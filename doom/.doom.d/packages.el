@@ -60,6 +60,7 @@
   :recipe (:host github :repo "karthink/gptel" :branch "master" :files (:defaults "*.el"))
   )
 
+
 (package! eldoc :built-in t)
 (package! spacious-padding)
 (package! keycast)
@@ -73,3 +74,12 @@
 (package! expand-region)
 
 (package! mcp)
+
+(unpin! dape)
+(unpin! string-inflection)
+
+(package! string-inflection
+  :recipe (:host github :repo "svaante/dape" :files ("*.el") :branch "master"))
+
+(package! string-inflection
+  :recipe (:host github :repo "akicho8/string-inflection" :files ("*.el") :branch "main"))

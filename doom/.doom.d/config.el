@@ -394,4 +394,7 @@
                                                     (enumMemberValues . ((enabled . t))))))))))))
 
 
+(add-to-list 'load-path doom-private-dir)
+
+(require 'ez-flutter)
 ;; ~/.doom.d/config.el
