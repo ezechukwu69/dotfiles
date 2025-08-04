@@ -163,7 +163,7 @@ Install corfu nerd icons with =package-install nerd-icons-corfu=
     :config
     (setq doom-themes-enable-bold t
           doom-themes-enable-italic t)
-    (load-theme 'doom-gruvbox t)
+    (load-theme 'modus-vivendi-tinted t)
     (doom-themes-org-config)
     )
 
@@ -249,8 +249,8 @@ Essential emacs defaults
 
 #+begin_src emacs-lisp
   ;; Example: Load a theme (ensure it's installed, e.g., via M-x package-install)
-  ;; (load-theme 'modus-vivendi t)
-
+  ;; (load-theme 'modus-vivendi-tinted t)
+ 
   ;; Example: Set font (replace with your preferred font and size)
   (set-face-attribute 'default nil
   		      :font (font-spec :family font-family
@@ -645,6 +645,17 @@ Essential emacs defaults
   	(forward-line -1)
         (move-to-column col))))
 
+
+  (defun my/switch-to-previous-buffer ()
+  	"Switch to the previous buffer."
+  	(interactive)
+  	(switch-to-buffer (other-buffer (current-buffer) 1)))
+
+  (global-set-key (kbd "M-]") 'next-buffer)
+  (global-set-key (kbd "M-[") 'previous-buffer)
+  (global-set-key (kbd "C-^") 'my/switch-to-previous-buffer)
+
+
   (use-package general
     :ensure t
     :after evil
@@ -977,6 +988,10 @@ Essential emacs defaults
 
       ;; (use-package ibuffer-projectile
       ;; 	:ensure t)
+      (use-package project
+        :config
+        (add-to-list 'project-vc-extra-root-markers ".jj"))
+
 
       (use-package ibuffer
         :ensure nil
@@ -985,9 +1000,9 @@ Essential emacs defaults
         (setq ibuffer-show-empty-filter-groups nil)) ;; Hide empty groups
 
       (use-package ibuffer-project
-	:ensure t
-	:hook (ibuffer . (lambda ()
-			   (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+      	:ensure t
+      	:hook (ibuffer . (lambda ()
+      			   (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
                            (unless (eq ibuffer-sorting-mode 'project-file-relative)
                              (ibuffer-do-sort-by-project-file-relative)))))
 
@@ -1030,10 +1045,10 @@ Essential emacs defaults
         ;;        )
         ;; :hook (eldoc-mode . eldoc-box-hover-mode)
         ;; :custom
-      	:config
-      	(setq eldoc-echo-area-use-multiline-p nil) ;; don't expand
-      	;; (setq eldoc-message-function #'ignore)    ;; Do not display in minibuffer
-      	      ;; (eldoc-box-max-pixel-height 200)
+        :config
+        (setq eldoc-echo-area-use-multiline-p nil) ;; don't expand
+        ;; (setq eldoc-message-function #'ignore)    ;; Do not display in minibuffer
+        ;; (eldoc-box-max-pixel-height 200)
         )
 
       (with-eval-after-load 'evil
@@ -1089,6 +1104,14 @@ Essential emacs defaults
         ;;  '(corfu-border ((t (:background "#ffffff")))))
         )
 
+      (defun mark-line ()
+      	"Mark whole line"
+      	(interactive)
+      	(beginning-of-line)
+      	(set-mark-command nil)
+      	(end-of-line)
+      	)
+
       (with-eval-after-load 'corfu
         (define-key evil-insert-state-map (kbd "M-n") #'corfu-next)
         (define-key evil-insert-state-map (kbd "M-p") #'corfu-previous)
@@ -1097,20 +1120,23 @@ Essential emacs defaults
         (define-key evil-insert-state-map (kbd "C-p") #'previous-line)
         
         (define-key evil-insert-state-map (kbd "C-v") #'scroll-up-command)
-        
+        (define-key evil-insert-state-map (kbd "M-o") #'mark-line)
+        (define-key evil-normal-state-map (kbd "M-o") #'mark-line)
+
+
         (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
         (define-key evil-normal-state-map (kbd "C-n") #'next-line))
 
 
-        (use-package nerd-icons-corfu
-          :ensure t ; This will ensure nerd-icons is installed
-          :after nerd-icons
-          :after corfu
-          :config
-          (when (display-graphic-p) ; Only load if graphical (nerd-icons are visual)
-            ;; (nerd-icons-install-fonts) ; Install the fonts if you haven't already
-            (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
-          )
+      (use-package nerd-icons-corfu
+        :ensure t ; This will ensure nerd-icons is installed
+        :after nerd-icons
+        :after corfu
+        :config
+        (when (display-graphic-p) ; Only load if graphical (nerd-icons are visual)
+          ;; (nerd-icons-install-fonts) ; Install the fonts if you haven't already
+          (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+        )
 
       (use-package cape
         :ensure t
@@ -1175,7 +1201,6 @@ Essential emacs defaults
 
       (use-package marginalia
         :ensure t
-        :after vertico
         :custom
         (marginalia-annotators
          '(marginalia-annotators-heavy marginalia-annotators-light nil))
