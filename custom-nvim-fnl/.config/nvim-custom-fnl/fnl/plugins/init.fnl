@@ -20,3 +20,4 @@
 (require "plugins/supermaven")
 (require "plugins/edgy-custom")
 (require "plugins/flutter-tools")
+(require "plugins/carenvim")

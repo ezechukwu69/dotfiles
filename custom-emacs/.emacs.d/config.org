@@ -7,36 +7,48 @@
 - [[#package-management][PACKAGE MANAGEMENT]]
 - [[#ui-customization][UI CUSTOMIZATION]]
 - [[#emacs-default][EMACS DEFAULT]]
+- [[#which-key][WHICH-KEY]]
 - [[#font][FONT]]
 - [[#magit][MAGIT]]
 - [[#org-mode][ORG MODE]]
 - [[#evil-mode][EVIL MODE]]
+- [[#meow-mode][MEOW MODE]]
+- [[#god-mode][GOD MODE]]
 - [[#general-keybindings][GENERAL (Keybindings)]]
+- [[#mail][MAIL]]
+- [[#languages][LANGUAGES]]
+- [[#jumplist][JUMPLIST]]
 - [[#tree-sitter][TREE SITTER]]
 - [[#eglot][EGLOT]]
 - [[#project][PROJECT]]
+- [[#terminal][TERMINAL]]
 - [[#completion][COMPLETION]]
 - [[#extensibility][EXTENSIBILITY]]
-- [[#which-key][WHICH-KEY]]
-- [[#languages][LANGUAGES]]
+- [[#file-default-modes][FILE DEFAULT MODES]]
 - [[#ai][AI]]
 - [[#keycaster][KEYCASTER]]
 - [[#debugging][DEBUGGING]]
 - [[#buffer-placements][BUFFER PLACEMENTS]]
-- [[#file-default-modes][FILE DEFAULT MODES]]
 - [[#terminals][TERMINALS]]
 - [[#helpful][HELPFUL]]
 - [[#dired][DIRED]]
 - [[#formatters][FORMATTERS]]
 - [[#padding][PADDING]]
 - [[#final-fixes][FINAL FIXES]]
+- [[#linux-system][LINUX SYSTEM]]
+- [[#custom-function][CUSTOM FUNCTION]]
 
 * UTILITES
 #+begin_src emacs-lisp
-  ;;; -*- lexical-binding:t; coding:utf-8 -*-
+    ;;; -*- lexical-binding:t; coding:utf-8 -*-
   ;; Base cache directory
   (setq inhibit-startup-message t)
+  (setq-default line-spacing 0.05)
   (global-hl-line-mode 1)
+  (setq cursor-type 'box) ;; bar or box
+  (setq-default tab-width 4)
+  (setq-default indent-tabs-mode nil)
+  (setq indent-line-function 'insert-tab)
   (custom-set-faces
    '(hl-line ((t (:background "#2c2c2c"))))) ;; Dark highlight
   (setq hl-line-sticky-flag nil)
@@ -50,13 +62,13 @@
   (scroll-bar-mode -1)
   (horizontal-scroll-bar-mode -1)
   (add-hook 'after-make-frame-functions
-  	  (lambda (frame)
-  	    (modify-frame-parameters
-  	     frame
-  	     '((menu-bar-lines . 0)
-  	       (tool-bar-lines . 0)
-  	       (vertical-scroll-bars . nil)
-  	       (horizontal-scroll-bars . nil)))))
+    	      (lambda (frame)
+    	        (modify-frame-parameters
+    	         frame
+    	         '((menu-bar-lines . 0)
+    	           (tool-bar-lines . 0)
+    	           (vertical-scroll-bars . nil)
+    	           (horizontal-scroll-bars . nil)))))
 
   (add-to-list 'default-frame-alist '(menu-bar-lines . 0))
   (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
@@ -68,16 +80,18 @@
   (setq display-line-numbers-type 'relative)
   (require 'cl-lib)
   (add-hook 'emacs-startup-hook
-  	    (lambda ()
-  	      (message "*** Emacs loaded in %s seconds with %d garbage collections."
-  		       (emacs-init-time "%.2f")
-  		       gcs-done)))
+    	      (lambda ()
+    	        (message "*** Emacs loaded in %s seconds with %d garbage collections."
+    		             (emacs-init-time "%.2f")
+    		             gcs-done)))
   (recentf-mode 1)                       ;; Enable recent files
   (setq recentf-max-saved-items 200)    ;; Increase the number of saved files
   (setq recentf-auto-cleanup 'never)    ;; Disable automatic cleanup
   (setq recentf-exclude '("/tmp/" "/ssh:")) ;; Ignore temporary files
   ;; (defvar font-family "Aporetic Serif Mono")
-  (defvar font-family "Pragmasevka Nerd Font")
+  ;; (defvar font-family "Iosevka Comfy")
+  ;;(defvar font-family "Pragmasevka Nerd Font")
+  (defvar font-family "JetBrainsMono Nerd Font")
   (defvar my-cache-dir
     (expand-file-name "emacs/" (or (getenv "XDG_CACHE_HOME") "~/.cache"))
     "Directory to store all Emacs cache and generated files.")
@@ -130,9 +144,10 @@
   (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
   (require 'package)
   (setq package-archives '(
-  			 ("elpa" . "https://elpa.gnu.org/packages/")
-  			 ("melpa" . "https://melpa.org/packages/")
-  			 ("org" . "https://orgmode.org/elpa/")))
+  			             ("elpa" . "https://elpa.gnu.org/packages/")
+                 	         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+  			             ("melpa" . "https://melpa.org/packages/")
+  			             ("org" . "https://orgmode.org/elpa/")))
   (package-initialize)
 
   (unless (package-installed-p 'use-package)
@@ -148,50 +163,66 @@
 * UI CUSTOMIZATION
 
 Install corfu nerd icons with =package-install nerd-icons-corfu=
-    #+begin_src emacs-lisp
-      (use-package nerd-icons
-      	:demand t
-      	:ensure t ; This will ensure nerd-icons is installed))
-      	)
+#+begin_src emacs-lisp
+  (use-package nerd-icons
+    :demand t
+    :ensure t ; This will ensure nerd-icons is installed))
+    )
 #+end_src
 
 #+begin_src emacs-lisp
-  ;; Disable welcome message
-  (use-package doom-themes
+;; Disable welcome message
+
+(pixel-scroll-precision-mode 1)
+
+(use-package cherry-blossom-theme
+  :ensure t)
+
+(use-package doom-themes
+  :ensure t
+  :demand t
+  :config
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t)
+  (load-theme 'doom-ayu-dark t)
+  (doom-themes-org-config)
+  ) 
+
+(use-package doom-modeline
+  :ensure t
+  :demand t
+  :init
+  (doom-modeline-mode 1)
+  :config
+  ;; Red background
+  (defun set-red-mode-line ()
+    "Set red mode line"
+    (interactive)
+    (custom-set-faces
+     '(doom-modeline ((t (:background "#682A10" :foreground "#FEDBC1"))))
+     '(mode-line ((t (:background "#682A10" :foreground "#FEDBC1"))))
+     '(mode-line-inactive ((t (:background "#36312E" :foreground "#6B6564"))))))
+
+  (use-package all-the-icons
     :ensure t
-    :demand t
-    :config
-    (setq doom-themes-enable-bold t
-          doom-themes-enable-italic t)
-    (load-theme 'modus-vivendi-tinted t)
-    (doom-themes-org-config)
-    )
+    :if (display-graphic-p))
 
-  (use-package doom-modeline
-    :ensure t
-    :demand t
-    :init
-    (doom-modeline-mode 1)
-    :config
-    ;; Red background
-    (defun set-red-mode-line ()
-      "Set red mode line"
-      (interactive)
-      (custom-set-faces
-       '(doom-modeline ((t (:background "#682A10" :foreground "#FEDBC1"))))
-       '(mode-line ((t (:background "#682A10" :foreground "#FEDBC1"))))
-       '(mode-line-inactive ((t (:background "#36312E" :foreground "#6B6564"))))))
-
-    (use-package all-the-icons
-      :ensure t
-      :if (display-graphic-p))
-
-    ;; (set-frame-parameter nil 'internal-border-width 10)
+  ;; (set-frame-parameter nil 'internal-border-width 10)
 #+end_src
 
 * EMACS DEFAULT 
 Essential emacs defaults
 #+begin_src emacs-lisp
+  (use-package ediff
+    :config
+    (setq ediff-split-window-function 'split-window-horizontally
+          ediff-window-setup-function 'ediff-setup-windows-plain
+          ediff-keep-variants nil
+          ediff-make-buffers-readonly-at-startup nil
+          ediff-merge-revisions-with-ancestor t
+          ediff-show-clashes-only t
+          ))
+
   (use-package async
     :ensure t
     :after dired
@@ -201,9 +232,13 @@ Essential emacs defaults
   (use-package savehist
     :defer 2
     :init
-    (savehist-mode t)
     ;; So I can always jump back to wear I left of yesterday
-    (add-to-list 'savehist-additional-variables 'global-mark-ring))
+    (add-to-list 'savehist-additional-variables 'global-mark-ring)
+    (add-to-list 'savehist-additional-variables 'kill-ring)
+    (add-to-list 'savehist-additional-variables 'register-alist)
+    (savehist-mode t)
+
+    (global-auto-revert-mode 1))
 
   (use-package undo-fu-session ; Persistant undo history
     :ensure t
@@ -213,7 +248,7 @@ Essential emacs defaults
   (use-package wgrep :ensure t :after embark
     :bind
     (:map grep-mode-map
-  	("C-x C-q" . wgrep-change-to-wgrep-mode)))
+  	    ("C-x C-q" . wgrep-change-to-wgrep-mode)))
 
   (use-package emacs
     :ensure nil
@@ -245,47 +280,72 @@ Essential emacs defaults
     (setq eshell-destroy-buffer-when-process-dies t))
 #+end_src
 
+* WHICH-KEY
+
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :config
+    (keymap-global-set "<f12>" #'which-key-show-major-mode)
+    (keymap-global-set "C-x K" #'kill-current-buffer)
+    (setq which-key-idle-delay 0.3 ;; Shorter delay for popup
+          which-key-max-display-columns nil ;; Allow which-key to use full width
+          which-key-min-display-lines 10 ;; Ensure enough lines for display
+          which-key-sort-order 'which-key-key-order)
+    (which-key-mode)) ;; Sort by key sequence
+#+end_src
+
 * FONT
 
 #+begin_src emacs-lisp
-  ;; Example: Load a theme (ensure it's installed, e.g., via M-x package-install)
-  ;; (load-theme 'modus-vivendi-tinted t)
- 
-  ;; Example: Set font (replace with your preferred font and size)
-  (set-face-attribute 'default nil
-  		      :font (font-spec :family font-family
-  				       ;; :width 'normal
-  				       :size 14
-  				       ;; :width 'ultra-expanded
-  				       :weight 'bold))
+;; Example: Load a theme (ensure it's installed, e.g., via M-x package-install)
+;; (load-theme 'modus-vivendi-tinted t)
 
-  (set-face-attribute 'variable-pitch nil
-  		      :font (font-spec :family font-family
-  				       ;; :width 'normal
-  				       :size 16
-  				       ;; :width 'extra-condensed
-  				       :weight 'bold))
+;; Example: Set font (replace with your preferred font and size)
+(set-face-attribute 'default nil
+  		            :font (format "%s-10.5:weight=extra-bold" font-family))
+
+(set-face-attribute 'variable-pitch nil
+  		            :font (format "%s-11:weight=extra-bold" font-family))
+
+(set-face-attribute 'font-lock-comment-face nil
+                    :slant 'italic
+                    :weight 'normal)
+
+(set-face-attribute 'font-lock-keyword-face nil
+                    :weight 'extra-bold)
+
+;; (set-face-attribute 'org-document-title nil
+;;                     :family font-family
+;;                     :height 1.8
+;;                     :weight 'bold)
+
+;; (add-to-list 'default-frame-alist `(font . ,(format "%s-11:weight=bold" font-family)))
+
+;; (add-hook 'server-after-make-frame-hook
+;;           (lambda ()
+;;             (set-frame-font (format "%s-12:weight=bold" font-family) nil t)))
 #+end_src
 
 * MAGIT
 #+begin_src emacs-lisp
   (use-package magit
-     :ensure t
-     :bind ("C-x g" . magit-status) ; Binds C-x g to open the Magit status buffer
-     :config
-     (require 'magit-transient)
+    :ensure t
+    :bind ("C-x g" . magit-status) ; Binds C-x g to open the Magit status buffer
+    :config
+    (require 'magit-transient)
 
-     ;; Optional: Configure how Magit opens new buffers
-     ;; Display magit status in the current window if possible, or a new window
-     (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-vdiff)
+    ;; Optional: Configure how Magit opens new buffers
+    ;; Display magit status in the current window if possible, or a new window
+    ;; (setq magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-vdiff)
 
-     ;; Optional: Customize visual aspects
-     (setq magit-section-highlight t) ; Highlight current section
-     (setq magit-fill-log-message t) ; Auto-wrap log messages
+    ;; Optional: Customize visual aspects
+    (setq magit-section-highlight t) ; Highlight current section
+    (setq magit-fill-log-message t) ; Auto-wrap log messages
 
-     ;; Optional: If you use Forge for GitHub/GitLab integration
-     ;; (use-package forge :ensure t :after magit))
-     )
+    ;; Optional: If you use Forge for GitHub/GitLab integration
+    ;; (use-package forge :ensure t :after magit))
+    )
 #+end_src
 
 * ORG MODE
@@ -293,7 +353,14 @@ Essential emacs defaults
 #+begin_src emacs-lisp
   (use-package org
     :ensure t
+    :hook (org-mode . (lambda ()
+                        (setq-local completion-at-point-functions
+                                    (list #'cape-elisp-block
+                                          #'cape-dabbrev
+                                          #'cape-file
+                                          #'cape-keyword))))
     :config
+    (add-hook 'org-src-mode-hook 'corfu-mode)
     (setq org-directory "~/org")
     (setq org-M-Ret-may-split-line '((default . nil)))
     (setq org-insert-heading-respect-content t)
@@ -303,17 +370,22 @@ Essential emacs defaults
                       "WAIT(w)" "|" "CANCELLED(c)")))
     (require 'org-tempo)
     (setq org-log-done 'time
-          org-log-into-drawer t))
+          org-log-into-drawer t)
+    (setq org-src-fontify-natively t
+          org-src-preserve-indentation t
+          org-src-tab-acts-natively t
+          org-edit-src-content-indentation 0)
+    )
 
   (use-package org-roam
     :ensure t
     :bind ((
-  	  "C-c n i" . org-roam-node-insert)
-  				 ("C-c n f" . org-roam-node-find)
-  				 ("C-c n d" . org-roam-dailies-goto-today)
-  				 ("C-c n t" . org-roam-dailies-goto-tomorrow)
-  				 ("C-c n y" . org-roam-dailies-goto-yesterday)
-  				 ("C-c n c" . org-roam-capture))
+    	      "C-c n i" . org-roam-node-insert)
+    	     ("C-c n f" . org-roam-node-find)
+    	     ("C-c n d" . org-roam-dailies-goto-today)
+    	     ("C-c n t" . org-roam-dailies-goto-tomorrow)
+    	     ("C-c n y" . org-roam-dailies-goto-yesterday)
+    	     ("C-c n c" . org-roam-capture))
     :init
     (setq org-roam-v2-ack t)
     :custom
@@ -340,27 +412,27 @@ Essential emacs defaults
      org-ellipsis "…")
     )
 
-    ;; Border TOP
-    (defun set-border-mode-line ()
-      "Set border modeline"
-      (interactive)
-      (custom-set-faces
-       ;; Active modeline
-       '(mode-line ((t (
-  		      :background nil
-  		      :foreground nil
-  		      :overline "white"
-  		      ))))
-       ;; Inactive modeline
-       '(mode-line-inactive ((t (:background nil
-  					   :foreground nil
-  					   :overline "white"
-  					   ))))
-       ;; Apply to Doom modeline
-       '(doom-modeline ((t (:inherit mode-line))))
-       ))
-    ;; (set-red-mode-line)
-    )
+  ;; Border TOP
+  (defun set-border-mode-line ()
+    "Set border modeline"
+    (interactive)
+    (custom-set-faces
+     ;; Active modeline
+     '(mode-line ((t (
+    		            :background nil
+    		            :foreground nil
+    		            :overline "white"
+    		            ))))
+     ;; Inactive modeline
+     '(mode-line-inactive ((t (:background nil
+    					                     :foreground nil
+    					                     :overline "white"
+    					                     ))))
+     ;; Apply to Doom modeline
+     '(doom-modeline ((t (:inherit mode-line))))
+     ))
+  ;; (set-red-mode-line)
+  )
 
   (use-package mixed-pitch
     :ensure t
@@ -371,248 +443,388 @@ Essential emacs defaults
 * EVIL MODE
 
 #+begin_src emacs-lisp
-  (use-package evil
-    :ensure t
-    :init
-    (setq evil-want-C-g-bindings t)
-    (setq evil-want-C-w-delete t)
-    (setq evil-want-Y-yank-to-eol t)
-    (setq evil-want-abbrev-expand-on-insert-exit nil)
-    (setq evil-respect-visual-line-mode nil)
-    (setq evil-want-integration t)
-    (setq evil-want-C-u-scroll t)
-    (setq evil-want-C-i-scroll t)
-    (setq evil-scroll-line-down t)
-    ;; (setq evil-want-minibuffer t)
-    (setq evil-scroll-line-up t)
-    (setq evil-want-keybinding nil)
-    :config
-    (evil-mode 1)
-    (evil-select-search-module 'evil-search-module 'evil-search)
-    (setq evil-visual-update-x-selection-p nil)
-    (with-eval-after-load 'evil
-      (evil-define-key 'normal org-mode-map
-  	(kbd "RET") #'org-open-at-point))
+(use-package evil
+  :ensure t
+  :init
+  (setq evil-want-C-g-bindings t)
+  (setq evil-want-C-w-delete t)
+  (setq evil-want-Y-yank-to-eol t)
+  (setq evil-want-abbrev-expand-on-insert-exit nil)
+  (setq evil-respect-visual-line-mode nil)
+  (setq evil-want-integration t)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-scroll t)
+  (setq evil-scroll-line-down t)
+  ;; (setq evil-want-minibuffer t)
+  (setq evil-scroll-line-up t)
+  (setq evil-want-keybinding nil)
+  :config
+  (evil-mode 1)
+  (evil-select-search-module 'evil-search-module 'evil-search)
+  (evil-set-initial-state 'inferior-emacs-lisp-mode  'emacs)
+  (evil-set-initial-state 'nrepl-mode  'insert)
+  (evil-set-initial-state 'pylookup-mode  'emacs)
+  (evil-set-initial-state 'comint-mode  'normal)
+  (evil-set-initial-state 'shell-mode  'insert)
+  (evil-set-initial-state 'git-commit-mode  'insert)
+  (evil-set-initial-state 'git-rebase-mode  'emacs)
+  (evil-set-initial-state 'term-mode  'emacs)
+  (evil-set-initial-state 'vc-dir-mode  'emacs)
+  (evil-set-initial-state 'help-mode  'emacs)
+  (evil-set-initial-state 'helm-grep-mode  'emacs)
+  (evil-set-initial-state 'grep-mode  'emacs)
+  (evil-set-initial-state 'xref--xref-buffer-mode  'emacs)
+  (evil-set-initial-state 'bc-menu-mode  'emacs)
+  (evil-set-initial-state 'magit-branch-manager-mode  'emacs)
+  (evil-set-initial-state 'rdictcc-buffer-mode  'emacs)
+  (evil-set-initial-state 'dired-mode  'emacs)
+  (evil-set-initial-state 'wdired-mode  'normal)
+  (setq evil-visual-update-x-selection-p nil)
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal org-mode-map
+  	  (kbd "RET") #'org-open-at-point))
 
-    (cl-callf2 delq 'evil-ex features)
-    (with-eval-after-load 'evil-ex (require 'commands)))
+  (cl-callf2 delq 'evil-ex features)
+  (with-eval-after-load 'evil-ex (require 'commands)))
 
-  (defun my-evil-bracket-range (count beg end type inclusive)
-    "Select nearest matching bracket-like syntax: (), [], {} or <>."
-    (let ((pairs '("()" "[]" "{}" "<>"))
-  	  found range)
-      (dolist (pr pairs)
-  	(condition-case nil
-  	    (setq range
-  		  (evil-select-paren
-  		   (string-to-char pr) ; opening char
-  		   (string-to-char (substring pr 1 2))
-  		   beg end type count inclusive))
-  	  (error nil))
-  	(when range
-  	  ;; Choose smallest enclosing range
-  	  (if found
-  	      (when (< (- (cdr range) (car range))
-  		       (- (cdr found) (car found)))
-  		(setq found range))
-  	    (setq found range))))
-      found))
+;; (defun my-evil-bracket-range (count beg end 
+;; 				                    type inclusive)
+;;   "Select nearest matching bracket-like syntax: (), [], {} or <>."
+;;   (let ((pairs '("()" "[]" "{}" "<>"))
+;; 	    found range)
+;;     (dolist (pr pairs)
+;; 	  (condition-case nil
+;; 	      (setq range
+;; 		        (evil-select-paren
+;; 		         (string-to-char pr) ; opening char
+;; 		         (string-to-char (substring pr 1 2))
+;; 		         beg end type count inclusive))
+;; 	    (error nil))
+;; 	  (when range
+;; 	    ;; Choose smallest enclosing range
+;; 	    (if found
+;; 	        (when (< (- (cdr range) (car range))
+;; 		             (- (cdr found) (car found)))
+;; 		      (setq found range))
+;; 	      (setq found range))))
+;;     found))
 
-  (use-package evil-collection
-    :after evil
-    :preface
-    (defvar +evil-collection-disabled-list
-      '(anaconda-mode
-  	company
-  	elisp-mode
-  	dape-info-modules-mode
-  	dape-info-sources-mode
-  	dape-info-stack-mode
-  	dape-info-watch-mode
-  	dape-info-breakpoints-mode
-  	dape-info-threads-mode
-  	ert
-  	lispy))
-    (defvar evil-collection-setup-minibuffer nil)
-    (defvar evil-collection-want-unimpaired-p nil)
-    (defvar evil-collection-want-find-usages-bindings-p nil)
-    (defvar evil-collection-outline-enable-in-minor-mode-p nil)
-    :ensure t
-    :init
-    (evil-set-undo-system 'undo-redo)
-    (defvar evil-collection-key-blacklist '())
-    (setq evil-collection-key-blacklist
-          (append evil-collection-key-blacklist
-                  '("gd" "gf" "K")
-                  '("gr" "gR")
-                  '("[" "]" "gz" "<escape>")))
-    :config
-    (evil-define-text-object evil-any-bracket-inner (count &optional beg end type)
-      "Inner any-bracket text object: ib."
-      :extend-selection nil
-      (my-evil-bracket-range count beg end type nil))
-    (evil-define-text-object evil-any-bracket-outer (count &optional beg end type)
-      "Outer bracket text object: ab."
-      :extend-selection t
-      (my-evil-bracket-range count beg end type t))
-    ;; Rebind b to this generic ANY-BRACKET object
-    (define-key evil-inner-text-objects-map "b" #'evil-any-bracket-inner)
-    (define-key evil-outer-text-objects-map "b" #'evil-any-bracket-outer)
+(use-package evil-collection
+  :after evil
+  :preface
+  (defvar +evil-collection-disabled-list
+    '(anaconda-mode
+  	  company
+  	  elisp-mode
+  	  dape-info-modules-mode
+  	  dape-info-sources-mode
+  	  dape-info-stack-mode
+  	  dape-info-watch-mode
+  	  dape-info-breakpoints-mode
+  	  dape-info-threads-mode
+  	  ert
+  	  lispy))
+  (defvar evil-collection-setup-minibuffer nil)
+  (defvar evil-collection-want-unimpaired-p nil)
+  (defvar evil-collection-want-find-usages-bindings-p nil)
+  (defvar evil-collection-outline-enable-in-minor-mode-p nil)
+  :ensure t
+  :init
+  (evil-set-undo-system 'undo-redo)
+  (defvar evil-collection-key-blacklist '())
+  (setq evil-collection-key-blacklist
+        (append evil-collection-key-blacklist
+                '("gd" "gf")
+                '("gr" "gR")
+                '("[" "]" "gz" "<escape>")))
+  :config
+  ;; (evil-define-text-object evil-any-bracket-inner (count &optional beg end type)
+  ;;   "Inner any-bracket text object: ib."
+  ;;   :extend-selection nil
+  ;;   (my-evil-bracket-range count beg end type nil))
+  ;; (evil-define-text-object evil-any-bracket-outer (count &optional beg end type)
+  ;;   "Outer bracket text object: ab."
+  ;;   :extend-selection t
+  ;;   (my-evil-bracket-range count beg end type t))
+  ;; ;; Rebind b to this generic ANY-BRACKET object
+  ;; (define-key evil-inner-text-objects-map "b" #'evil-any-bracket-inner)
+  ;; (define-key evil-outer-text-objects-map "b" #'evil-any-bracket-outer)
 
-    ;; Now limit 'q' object to quotes only
-    (define-key evil-inner-text-objects-map "q" #'evil-inner-quote)
-    (define-key evil-outer-text-objects-map "q" #'evil-outer-quote)
+  ;; Now limit 'q' object to quotes only
+  ;; (define-key evil-inner-text-objects-map "q" #'evil-inner-quote)
+  ;; (define-key evil-outer-text-objects-map "q" #'evil-outer-quote)
 
-    ;; Optional: unbind default block-delimiter 'B' from anyblock/stack
-    (define-key evil-inner-text-objects-map "B" nil)
-    (define-key evil-outer-text-objects-map "B" nil)
-    (evil-collection-init))
+  ;; Optional: unbind default block-delimiter 'B' from anyblock/stack
+  ;; (define-key evil-inner-text-objects-map "B" nil)
+  ;; (define-key evil-outer-text-objects-map "B" nil)
+  (evil-collection-init))
+
+;; Additional text objects
+(use-package evil-textobj-entire
+  :ensure t
+  :config
+(setq evil-want-change-word-to-end t)) 
 
 
-  (use-package evil-snipe
-    :ensure t
-    ;; :commands evil-snipe-local-mode evil-snipe-override-local-mode
-    :init
-    (setq evil-snipe-smart-case t
-          evil-snipe-scope 'line
-          evil-snipe-repeat-scope 'visible
-          evil-snipe-char-fold t)
-    :config
-    (evil-snipe-mode))
+(use-package evil-snipe
+  :ensure t
+  ;; :commands evil-snipe-local-mode evil-snipe-override-local-mode
+  :init
+  (setq evil-snipe-smart-case t
+        evil-snipe-scope 'line
+        evil-snipe-repeat-scope 'visible
+        evil-snipe-char-fold t)
+  :config
+  (evil-snipe-mode))
 
-  (use-package evil-easymotion
-    :ensure t
-    :config
-    (evilem-default-keybindings "gs")
-    ;; Use evil-search backend, instead of isearch
-    (evilem-make-motion evilem-motion-search-next #'evil-ex-search-next
-                        :bind ((evil-ex-search-highlight-all nil)))
-    (evilem-make-motion evilem-motion-search-previous #'evil-ex-search-previous
-                        :bind ((evil-ex-search-highlight-all nil)))
-    (evilem-make-motion evilem-motion-search-word-forward #'evil-ex-search-word-forward
-                        :bind ((evil-ex-search-highlight-all nil)))
-    (evilem-make-motion evilem-motion-search-word-backward #'evil-ex-search-word-backward
-                        :bind ((evil-ex-search-highlight-all nil)))
+(use-package evil-easymotion
+  :ensure t
+  :config
+  (evilem-default-keybindings "gs")
+  ;; Use evil-search backend, instead of isearch
+  (evilem-make-motion evilem-motion-search-next #'evil-ex-search-next
+                      :bind ((evil-ex-search-highlight-all nil)))
+  (evilem-make-motion evilem-motion-search-previous #'evil-ex-search-previous
+                      :bind ((evil-ex-search-highlight-all nil)))
+  (evilem-make-motion evilem-motion-search-word-forward #'evil-ex-search-word-forward
+                      :bind ((evil-ex-search-highlight-all nil)))
+  (evilem-make-motion evilem-motion-search-word-backward #'evil-ex-search-word-backward
+                      :bind ((evil-ex-search-highlight-all nil)))
 
-    ;; Rebind scope of w/W/e/E/ge/gE evil-easymotion motions to the visible
-    ;; buffer, rather than just the current line.
-    (put 'visible 'bounds-of-thing-at-point (lambda () (cons (window-start) (window-end))))
-    (evilem-make-motion evilem-motion-forward-word-begin #'evil-forward-word-begin :scope 'visible)
-    (evilem-make-motion evilem-motion-forward-WORD-begin #'evil-forward-WORD-begin :scope 'visible)
-    (evilem-make-motion evilem-motion-forward-word-end #'evil-forward-word-end :scope 'visible)
-    (evilem-make-motion evilem-motion-forward-WORD-end #'evil-forward-WORD-end :scope 'visible)
-    (evilem-make-motion evilem-motion-backward-word-begin #'evil-backward-word-begin :scope 'visible)
-    (evilem-make-motion evilem-motion-backward-WORD-begin #'evil-backward-WORD-begin :scope 'visible)
-    (evilem-make-motion evilem-motion-backward-word-end #'evil-backward-word-end :scope 'visible)
-    (evilem-make-motion evilem-motion-backward-WORD-end #'evil-backward-WORD-end :scope 'visible))
+  ;; Rebind scope of w/W/e/E/ge/gE evil-easymotion motions to the visible
+  ;; buffer, rather than just the current line.
+  (put 'visible 'bounds-of-thing-at-point (lambda () (cons (window-start) (window-end))))
+  (evilem-make-motion evilem-motion-forward-word-begin #'evil-forward-word-begin :scope 'visible)
+  (evilem-make-motion evilem-motion-forward-WORD-begin #'evil-forward-WORD-begin :scope 'visible)
+  (evilem-make-motion evilem-motion-forward-word-end #'evil-forward-word-end :scope 'visible)
+  (evilem-make-motion evilem-motion-forward-WORD-end #'evil-forward-WORD-end :scope 'visible)
+  (evilem-make-motion evilem-motion-backward-word-begin #'evil-backward-word-begin :scope 'visible)
+  (evilem-make-motion evilem-motion-backward-WORD-begin #'evil-backward-WORD-begin :scope 'visible)
+  (evilem-make-motion evilem-motion-backward-word-end #'evil-backward-word-end :scope 'visible)
+  (evilem-make-motion evilem-motion-backward-WORD-end #'evil-backward-WORD-end :scope 'visible))
 
-  (use-package evil-embrace
-    :ensure t
-    :after evil-surround
-    :commands embrace-add-pair embrace-add-pair-regexp
-    :hook (LaTeX-mode . embrace-LaTeX-mode-hook)
-    :hook (LaTeX-mode . +evil-embrace-latex-mode-hook-h)
-    :hook (org-mode . embrace-org-mode-hook)
-    :hook (ruby-mode . embrace-ruby-mode-hook)
-    :hook (emacs-lisp-mode . embrace-emacs-lisp-mode-hook)
-    :hook ((c++-mode c++-ts-mode rustic-mode csharp-mode java-mode swift-mode typescript-mode)
-           . +evil-embrace-angle-bracket-modes-hook-h)
-    :hook (scala-mode . +evil-embrace-scala-mode-hook-h)
-    :init
-    (with-eval-after-load evil-surround
-      (evil-embrace-enable-evil-surround-integration))
+(use-package evil-embrace
+  :ensure t
+  :after evil-surround
+  :commands embrace-add-pair embrace-add-pair-regexp
+  :hook (LaTeX-mode . embrace-LaTeX-mode-hook)
+  :hook (LaTeX-mode . +evil-embrace-latex-mode-hook-h)
+  :hook (org-mode . embrace-org-mode-hook)
+  :hook (ruby-mode . embrace-ruby-mode-hook)
+  :hook (emacs-lisp-mode . embrace-emacs-lisp-mode-hook)
+  :hook ((c++-mode c++-ts-mode rustic-mode csharp-mode java-mode swift-mode typescript-mode)
+         . +evil-embrace-angle-bracket-modes-hook-h)
+  :hook (scala-mode . +evil-embrace-scala-mode-hook-h)
+  :init
+  (with-eval-after-load evil-surround
+    (evil-embrace-enable-evil-surround-integration))
 
-    ;; HACK: This must be done ASAP, before embrace has a chance to
-    ;;   buffer-localize `embrace--pairs-list' (which happens right after it calls
-    ;;   `embrace--setup-defaults'), otherwise any new, global default pairs we
-    ;;   define won't be in scope.
-    (defadvice! +evil--embrace-init-escaped-pairs-a (&rest args)
-                "Add escaped-sequence support to embrace."
-                :after #'embrace--setup-defaults
-                (embrace-add-pair-regexp ?\\ "\\[[{(]" "\\[]})]" #'+evil--embrace-escaped
+  ;; HACK: This must be done ASAP, before embrace has a chance to
+  ;;   buffer-localize `embrace--pairs-list' (which happens right after it calls
+  ;;   `embrace--setup-defaults'), otherwise any new, global default pairs we
+  ;;   define won't be in scope.
+  (defadvice! +evil--embrace-init-escaped-pairs-a (&rest args)
+              "Add escaped-sequence support to embrace."
+              :after #'embrace--setup-defaults
+              (embrace-add-pair-regexp ?\\ "\\[[{(]" "\\[]})]" #'+evil--embrace-escaped
                          		       (embrace-build-help "\\?" "\\?")))
-    :config
-    (setq evil-embrace-show-help-p nil)
+  :config
+  (setq evil-embrace-show-help-p nil)
 
-    (defun +evil-embrace-scala-mode-hook-h ()
-      (embrace-add-pair ?$ "${" "}"))
+  (defun +evil-embrace-scala-mode-hook-h ()
+    (embrace-add-pair ?$ "${" "}"))
 
-    (defun +evil-embrace-latex-mode-hook-h ()
-      (dolist (pair '((?\' . ("`" . "\'"))
-                      (?\" . ("``" . "\'\'"))))
-        (delete (car pair) evil-embrace-evil-surround-keys)
-        ;; Avoid `embrace-add-pair' because it would overwrite the default
-        ;; rules, which we want for other modes
-        (push (cons (car pair) (make-embrace-pair-struct
-                                :key (car pair)
-                                :left (cadr pair)
-                                :right (cddr pair)
-                                :left-regexp (regexp-quote (cadr pair))
-                                :right-regexp (regexp-quote (cddr pair))))
-              embrace--pairs-list))
-      (embrace-add-pair-regexp ?l "\\[a-z]+{" "}" #'+evil--embrace-latex))
+  (defun +evil-embrace-latex-mode-hook-h ()
+    (dolist (pair '((?\' . ("`" . "\'"))
+                    (?\" . ("``" . "\'\'"))))
+      (delete (car pair) evil-embrace-evil-surround-keys)
+      ;; Avoid `embrace-add-pair' because it would overwrite the default
+      ;; rules, which we want for other modes
+      (push (cons (car pair) (make-embrace-pair-struct
+                              :key (car pair)
+                              :left (cadr pair)
+                              :right (cddr pair)
+                              :left-regexp (regexp-quote (cadr pair))
+                              :right-regexp (regexp-quote (cddr pair))))
+            embrace--pairs-list))
+    (embrace-add-pair-regexp ?l "\\[a-z]+{" "}" #'+evil--embrace-latex))
 
-    (defun +evil-embrace-angle-bracket-modes-hook-h ()
-      (let ((var (make-local-variable 'evil-embrace-evil-surround-keys)))
-        (set var (delq ?< evil-embrace-evil-surround-keys))
-        (set var (delq ?> evil-embrace-evil-surround-keys)))
-      (embrace-add-pair-regexp ?< "\\_<[a-z0-9-_]+<" ">" #'+evil--embrace-angle-brackets)
-      (embrace-add-pair ?> "<" ">")))
+  (defun +evil-embrace-angle-bracket-modes-hook-h ()
+    (let ((var (make-local-variable 'evil-embrace-evil-surround-keys)))
+      (set var (delq ?< evil-embrace-evil-surround-keys))
+      (set var (delq ?> evil-embrace-evil-surround-keys)))
+    (embrace-add-pair-regexp ?< "\\_<[a-z0-9-_]+<" ">" #'+evil--embrace-angle-brackets)
+    (embrace-add-pair ?> "<" ">")))
 
-  (use-package evil-commentary
+(use-package evil-commentary
+  :ensure t
+  :after evil
+  :config
+  (evil-commentary-mode))
+
+(use-package evil-surround
+  :ensure t
+  :commands (global-evil-surround-mode
+             evil-surround-edit
+             evil-Surround-edit
+             evil-surround-region)
+  :config (global-evil-surround-mode 1))
+
+(use-package evil-textobj-tree-sitter
+  :ensure t
+  :config
+  (define-key evil-outer-text-objects-map "f"
+              (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  (define-key evil-inner-text-objects-map "f"
+              (evil-textobj-tree-sitter-get-textobj "function.inner"))
+  (define-key evil-outer-text-objects-map "C"
+              (evil-textobj-tree-sitter-get-textobj "class.outer"))
+  (define-key evil-inner-text-objects-map "C"
+        	  (evil-textobj-tree-sitter-get-textobj "class.inner"))
+  )
+
+(use-package evil-textobj-anyblock
+  :defer t
+  :ensure t
+  :config
+  (setq evil-textobj-anyblock-blocks
+        '(("(" . ")")
+          ("{" . "}")
+          ("'" . "'")
+          ("\"" . "\"")
+          ("`" . "`")
+          ("\\[" . "\\]")
+          ("<" . ">"))))
+
+(use-package evil-visualstar
+  :ensure t
+  :commands (evil-visualstar/begin-search
+        	 evil-visualstar/begin-search-forward
+        	 evil-visualstar/begin-search-backward)
+  :init
+  (evil-define-key* 'visual 'global
+    "*" #'evil-visualstar/begin-search-forward
+    "#" #'evil-visualstar/begin-search-backward))
+
+(use-package exato
+  :ensure t
+  :commands evil-outer-xml-attr evil-inner-xml-attr)
+
+#+end_src
+
+* MEOW MODE
+#+begin_src emacs-lisp
+  (defun meow-setup ()
+    (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
+    (meow-motion-define-key
+     '("j" . meow-next)
+     '("k" . meow-prev)
+     '("<escape>" . ignore))
+    (meow-leader-define-key
+     ;; Use SPC (0-9) for digit arguments.
+     '("1" . meow-digit-argument)
+     '("2" . meow-digit-argument)
+     '("3" . meow-digit-argument)
+     '("4" . meow-digit-argument)
+     '("5" . meow-digit-argument)
+     '("6" . meow-digit-argument)
+     '("7" . meow-digit-argument)
+     '("8" . meow-digit-argument)
+     '("9" . meow-digit-argument)
+     '("0" . meow-digit-argument)
+     '("/" . meow-keypad-describe-key)
+     '("?" . meow-cheatsheet))
+    (meow-normal-define-key
+     '("0" . meow-expand-0)
+     '("9" . meow-expand-9)
+     '("8" . meow-expand-8)
+     '("7" . meow-expand-7)
+     '("6" . meow-expand-6)
+     '("5" . meow-expand-5)
+     '("4" . meow-expand-4)
+     '("3" . meow-expand-3)
+     '("2" . meow-expand-2)
+     '("1" . meow-expand-1)
+     '("-" . negative-argument)
+     '(";" . meow-reverse)
+     '("," . meow-inner-of-thing)
+     '("." . meow-bounds-of-thing)
+     '("[" . meow-beginning-of-thing)
+     '("]" . meow-end-of-thing)
+     '("a" . meow-append)
+     '("A" . meow-open-below)
+     '("b" . meow-back-word)
+     '("B" . meow-back-symbol)
+     '("c" . meow-change)
+     '("d" . meow-delete)
+     '("D" . meow-backward-delete)
+     '("e" . meow-next-word)
+     '("E" . meow-next-symbol)
+     '("f" . meow-find)
+     '("g" . meow-cancel-selection)
+     '("G" . meow-grab)
+     '("h" . meow-left)
+     '("H" . meow-left-expand)
+     '("i" . meow-insert)
+     '("I" . meow-open-above)
+     '("j" . meow-next)
+     '("J" . meow-next-expand)
+     '("k" . meow-prev)
+     '("K" . meow-prev-expand)
+     '("l" . meow-right)
+     '("L" . meow-right-expand)
+     '("m" . meow-join)
+     '("n" . meow-search)
+     '("o" . meow-block)
+     '("O" . meow-to-block)
+     '("p" . meow-yank)
+     '("q" . meow-quit)
+     '("Q" . meow-goto-line)
+     '("r" . meow-replace)
+     '("R" . meow-swap-grab)
+     '("s" . meow-kill)
+     '("t" . meow-till)
+     '("u" . meow-undo)
+     '("U" . meow-undo-in-selection)
+     '("v" . meow-visit)
+     '("w" . meow-mark-word)
+     '("W" . meow-mark-symbol)
+     '("x" . meow-line)
+     '("X" . meow-goto-line)
+     '("y" . meow-save)
+     '("Y" . meow-sync-grab)
+     '("z" . meow-pop-selection)
+     '("'" . repeat)
+     '("<escape>" . ignore)))
+  (use-package meow
     :ensure t
-    :after evil
     :config
-    (evil-commentary-mode))
-
-  (use-package evil-surround
-    :ensure t
-    :commands (global-evil-surround-mode
-               evil-surround-edit
-               evil-Surround-edit
-               evil-surround-region)
-    :config (global-evil-surround-mode 1))
-
-  (use-package evil-textobj-tree-sitter
-    :ensure t
-    :config
-    (define-key evil-outer-text-objects-map "f"
-                (evil-textobj-tree-sitter-get-textobj "function.outer"))
-    (define-key evil-inner-text-objects-map "f"
-                (evil-textobj-tree-sitter-get-textobj "function.inner"))
-    (define-key evil-outer-text-objects-map "C"
-                (evil-textobj-tree-sitter-get-textobj "class.outer"))
-    (define-key evil-inner-text-objects-map "C"
-        	      (evil-textobj-tree-sitter-get-textobj "class.inner"))
+    (meow-setup)
+    ;;(meow-global-mode 1)
     )
+#+end_src
 
-  (use-package evil-textobj-anyblock
-    :defer t
-    :ensure t
-    :config
-    (setq evil-textobj-anyblock-blocks
-        	'(("(" . ")")
-        	  ("{" . "}")
-        	  ("'" . "'")
-        	  ("\"" . "\"")
-        	  ("`" . "`")
-        	  ("\\[" . "\\]")
-        	  ("<" . ">"))))
-
-  (use-package evil-visualstar
-    :ensure t
-    :commands (evil-visualstar/begin-search
-        	     evil-visualstar/begin-search-forward
-        	     evil-visualstar/begin-search-backward)
-    :init
-    (evil-define-key* 'visual 'global
-      "*" #'evil-visualstar/begin-search-forward
-      "#" #'evil-visualstar/begin-search-backward))
-
-  (use-package exato
-    :ensure t
-    :commands evil-outer-xml-attr evil-inner-xml-attr)
-
+* GOD MODE
+#+begin_src emacs-lisp
+  ;; (use-package god-mode
+  ;;   :ensure t
+  ;;   :init
+  ;;   (setq god-mode-enable-function-key-translation nil)
+  ;;   :config
+  ;;   (require 'god-mode-isearch)
+  ;;   (define-key isearch-mode-map (kbd "<escape>") #'god-mode-isearch-activate)
+  ;;   (define-key god-mode-isearch-map (kbd "<escape>") #'god-mode-isearch-disable)
+  ;;   (define-key god-local-mode-map (kbd "i") #'god-local-mode)
+  ;;   (define-key god-local-mode-map (kbd "f") #'forward-word)
+  ;;   (define-key god-local-mode-map (kbd "b") #'backward-word)
+  ;;   (define-key god-local-mode-map (kbd ".") #'repeat)
+  ;;   (global-set-key (kbd "<escape>") #'(lambda () (interactive) (god-local-mode 1)))
+  ;;   (setq god-exempt-major-modes nil)
+  ;;   (setq god-exempt-predicates nil)
+  ;;   (defun my-god-mode-update-cursor-type ()
+  ;;     (setq cursor-type (if (or god-local-mode buffer-read-only) 'box 'bar)))
+  ;;   (add-hook 'post-command-hook #'my-god-mode-update-cursor-type)
+  ;;   (god-mode))
 #+end_src
 
 * GENERAL (Keybindings)
@@ -622,34 +834,34 @@ Essential emacs defaults
     "Move current line or region up."
     (interactive)
     (if (region-active-p)
-  	(let ((text (buffer-substring (region-beginning) (region-end))))
-  	  (delete-region (region-beginning) (region-end))
-  	  (forward-line -1)
-  	  (insert text))
+        (let ((text (buffer-substring (region-beginning) (region-end))))
+    	    (delete-region (region-beginning) (region-end))
+    	    (forward-line -1)
+    	    (insert text))
       (let ((col (current-column)))
-  	(transpose-lines 1)
-  	(forward-line -2)
-  	(move-to-column col))))
+        (transpose-lines 1)
+        (forward-line -2)
+        (move-to-column col))))
 
   (defun move-text-down ()
     "Move current line or region down."
     (interactive)
     (if (region-active-p)
-  	(let ((text (buffer-substring (region-beginning) (region-end))))
-  	  (delete-region (region-beginning) (region-end))
-  	  (forward-line 1)
-  	  (insert text))
+        (let ((text (buffer-substring (region-beginning) (region-end))))
+    	    (delete-region (region-beginning) (region-end))
+    	    (forward-line 1)
+    	    (insert text))
       (let ((col (current-column)))
-  	(forward-line 1)
-  	(transpose-lines 1)
-  	(forward-line -1)
+        (forward-line 1)
+        (transpose-lines 1)
+        (forward-line -1)
         (move-to-column col))))
 
 
   (defun my/switch-to-previous-buffer ()
-  	"Switch to the previous buffer."
-  	(interactive)
-  	(switch-to-buffer (other-buffer (current-buffer) 1)))
+    "Switch to the previous buffer."
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer) 1)))
 
   (global-set-key (kbd "M-]") 'next-buffer)
   (global-set-key (kbd "M-[") 'previous-buffer)
@@ -658,18 +870,21 @@ Essential emacs defaults
 
   (use-package general
     :ensure t
-    :after evil
+    :after evil				
     :config
     (general-auto-unbind-keys)
     (general-evil-setup t)
 
     ;; Set leader key
     (general-create-definer my/leader-keys
-      :keymaps 'evil-normal-state-map
-      :prefix "<SPC>"
-      :global-prefix "C-c") ;; Optional: a global prefix for non-evil modes
+      ;; :keymaps 'evil-normal-state-map
+      :prefix "C-c"
+      :global-prefix "C-c"
+      :non-normal-prefix "C-c") ;; Optional: a global prefix for non-evil modes
 
     (my/leader-keys
+      :states '(normal visual motion)
+      :prefix "<SPC>"
       "a" '(:ignore t :which-key "AI")
       "a a" '(gptel :which-key "Gptel")
       "a m" '(gptel-menu :which-key "Gptel Menu")
@@ -684,6 +899,29 @@ Essential emacs defaults
 
     
     (my/leader-keys
+      ;; :states '(normal visual motion emacs)
+      ;; :prefix "<SPC>"
+      "d" '(:ignore t :which-key "Debugger")
+      "d i" #'dape-info
+      "d d" #'dape
+      "d n" #'dape-next
+      "d r" #'dape-restart
+      "d R" #'dape-repl
+      "d c" #'dape-continue
+      "d o" #'dape-step-out
+      "d s" #'dape-step-in
+      "d q" #'dape-quit
+      "d p" #'dape-pause
+      "d w" #'dape-watch-dwim
+      "d b" #'dape-breakpoint-toggle
+      "d B" #'dape-breakpoint-remove-all
+      "d e" #'dape-breakpoint-expression
+      "d x" #'dape-evaluate-expression
+      )
+
+    (my/leader-keys
+      :states '(normal visual motion)
+      :prefix "<SPC>"
       "d" '(:ignore t :which-key "Debugger")
       "d i" #'dape-info
       "d d" #'dape
@@ -711,7 +949,7 @@ Essential emacs defaults
      ;; "f" 'next-file
      "l" 'next-error
      "L" 'flycheck-next-error
-     "q" 'next-error
+     "q" 'flymake-goto-next-error
      "Q" 'flycheck-next-error
      ;; "s" 'flyspell-goto-next-error
      "t" 'tab-next
@@ -721,6 +959,30 @@ Essential emacs defaults
      "c" 'diff-hl-next-hunk
      "p" 'git-gutter:next-hunk
      "m" 'flymake-goto-next-error
+     "d" 'lsp-ui-flycheck-list
+     "a" 'forward-list
+     "x" 'toggle-truncate-lines)
+
+    
+    (general-define-key
+     :states '(normal visual)
+     :prefix "["
+     "b" 'previous-buffer
+     "B" 'end-of-buffer
+     "e" 'move-text-down
+     ;; "f" 'previous-file
+     "l" 'previous-error
+     "L" 'flycheck-previous-error
+     "q" 'flymake-goto-previous-error
+     "Q" 'flycheck-previous-error
+     ;; "s" 'flyspell-goto-previous-error
+     "t" 'tab-previous
+     "T" 'tab-move-right
+     "w" 'previous-multiframe-window
+     "n" 'git-gutter:previous-hunk
+     "c" 'diff-hl-previous-hunk
+     "p" 'git-gutter:previous-hunk
+     "m" 'flymake-goto-previous-error
      "d" 'lsp-ui-flycheck-list
      "a" 'forward-list
      "x" 'toggle-truncate-lines)
@@ -757,33 +1019,49 @@ Essential emacs defaults
 
     ;; Space and blank line operations
     (general-define-key
-     :states '(normal)
+     :states '(normal visual)
      "]<space>" (lambda () (interactive) (save-excursion (end-of-line) (newline)))
      "[<space>" (lambda () (interactive) (save-excursion (beginning-of-line) (newline) (forward-line -1))))
 
-    (general-define-key
-     :states '(normal visual)
-     :prefix "["
-     "b" 'previous-buffer
-     "B" 'beginning-of-buffer
-     "e" 'move-text-up
-     ;; "f" 'previous-file
-     "l" 'previous-error
-     "L" 'flycheck-previous-error
-     "q" 'previous-error
-     "Q" 'flycheck-previous-error
-     ;; "s" 'flyspell-goto-previous-error
-     "t" 'tab-previous
-     "T" 'tab-move-left
-     "w" 'previous-multiframe-window
-     "n" 'git-gutter:previous-hunk
-     "c" 'diff-hl-previous-hunk
-     "p" 'git-gutter:previous-hunk
-     "m" 'flymake-goto-prev-error
-     "d" 'lsp-ui-flycheck-list
-     "a" 'backward-list
-     "x" 'toggle-truncate-lines)
+    ;; (general-define-key
+    ;;  :states '(normal visual)
+    ;;  :prefix "["
+    ;;  "b" 'previous-buffer
+    ;;  "B" 'beginning-of-buffer
+    ;;  "e" 'move-text-up
+    ;;  ;; "f" 'previous-file
+    ;;  "l" 'previous-error
+    ;;  "L" 'flycheck-previous-error
+    ;;  "q" 'previous-error
+    ;;  "Q" 'flycheck-previous-error
+    ;;  ;; "s" 'flyspell-goto-previous-error
+    ;;  "t" 'tab-previous
+    ;;  "T" 'tab-move-left
+    ;;  "w" 'previous-multiframe-window
+    ;;  "n" 'git-gutter:previous-hunk
+    ;;  "c" 'diff-hl-previous-hunk
+    ;;  "p" 'git-gutter:previous-hunk
+    ;;  "m" 'flymake-goto-prev-error
+    ;;  "d" 'lsp-ui-flycheck-list
+    ;;  "a" 'backward-list
+    ;;  "x" 'toggle-truncate-lines)
 
+    (my/leader-keys
+      :states '(normal visual visual motion)
+      :prefix "<SPC>"
+      "f" '(:ignore t :which-key "Find")
+      "f f" 'find-file
+      "SPC" 'project-find-file
+      "." 'toggle-evil-mode
+      "f b" 'consult-buffer
+      "s" '(:ignore t :which-key "Search")
+      "s D" 'consult-flymake
+      "s d" 'flymake-show-project-diagnostics
+      "s g" 'consult-grep
+      "f p" 'project-find-file
+      "f r" 'consult-recent-file)
+
+        
     (my/leader-keys
       "f" '(:ignore t :which-key "Find")
       "f f" 'find-file
@@ -798,15 +1076,50 @@ Essential emacs defaults
       "f r" 'consult-recent-file)
 
     (my/leader-keys
+      ;; :states '(normal visual motion emacs)
+      ;; :prefix "<SPC>"
       "b" '(:ignore t :which-key "Buffers")
       "b p" '(consult-project-buffer :which-key "Project buffers")
       "b i" 'ibuffer)
 
     (my/leader-keys
+      :states '(normal visual motion)
+      :prefix "<SPC>"
+      "b" '(:ignore t :which-key "Buffers")
+      "b p" '(consult-project-buffer :which-key "Project buffers")
+      "b i" 'ibuffer)
+
+    (my/leader-keys
+      :states '(normal visual motion)
+      :prefix "<SPC>"
       "o" '(:ignore t :which-key "Org")
       "o a" '(org-agenda :which-key "Org agenda"))
 
     (my/leader-keys
+      ;; :states '(normal visual motion emacs)
+      ;; :prefix "<SPC>"
+      "o" '(:ignore t :which-key "Org")
+      "o a" '(org-agenda :which-key "Org agenda"))
+
+        
+    (my/leader-keys
+      :states '(normal visual motion)
+      :prefix "<SPC>"
+      "p" '(:ignore t :which-key "Projects")
+      "p s" 'project-switch-project
+      "p f" 'project-find-file
+      "p b" 'consult-project-buffer
+      "p d" 'project-dired
+      "p g" 'project-search
+      "p r" 'project-query-replace-regexp
+      "p c" 'project-compile
+      "p t" 'projectile-test-project
+      "p k" 'project-kill-buffers
+      "p D" 'project-remember-projects-under)
+
+    (my/leader-keys
+      ;; :states '(normal visual motion emacs)
+      ;; :prefix "<SPC>"
       "p" '(:ignore t :which-key "Projects")
       "p s" 'project-switch-project
       "p f" 'project-find-file
@@ -821,14 +1134,14 @@ Essential emacs defaults
 
     
     (general-define-key
-     :states '(normal visual insert motion emacs)
+     :states '(normal visual motion emacs)
      :override t
      :modes '(dape-info-modules-mode
-  	dape-info-sources-mode
-  	dape-info-stack-mode
-  	dape-info-watch-mode
-  	dape-info-breakpoints-mode
-  	dape-info-threads-mode)
+    	        dape-info-sources-mode
+    	        dape-info-stack-mode
+    	        dape-info-watch-mode
+    	        dape-info-breakpoints-mode
+    	        dape-info-threads-mode)
      :priority 10000
      ;; :keymaps '(dape-info-modules-mode
      ;; 	dape-info-sources-mode
@@ -837,32 +1150,49 @@ Essential emacs defaults
      ;; 	dape-info-breakpoints-mode
      ;; 	dape-info-threads-mode)
      "<tab>" #'dape--info-buffer-tab)
+    
+    (my/leader-keys
+      :states '(normal visual motion)
+      :prefix "g"
+      "O" 'consult-imenu
+      "S" 'consult-eglot-symbols
+      "r n" 'eglot-rename
+      "r a" 'eglot-code-actions
+      "r f" 'eglot-format
+      "r i" 'eglot-find-implementation
+      "r r" 'xref-find-references
+      "r t" 'eglot-find-declaration)
 
-    (general-define-key
-     :states '(normal visual)
-     :prefix "SPC c"
-     "n" 'eglot-rename
-     "a" 'eglot-code-actions
-     "f" 'eglot-format
-     "i" 'eglot-find-implementation
-     "r" 'xref-find-references
-     "t" 'eglot-find-declaration)
+    (my/leader-keys
+      ;; :states '(normal visual motion)
+      :prefix "C-c l"
+      :global-prefix "C-c l"
+      :non-normal-prefix "C-c l"
+      "n" 'eglot-rename
+      "a" 'eglot-code-actions
+      "f" 'eglot-format
+      "i" 'eglot-find-implementation
+      "r" 'xref-find-references
+      "t" 'eglot-find-declaration)
 
-    (general-define-key
-     :states '(normal visual)
-     :prefix "g"
-     "O" 'consult-imenu
-     "S" 'consult-eglot-symbols
-     "r a" 'eglot-code-actions
-     "r n" 'eglot-rename
-     "r r" 'eglot-find-references
-     "r t" 'eglot-find-typeDefinition
-     "c" 'evil-commentary)
+    (my/leader-keys
+      :prefix "C-c c"
+      :global-prefix "C-c c"
+      :non-normal-prefix "C-c c"
+      ;;:states '(normal visual motion)
+      "O" 'consult-imenu
+      "S" 'consult-eglot-symbols
+      "r a" 'eglot-code-actions
+      "r n" 'eglot-rename
+      "r r" 'eglot-find-references
+      "r t" 'eglot-find-typeDefinition
+      "c c" 'evil-commentary)
 
     (general-create-definer my/flutter-leader
       :states '(normal visual)
       :keymaps 'dart-mode-map
-      :prefix "SPC m"
+      :prefix "C-c m"
+      :global-prefix "C-c m"
       :non-normal-prefix "C-c m")
 
     (my/flutter-leader
@@ -871,11 +1201,15 @@ Essential emacs defaults
 
     ;; Reload config
     (general-create-definer my/config-keys
-      :keymaps 'evil-normal-state-map
-      :prefix "h"
-      :states 'normal)
+      ;;:keymaps 'evil-normal-state-map
+      ;; :prefix "h"
+      ;; :global-prefix "C-c h"
+      ;; :non-normal-prefix "C-c h"
+      :states '(normal emacs))
 
     (my/leader-keys
+      ;; :states '(normal visual motion emacs)
+      :prefix "C-c"
       "h r r" (lambda ()
                 (interactive)
                 (org-babel-tangle-file (expand-file-name "config.org" user-emacs-directory))
@@ -886,144 +1220,226 @@ Essential emacs defaults
               (find-file (expand-file-name "config.org" user-emacs-directory)))
       :which-key "Open Config"
       "h l" 'check-parens))
-    #+end_src
+#+end_src
+
+* MAIL
+#+begin_src emacs-lisp
+  (use-package mu4e
+    :if (locate-library "mu4e")
+    :config
+    ;; Basic settings
+    (setq mu4e-maildir "~/Maildir")
+    (setq mu4e-get-mail-command "mbsync -a")  ; or "offlineimap"
+    
+    ;; Simple folder setup
+    (setq mu4e-drafts-folder "/Drafts")
+    (setq mu4e-sent-folder   "/Sent")
+    (setq mu4e-trash-folder  "/Bin")
+    
+    ;; Don't save to Sent Messages, Gmail/IMAP takes care of this
+    (setq mu4e-sent-messages-behavior 'delete)
+    
+    ;; Simple view
+    (setq mu4e-view-show-images t)
+    (setq mu4e-view-show-addresses t))
+#+end_src
+
+* LANGUAGES
+
+Dart mode
+
+#+begin_src emacs-lisp
+  (electric-pair-mode 1)
+  (show-paren-mode 1)
+  (setq show-paren-delay 0)  ; No delay
+  (setq show-paren-style 'mixed)  ; Highlight brackets and expression
+  (defun enable-font-lock-mode ()
+    (global-font-lock-mode 1)
+    (corfu-mode 1)
+    (apheleia-mode 1)
+    (display-line-numbers-mode 1))
+
+  (use-package typescript-mode
+    :ensure t)
+
+  (use-package dart-mode
+    :ensure t
+    :hook (dart-mode . eglot-ensure)
+    :config
+    (load "ez-flutter")
+    (require 'ez-flutter))
+
+  (use-package flutter
+    :ensure t
+    :after dart-mode)
+#+end_src
+
+Markdown Mode
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :mode ("\\.md\\'" . markdown-mode)
+    :config
+    (setq markdown-fontify-code-blocks-natively t))
+
+  (defun my/eglot-render-markdown ()
+    "Format Eglot's *eglot-help* buffer using markdown-mode."
+    (when (string= (buffer-name) "*eglot-help*")
+      (markdown-view-mode) ;; Read-only rendered view
+      ;; Optional: enable visual enhancements
+      (visual-line-mode 1)
+      (setq-local shr-use-fonts t)))
+
+  (add-hook 'help-mode-hook #'my/eglot-render-markdown)
+  (setq markdown-fontify-code-blocks-natively t)
+#+end_src
+
+* JUMPLIST
+
+#+begin_src emacs-lisp
+  (use-package better-jumper
+    :ensure t
+    :bind (("C-i" . better-jumper-jump-forward)
+           ("C-o" . better-jumper-jump-backward))
+    :config
+    (better-jumper-mode +1))
+#+end_src
 
 * TREE SITTER
 
-    #+begin_src emacs-lisp
-      (use-package tree-sitter-langs
-        :ensure t)
+#+begin_src emacs-lisp
+  (use-package tree-sitter-langs
+    :after treesit
+    :ensure t)
 
-      (use-package treesit
-        :ensure nil
-        :init
-        (setq treesit-language-source-alist
-      	'((templ "https://github.com/vrischmann/tree-sitter-templ")
-      	  (bash "https://github.com/tree-sitter/tree-sitter-bash")
-      	  (cmake "https://github.com/uyha/tree-sitter-cmake")
-                (c "https://github.com/tree-sitter/tree-sitter-c")
-      	  (css "https://github.com/tree-sitter/tree-sitter-css")
-                (dart "https://github.com/UserNobody14/tree-sitter-dart")
-      	  (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-      	  (go "https://github.com/tree-sitter/tree-sitter-go")
-      	  (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-      	  (html "https://github.com/tree-sitter/tree-sitter-html")
-      	  (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-      	  (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-      	  (json "https://github.com/tree-sitter/tree-sitter-json")
-      	  (make "https://github.com/alemuller/tree-sitter-make")
-      	  (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-      	  (python "https://github.com/tree-sitter/tree-sitter-python")
-                (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-      	  (toml "https://github.com/tree-sitter/tree-sitter-toml")
-      	  (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-      	  (typescript "https://github.com/tree-sitter/tree-sitter-typescript"
-      		      "master" "typescript/src")
-      	  (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-      	  (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
-      	  (typst "https://github.com/uben0/tree-sitter-typst")
-      	  (java "https://github.com/tree-sitter/tree-sitter-java")
-      	  (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
-      	  (rust "https://github.com/tree-sitter/tree-sitter-rust")
-      	  (zig "https://github.com/tree-sitter-grammars/tree-sitter-zig")
-      	  (cpp "https://github.com/tree-sitter/tree-sitter-cpp")))
-        (setopt treesit-font-lock-level 4)
-	(global-tree-sitter-mode)
-	(add-hook 'prog-mode-hook #'tree-sitter-hl-mode)
-	)
-
-
-      ;; Install all missing grammars
-      ;;(dolist (grammar (mapcar 'car treesit-language-source-alist))
-      ;;  (unless (treesit-language-available-p grammar)
-      ;;    (treesit-install-language-grammar grammar)))
-
-      (setq major-mode-remap-alist
-            '((bash-mode . bash-ts-mode)
-              (c-mode . c-ts-mode)
-              (c++-mode . c++-ts-mode)
-              (css-mode . css-ts-mode)
-              (js-mode . js-ts-mode)
-              (json-mode . json-ts-mode)
-              (python-mode . python-ts-mode)
-              (ruby-mode . ruby-ts-mode)
-              (typescript-mode . typescript-ts-mode))) ;; Enable for Dart too
-
-
-    #+end_src
+  (use-package treesit
+    :ensure nil
+    :init
+    (setq treesit-language-source-alist
+  	    '((templ "https://github.com/vrischmann/tree-sitter-templ")
+  	      (bash "https://github.com/tree-sitter/tree-sitter-bash")
+  	      (cmake "https://github.com/uyha/tree-sitter-cmake")
+            (c "https://github.com/tree-sitter/tree-sitter-c")
+  	      (css "https://github.com/tree-sitter/tree-sitter-css")
+            (dart "https://github.com/UserNobody14/tree-sitter-dart")
+  	      (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+  	      (go "https://github.com/tree-sitter/tree-sitter-go")
+  	      (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+  	      (html "https://github.com/tree-sitter/tree-sitter-html")
+  	      (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+  	      (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+  	      (json "https://github.com/tree-sitter/tree-sitter-json")
+  	      (make "https://github.com/alemuller/tree-sitter-make")
+  	      (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+  	      (python "https://github.com/tree-sitter/tree-sitter-python")
+            (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+  	      (toml "https://github.com/tree-sitter/tree-sitter-toml")
+  	      (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+  	      (typescript "https://github.com/tree-sitter/tree-sitter-typescript"
+  		              "master" "typescript/src")
+  	      (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+  	      (haskell "https://github.com/tree-sitter/tree-sitter-haskell")
+  	      (typst "https://github.com/uben0/tree-sitter-typst")
+  	      (java "https://github.com/tree-sitter/tree-sitter-java")
+  	      (ruby "https://github.com/tree-sitter/tree-sitter-ruby")
+  	      (rust "https://github.com/tree-sitter/tree-sitter-rust")
+  	      (zig "https://github.com/tree-sitter-grammars/tree-sitter-zig")
+  	      (cpp "https://github.com/tree-sitter/tree-sitter-cpp")))
+    (setq major-mode-remap-alist
+  	    '((bash-mode . bash-ts-mode)
+            (c-mode . c-ts-mode)
+            (c++-mode . c++-ts-mode)
+            (css-mode . css-ts-mode)
+            (js-mode . js-ts-mode)
+            (json-mode . json-ts-mode)
+            (python-mode . python-ts-mode)
+            (ruby-mode . ruby-ts-mode)
+            (typescript-mode . typescript-ts-mode)))
+    (setopt treesit-font-lock-level 4)
+    (global-tree-sitter-mode)
+    (add-hook 'prog-mode-hook #'tree-sitter-hl-mode)
+    (add-hook 'prog-mode-hook #'enable-font-lock-mode)
+    )
+#+end_src
 
 * EGLOT
 
-    #+begin_src emacs-lisp
-    (use-package eglot
-	:ensure t
-	:hook ((prog-mode . eglot-ensure))
-	:config
-	(setq eglot-inlay-hints-mode nil)
-	(setq completion-at-point-functions '(eglot-completion-at-point)))
+#+begin_src emacs-lisp
+  (use-package eglot
+    :ensure t
+    :hook ((prog-mode . eglot-ensure))
+    :config
+    (setq eglot-inlay-hints-mode nil)
+    (setq completion-at-point-functions '(eglot-completion-at-point)))
 
-    (use-package exec-path-from-shell
+  (use-package exec-path-from-shell
     :ensure t
     :config
     (when (memq window-system '(mac ns x))
-	(exec-path-from-shell-initialize)))
+      (exec-path-from-shell-initialize)))
 
-    ;; (with-eval-after-load 'eglot
-    ;; (add-to-list 'eglot-server-programs
-    ;;              '(dart-mode . ("dart" "language-server" "--protocol=lsp")))
-    ;; (add-to-list 'eglot-server-programs
-    ;;              '(typescript-ts-mode . ("typescript-language-server" "--stdio"))))
+  ;; (with-eval-after-load 'eglot
+  ;; (add-to-list 'eglot-server-programs
+  ;;              '(dart-mode . ("dart" "language-server" "--protocol=lsp")))
+  ;; (add-to-list 'eglot-server-programs
+  ;;              '(typescript-ts-mode . ("typescript-language-server" "--stdio"))))
 
-    #+end_src
+#+end_src
 
 * PROJECT
 
-    #+begin_src emacs-lisp
-      ;; (use-package projectile
-      ;; 	:ensure t
-      ;; 	:config
-      ;; 	(projectile-mode +1)
-      ;; 	(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-      ;; 	(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+#+begin_src emacs-lisp
+  ;; (use-package projectile
+  ;; 	:ensure t
+  ;; 	:config
+  ;; 	(projectile-mode +1)
+  ;; 	(define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  ;; 	(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-      ;; (use-package ibuffer-projectile
-      ;; 	:ensure t)
-      (use-package project
-        :config
-        (add-to-list 'project-vc-extra-root-markers ".jj"))
-
-
-      (use-package ibuffer
-        :ensure nil
-        ;; :bind (("C-x C-b" . ibuffer)) ;; Replace buffer list
-        :config
-        (setq ibuffer-show-empty-filter-groups nil)) ;; Hide empty groups
-
-      (use-package ibuffer-project
-      	:ensure t
-      	:hook (ibuffer . (lambda ()
-      			   (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
-                           (unless (eq ibuffer-sorting-mode 'project-file-relative)
-                             (ibuffer-do-sort-by-project-file-relative)))))
-
-      ;; Add hook to group buffers by project when opening ibuffer
-      ;; (add-hook 'ibuffer-hook
-      ;; 		(lambda ()
-      ;; 		(ibuffer-projectile-set-filter-groups)
-      ;; 		(unless (eq ibuffer-sorting-mode 'alphabetic)
-      ;; 		    (ibuffer-do-sort-by-alphabetic)))))
+  ;; (use-package ibuffer-projectile
+  ;; 	:ensure t)
+  (use-package project
+    :config
+    (add-to-list 'project-vc-extra-root-markers ".jj"))
 
 
-    #+end_src
+  (use-package ibuffer
+    :ensure nil
+    ;; :bind (("C-x C-b" . ibuffer)) ;; Replace buffer list
+    :config
+    (setq ibuffer-show-empty-filter-groups nil)) ;; Hide empty groups
+
+  (use-package ibuffer-project
+    :ensure t
+    :hook (ibuffer . (lambda ()
+  			         (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+                       (unless (eq ibuffer-sorting-mode 'project-file-relative)
+                         (ibuffer-do-sort-by-project-file-relative)))))
+
+  ;; Add hook to group buffers by project when opening ibuffer
+  ;; (add-hook 'ibuffer-hook
+  ;; 		(lambda ()
+  ;; 		(ibuffer-projectile-set-filter-groups)
+  ;; 		(unless (eq ibuffer-sorting-mode 'alphabetic)
+  ;; 		    (ibuffer-do-sort-by-alphabetic)))))
+
+
+#+end_src
+
+* TERMINAL
+#+begin_src emacs-lisp
+  (use-package eat
+    :ensure t)
+#+end_src
 
 * COMPLETION
 
     #+begin_src emacs-lisp
       (use-package vertico
         :ensure t
-        :init
-        (vertico-mode)
         :config
+        (vertico-mode)
         ;; Enable cycling through candidates with M-n / M-p
         (setq vertico-cycle t)
         ;; Automatically resize minibuffer based on candidates
@@ -1037,12 +1453,13 @@ Essential emacs defaults
 
       (use-package eldoc-box
         :ensure t
-        :after evil
-        ;; :bind (("M-n" . eldoc-box-scroll-up)
-        ;;        ("M-p" . eldoc-box-scroll-down)
-        ;;        ;; (:map evil-normal-state-map
-        ;;        ;;       ("K" . eldoc-box-help-at-point)) ; Show help at point
-        ;;        )
+        ;; :after evil
+        :bind (
+               ("M-n" . eldoc-box-scroll-up)
+               ("M-p" . eldoc-box-scroll-down)
+               (:map evil-normal-state-map
+                     ("K" . eldoc-box-help-at-point)) ; Show help at point
+               )
         ;; :hook (eldoc-mode . eldoc-box-hover-mode)
         ;; :custom
         :config
@@ -1073,6 +1490,7 @@ Essential emacs defaults
           (corfu-mode 1))    ;; Popup completion UI
 
         (add-hook 'emacs-lisp-mode-hook #'my-elisp-setup)
+
         (defun my-org-src-setup ()
           "Enable Eldoc and Corfu in Org src edit buffers."
           (when (derived-mode-p 'emacs-lisp-mode)
@@ -1105,27 +1523,36 @@ Essential emacs defaults
         )
 
       (defun mark-line ()
-      	"Mark whole line"
-      	(interactive)
-      	(beginning-of-line)
-      	(set-mark-command nil)
-      	(end-of-line)
-      	)
+        "Mark whole line"
+        (interactive)
+        (beginning-of-line)
+        (set-mark-command nil)
+        (end-of-line)
+        )
+
+      (defun toggle-evil-mode ()
+        "Toggle evil mode"
+        (interactive)
+        (if evil-mode
+            (progn ()
+                   (evil-mode -1)
+                   (message "Evil mode disabled"))
+          (evil-mode 1)
+          (message "Evil mode enabled")
+          ))
 
       (with-eval-after-load 'corfu
-        (define-key evil-insert-state-map (kbd "M-n") #'corfu-next)
-        (define-key evil-insert-state-map (kbd "M-p") #'corfu-previous)
-        
-        (define-key evil-insert-state-map (kbd "C-n") #'next-line)
-        (define-key evil-insert-state-map (kbd "C-p") #'previous-line)
-        
-        (define-key evil-insert-state-map (kbd "C-v") #'scroll-up-command)
-        (define-key evil-insert-state-map (kbd "M-o") #'mark-line)
-        (define-key evil-normal-state-map (kbd "M-o") #'mark-line)
+        ;; Corfu-specific bindings - these should remain in corfu-map
+        ;; (global-set-key (kbd "M-n") #'corfu-next)
+        ;; (global-set-key (kbd "M-p") #'corfu-previous))
 
-
-        (define-key evil-normal-state-map (kbd "C-p") #'previous-line)
-        (define-key evil-normal-state-map (kbd "C-n") #'next-line))
+        ;; Global keybindings (available in all modes)
+        (global-set-key (kbd "C-n") #'next-line)
+        (global-set-key (kbd "<f9>") #'toggle-evil-mode)
+        (global-set-key (kbd "C-p") #'previous-line)
+        (global-set-key (kbd "C-v") #'scroll-up-command)
+        (global-set-key (kbd "M-o") #'mark-line)
+        )
 
 
       (use-package nerd-icons-corfu
@@ -1140,31 +1567,22 @@ Essential emacs defaults
 
       (use-package cape
         :ensure t
-        :after corfu
-        :init
-        (defun my/add-shell-completion ()
-          (interactive)
-          (add-to-list 'completion-at-point-functions 'cape-history)
-          (add-to-list 'completion-at-point-functions 'pcomplete-completions-at-point))
-
-        (add-hook 'shell-mode-hook #'my/add-shell-completion nil t)
-        ;; Add dabbrev for text completion everywhere
-        ;; (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-        ;; (add-to-list 'completion-at-point-functions #'cape-symbol)
-        ;; (add-to-list 'completion-at-point-functions #'cape-file)    ;; file paths
-
-        ;; (add-hook 'corfu-mode-hook
-        ;;           (lambda ()
-        ;;             (setq-local line-spacing 0.15)))
         :config
-        (add-hook 'prog-mode-hook (lambda ()
-                          	      (advice-add #'eglot-completion-at-point :around #'cape-wrap-nonexclusive)))
-        (advice-add #'comint-completion-at-point :around #'cape-wrap-nonexclusive)
-        ;; Silence then pcomplete capf, no errors or messages!
+        (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+        ;; (add-to-list 'completion-at-point-functions #'cape-file)
+        (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+        (add-to-list 'completion-at-point-functions #'cape-history)
+        (add-to-list 'completion-at-point-functions #'cape-keyword)
+        (add-to-list 'completion-at-point-functions #'cape-tex)
+        (add-to-list 'completion-at-point-functions #'cape-sgml)
+        (add-to-list 'completion-at-point-functions #'cape-rfc1345)
+        (add-to-list 'completion-at-point-functions #'cape-abbrev)
+        (add-to-list 'completion-at-point-functions #'cape-dict)
         (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-silent)
+
         ;; Ensure that pcomplete does not write to the buffer
-        ;; and behaves as a pure `completion-at-point-function'.
-        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify))
+        (advice-add 'pcomplete-completions-at-point :around #'cape-wrap-purify)
+        )
 
       (use-package corfu-popupinfo
         :after corfu
@@ -1199,12 +1617,19 @@ Essential emacs defaults
         (advice-add 'corfu-insert :after #'corfu-maybe-expand-snippet)
         )
 
+      (use-package yasnippet-snippets
+        :defer t
+        :after yasnippet)
+
       (use-package marginalia
         :ensure t
+        :bind (("M-A" . marginalia-cycle)
+               :map minibuffer-local-map
+               ("M-A" . marginalia-cycle))
         :custom
-        (marginalia-annotators
-         '(marginalia-annotators-heavy marginalia-annotators-light nil))
-        :config
+        (marginalia-max-relative-age 0)  ; Show absolute timestamps
+        (marginalia-align 'right)        ;
+        :init
         (marginalia-mode))
 
       (use-package consult
@@ -1224,10 +1649,13 @@ Essential emacs defaults
 
       (use-package orderless
         :ensure t
+        :custom
+        (completion-styles '(orderless basic))
+        (completion-category-overrides '((file (styles basic partial-completion))))
+        (orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex))
         :config
-        (setq completion-styles '(
-                                  orderless
-                                  basic)))
+        ;; Recognize more characters as word boundaries
+        (setq orderless-component-separator #'orderless-escapable-split-on-space))
 
       (use-package embark
         :ensure t
@@ -1250,56 +1678,75 @@ Essential emacs defaults
     #+begin_src emacs-lisp
     #+end_src
 
-* WHICH-KEY
+* FILE DEFAULT MODES
 
-    #+begin_src emacs-lisp
-    (use-package which-key
-    :ensure t
-    :config
-    (which-key-mode)
-    (setq which-key-idle-delay 0.3 ;; Shorter delay for popup
-	    which-key-max-display-columns nil ;; Allow which-key to use full width
-	    which-key-min-display-lines 10 ;; Ensure enough lines for display
-	    which-key-sort-order 'which-key-key-order)) ;; Sort by key sequence
-    #+end_src
+Set the commands to run for eglot
+#+begin_src emacs-lisp
+  (with-eval-after-load 'eglot
+    ;; Remove legacy tsserver if desired
+    ;; (setq eglot-server-programs
+    ;;       (assq-delete-all 'typescript-ts-mode eglot-server-programs))
 
-* LANGUAGES
+    (dolist (m '(typescript-ts-mode tsx-ts-mode js-ts-mode typescript-mode))
+      (add-to-list 'eglot-server-programs
+  		 `(,m .
+  		      ("vtsls" "--stdio"))))
+    
+    (setq-default eglot-workspace-configuration
+              '((vtsls
+                 . ((completeFunctionCalls . t)
+                    (typescript . ((updateImportsOnFileMove . ((enabled . "always")))
+                                   (suggest . ((completeFunctionCalls . t)))
+                                   (inlayHints . ((parameterNames . ((enabled . "literals")
+                                                                     (suppressWhenArgumentMatchesName . nil)))
+                                                  (parameterTypes . ((enabled . t)))
+                                                  (variableTypes . ((enabled . nil)))
+                                                  (propertyDeclarationTypes . ((enabled . t)))
+                                                  (functionLikeReturnTypes . ((enabled . t)))
+                                                  (enumMemberValues . ((enabled . t)))))
+                                   ;; Add formatting preferences here
+                                   (format . ((insertSpaceAfterCommaDelimiter . t)
+                                             (insertSpaceAfterConstructor . t)
+                                             (insertSpaceAfterSemicolonInForStatements . t)
+                                             (insertSpaceBeforeAndAfterBinaryOperators . t)
+                                             (insertSpaceAfterKeywordsInControlFlowStatements . t)
+                                             (insertSpaceAfterFunctionKeywordForAnonymousFunctions . t)
+                                             (insertSpaceBeforeFunctionParenthesis . nil)
+                                             (insertSpaceAfterOpeningAndBeforeClosingNonemptyParentheses . nil)
+                                             (insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets . nil)
+                                             (insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces . nil)
+                                             (placeOpenBraceOnNewLineForFunctions . nil)
+                                             (placeOpenBraceOnNewLineForControlBlocks . nil)
+                                             (indentSize . 4)
+                                             (tabSize . 4)
+                                             (convertTabsToSpaces . t)))
+                                   ;; Add preferences for indentation
+                                   (preferences . ((indentSize . 4)
+                                                  (tabSize . 4)
+                                                  (convertTabsToSpaces . t)
+                                                  (insertSpaceAfterCommaDelimiter . t)
+                                                  (insertSpaceAfterSemicolonInForStatements . t)
+                                                  (insertSpaceBeforeAndAfterBinaryOperators . t)
+                                                  (insertSpaceAfterKeywordsInControlFlowStatements . t))))))))))
+#+end_src
 
-Dart mode
+Set filetype modes
 
-    #+begin_src emacs-lisp
-      (use-package dart-mode
-	:ensure t
-	:hook (dart-mode . eglot-ensure)
-	:config
-	(load "ez-flutter")
-	(require 'ez-flutter))
+  #+begin_src emacs-lisp
+    ;; No external package needed — this mode exists in Emacs core
 
-      (use-package flutter
-        :ensure t
-        :after dart-mode)
-    #+end_src
+    (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
+    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+#+end_src
 
-Markdown Mode
-
-    #+begin_src emacs-lisp
-          (use-package markdown-mode
-            :ensure t
-            :mode ("\\.md\\'" . markdown-mode)
-            :config
-            (setq markdown-fontify-code-blocks-natively t))
-
-          (defun my/eglot-render-markdown ()
-            "Format Eglot's *eglot-help* buffer using markdown-mode."
-            (when (string= (buffer-name) "*eglot-help*")
-              (markdown-view-mode) ;; Read-only rendered view
-              ;; Optional: enable visual enhancements
-              (visual-line-mode 1)
-              (setq-local shr-use-fonts t)))
-
-          (add-hook 'help-mode-hook #'my/eglot-render-markdown)
-          (setq markdown-fontify-code-blocks-natively t)
- #+end_src
+Also set the eglot auto start
+#+begin_src emacs-lisp
+(add-hook 'typescript-mode-hook #'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+(add-hook 'js-ts-mode-hook #'eglot-ensure)
+#+end_src
 
 * AI
 
@@ -1386,15 +1833,15 @@ GPTEL
 
 * DEBUGGING
 #+begin_src emacs-lisp
-    (use-package dape
+  (use-package dape
+    :ensure t
+    :init
+    (use-package repeat
       :ensure t
-      :init
-      (use-package repeat
-        :ensure t
-        :config (repeat-mode))
-      :config
-      ;; Show UI buffers on the right
-      (setq dape-buffer-window-arrangement 'right))
+      :config (repeat-mode))
+    :config
+    ;; Show UI buffers on the right
+    (setq dape-buffer-window-arrangement 'right))
 #+end_src
 
 * BUFFER PLACEMENTS
@@ -1403,12 +1850,21 @@ GPTEL
   (defun my/focus-buffer (window)
     (select-window window))
 
+  (defun my/turn-off-line-numbers (window)
+    (with-current-buffer (window-buffer window)
+      (display-line-numbers-mode -1)))
+
   (add-to-list 'display-buffer-alist
     	     '("^\\*eldoc\\*"
     	       (display-buffer-at-bottom)
     	       (display-buffer-reuse-mode-window)
     	       (body-function . my/focus-buffer)
     	       (window-height . 10)))
+  (add-to-list 'display-buffer-alist
+    	     '("^\\*vterm\\*"
+  	       (display-buffer-reuse-window
+  		display-buffer-same-window)
+    	       (body-function . my/turn-off-line-numbers)))
   (add-to-list 'display-buffer-alist
     	     '("^\\*Flutter\\*"
     	       (display-buffer-at-bottom)
@@ -1421,50 +1877,6 @@ GPTEL
   	       (display-buffer-reuse-mode-window)
   	       (body-function . my/focus-buffer)
   	       (window-height . 10)))
-#+end_src
-
-* FILE DEFAULT MODES
-
-Set the commands to run for eglot
-#+begin_src emacs-lisp
-  (with-eval-after-load 'eglot
-    (dolist (m '(typescript-ts-mode tsx-ts-mode js-ts-mode))
-      (add-to-list 'eglot-server-programs
-  		   `(,m .
-  			("vtsls" "--stdio"))))
-    ;; Remove legacy tsserver if desired
-    (setq eglot-server-programs
-          (assq-delete-all 'typescript-ts-mode eglot-server-programs))
-
-    (setq-default eglot-workspace-configuration
-                  '((vtsls
-                     . ((completeFunctionCalls . t)
-                        (typescript . ((updateImportsOnFileMove . ((enabled . "always")))
-                                       (suggest . ((completeFunctionCalls . t)))
-                                       (inlayHints . ((parameterNames . ((enabled . "literals")
-                                                                         (suppressWhenArgumentMatchesName . nil)))
-                                                      (parameterTypes . ((enabled . t)))
-                                                      (variableTypes . ((enabled . nil)))
-                                                      (propertyDeclarationTypes . ((enabled . t)))
-                                                      (functionLikeReturnTypes . ((enabled . t)))
-                                                      (enumMemberValues . ((enabled . t))))))))))))
-#+end_src
-
-Set filetype modes
-
-  #+begin_src emacs-lisp
-  ;; No external package needed — this mode exists in Emacs core
-  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
-#+end_src
-
-Also set the eglot auto start
-#+begin_src emacs-lisp
-(add-hook 'typescript-mode-hook #'eglot-ensure)
-(add-hook 'typescript-ts-mode-hook #'eglot-ensure)
-(add-hook 'js-ts-mode-hook #'eglot-ensure)
 #+end_src
 
 * TERMINALS
@@ -1573,22 +1985,23 @@ Also set the eglot auto start
     :ensure t
     :if (display-graphic-p)
     :after doom-modeline
+   :bind 
     :config
     (setq spacious-padding-widths
-	'( :internal-border-width 15
-	     :header-line-width 4
-	     :mode-line-width 8
-	     :tab-width 4
-	     :right-divider-width 30
-	     :scroll-bar-width 8
-	     ;; :fringe-width 8
-	     ))
+    '( :internal-border-width 15
+         :header-line-width 4
+         :mode-line-width 8
+         :tab-width 4
+         :right-divider-width 30
+         :scroll-bar-width 8
+         ;; :fringe-width 8
+         ))
 
     ;; Read the doc string of `spacious-padding-subtle-mode-line' as it
     ;; is very flexible and provides several examples.
     (setq spacious-padding-subtle-frame-lines
-	`( :mode-line-active "#FFFFFF"
-	     :mode-line-inactive vertical-border))
+    `( :mode-line-active "#FFFFFF"
+         :mode-line-inactive vertical-border))
 
     (spacious-padding-mode 1)
 
@@ -1607,4 +2020,52 @@ Also set the eglot auto start
   ;;  `(window-divider ((t (:foreground ,(face-attribute 'default :background)))))   ;; normal
   ;;  `(window-divider-first-pixel ((t (:foreground ,(face-attribute 'default :background)))))
   ;;  `(window-divider-last-pixel ((t (:foreground ,(face-attribute 'default :background))))))
+#+end_src
+
+* LINUX SYSTEM
+#+begin_src emacs-lisp
+  (defun system-options (option)
+    "Run linux system commands"
+    (interactive (list (completing-read "Choose system action: " '("reboot" "suspend" "poweroff"))))
+    (cond
+     ((equal option "suspend") (shell-command "systemctl suspend"))
+     ((equal option "reboot") (shell-command "systemctl reboot"))
+     ((equal option "poweroff") (shell-command "systemctl poweroff"))
+     ))
+#+end_src
+
+* CUSTOM FUNCTION
+#+begin_src emacs-lisp
+  (defun open-line-below ()
+    (interactive)
+    (end-of-line)
+    (open-line 1)
+    (next-line))
+    
+  (defun open-line-above ()
+    (interactive) 
+    (end-of-line 0)
+    (open-line 1)
+    (next-line))
+
+  (defun move-to-matching-quotes ()
+    (interactive)
+    (re-search-forward "[\"']"))
+
+  (defun select-inner-quotes ()
+    (interactive)
+    (move-to-matching-quotes)
+    (set-mark (point))
+    (move-to-matching-quotes)
+    (backward-char))
+
+  (defun delete-inner-quotes ()
+    (interactive)
+    (select-inner-quotes)
+    (backward-delete-char-untabify 1))
+
+  (global-set-key (kbd "M-\'") #'select-inner-quotes)
+  (global-set-key (kbd "C-M-\'") #'delete-inner-quotes)
+  (global-set-key (kbd "M-RET") #'open-line-below)
+  (global-set-key (kbd "C-M-<return>") #'open-line-above)
 #+end_src

@@ -114,16 +114,16 @@
                       {:buffer args.buf})))})
 
 ;; LSP completion setup
-(autocmd "LspAttach"
-  {:group (vim.api.nvim_create_augroup "LspCompletion" {})
-   :callback (fn [ev]
-               (let [client (vim.lsp.get_client_by_id ev.data.client_id)]
-                 (when client
-                   (when (client:supports_method "textDocument/completion")
-                     (set vim.opt.completeopt "menuone,menu,noinsert,fuzzy,popup,preview")
-                     (vim.lsp.completion.enable true client.id ev.buf {:autotrigger true})
-                     (vim.keymap.set "i" "<C-Space>"
-                                     (fn [] (vim.lsp.completion.get)))))))})
+; (autocmd "LspAttach"
+;   {:group (vim.api.nvim_create_augroup "LspCompletion" {})
+;    :callback (fn [ev]
+;                (let [client (vim.lsp.get_client_by_id ev.data.client_id)]
+;                  (when client
+;                    (when (client:supports_method "textDocument/completion")
+;                      (set vim.opt.completeopt "menuone,menu,noinsert,fuzzy,popup,preview")
+;                      (vim.lsp.completion.enable true client.id ev.buf {:autotrigger true})
+;                      (vim.keymap.set "i" "<C-Space>"
+;                                      (fn [] (vim.lsp.completion.get)))))))})
 
 ;; MiniFiles dotfile toggle
 (vim.api.nvim_create_autocmd "User"
